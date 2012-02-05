@@ -861,6 +861,18 @@ public class PortalImpl implements Portal {
 		return availableLocales;
 	}
 
+	/**
+	 * @deprecated {@link #getAlternateURL(String, ThemeDisplay, Locale)}
+	 */
+	public String getAlternateURL(
+		HttpServletRequest request, String canonicalURL, Locale locale) {
+
+		ThemeDisplay themeDisplay = (ThemeDisplay)request.getAttribute(
+			WebKeys.THEME_DISPLAY);
+
+		return getAlternateURL(canonicalURL, themeDisplay, locale);
+	}
+
 	public String getAlternateURL(
 		String canonicalURL, ThemeDisplay themeDisplay, Locale locale) {
 
@@ -1045,6 +1057,17 @@ public class PortalImpl implements Portal {
 		}
 
 		return userId;
+	}
+
+	/**
+	 * @deprecated {@link #getCanonicalURL(String, ThemeDisplay, Layout)}
+	 */
+	public String getCanonicalURL(String completeURL, ThemeDisplay themeDisplay)
+		throws PortalException, SystemException {
+
+		Layout layout = themeDisplay.getLayout();
+
+		return getCanonicalURL(completeURL, themeDisplay, layout);
 	}
 
 	public String getCanonicalURL(

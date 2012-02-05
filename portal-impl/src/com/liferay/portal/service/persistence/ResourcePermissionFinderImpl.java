@@ -200,6 +200,15 @@ public class ResourcePermissionFinderImpl
 		}
 	}
 
+	/**
+	 * @deprecated
+	 */
+	public List<ResourcePermission> findByC_P(long companyId, String primKey)
+		throws SystemException {
+
+		return ResourcePermissionUtil.findByC_P(companyId, primKey);
+	}
+
 	public List<ResourcePermission> findByR_S(
 			long roleId, int[] scopes, int start, int end)
 		throws SystemException {

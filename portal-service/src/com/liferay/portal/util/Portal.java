@@ -253,6 +253,12 @@ public interface Portal {
 		throws PortalException, SystemException;
 
 	/**
+	 * @deprecated {@link #getAlternateURL(String, ThemeDisplay, Locale)}
+	 */
+	public String getAlternateURL(
+		HttpServletRequest request, String canonicalURL, Locale locale);
+
+	/**
 	 * Returns the alternate URL of the page, to distinguish it from its
 	 * canonical URL.
 	 *
@@ -350,6 +356,12 @@ public interface Portal {
 	 * @throws SystemException if a system exception occurred
 	 */
 	public long getBasicAuthUserId(HttpServletRequest request, long companyId)
+		throws PortalException, SystemException;
+
+	/**
+	 * @deprecated {@link #getCanonicalURL(String, ThemeDisplay, Layout)}
+	 */
+	public String getCanonicalURL(String completeURL, ThemeDisplay themeDisplay)
 		throws PortalException, SystemException;
 
 	/**

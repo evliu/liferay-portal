@@ -14261,6 +14261,36 @@ This method can disable the layout set prototype's link by setting <code>layoutS
 		<author><![CDATA[Brian Wing Shun Chan]]></author>
 		<method>
 			<name>updateLayoutSetPrototypeLinkEnabled</name>
+			<comment><![CDATA[]]></comment>
+			<param>
+				<name>groupId</name>
+				<type>long</type>
+				<comment><![CDATA[]]></comment>
+			</param>
+			<param>
+				<name>privateLayout</name>
+				<type>boolean</type>
+				<comment><![CDATA[]]></comment>
+			</param>
+			<param>
+				<name>layoutSetPrototypeLinkEnabled</name>
+				<type>boolean</type>
+				<comment><![CDATA[]]></comment>
+			</param>
+			<throws>
+				<name>PortalException</name>
+				<type>com.liferay.portal.kernel.exception.PortalException</type>
+				<comment><![CDATA[]]></comment>
+			</throws>
+			<throws>
+				<name>SystemException</name>
+				<type>com.liferay.portal.kernel.exception.SystemException</type>
+				<comment><![CDATA[]]></comment>
+			</throws>
+			<deprecated><![CDATA[{@link #updateLayoutSetPrototypeLinkEnabled(long, boolean, boolean, String)}]]></deprecated>
+		</method>
+		<method>
+			<name>updateLayoutSetPrototypeLinkEnabled</name>
 			<comment><![CDATA[Updates the state of the layout set prototype link.
 
 <p>
@@ -69339,33 +69369,6 @@ Due to legacy code, the names of some file entry properties are not intuitive. E
 				<type>com.liferay.portal.kernel.exception.SystemException</type>
 				<comment><![CDATA[]]></comment>
 			</throws>
-		</method>
-		<method>
-			<name>checkOutFileEntry</name>
-			<comment><![CDATA[]]></comment>
-			<param>
-				<name>userId</name>
-				<type>long</type>
-				<comment><![CDATA[]]></comment>
-			</param>
-			<param>
-				<name>fileEntryId</name>
-				<type>long</type>
-				<comment><![CDATA[]]></comment>
-			</param>
-			<return>
-				<comment><![CDATA[]]></comment>
-			</return>
-			<throws>
-				<name>PortalException</name>
-				<type>com.liferay.portal.kernel.exception.PortalException</type>
-				<comment><![CDATA[]]></comment>
-			</throws>
-			<throws>
-				<name>SystemException</name>
-				<type>com.liferay.portal.kernel.exception.SystemException</type>
-				<comment><![CDATA[]]></comment>
-			</throws>
 			<deprecated><![CDATA[{@link #checkOutFileEntry(long, long, ServiceContext)}]]></deprecated>
 		</method>
 		<method>
@@ -69384,6 +69387,33 @@ Due to legacy code, the names of some file entry properties are not intuitive. E
 			<param>
 				<name>serviceContext</name>
 				<type>com.liferay.portal.service.ServiceContext</type>
+				<comment><![CDATA[]]></comment>
+			</param>
+			<return>
+				<comment><![CDATA[]]></comment>
+			</return>
+			<throws>
+				<name>PortalException</name>
+				<type>com.liferay.portal.kernel.exception.PortalException</type>
+				<comment><![CDATA[]]></comment>
+			</throws>
+			<throws>
+				<name>SystemException</name>
+				<type>com.liferay.portal.kernel.exception.SystemException</type>
+				<comment><![CDATA[]]></comment>
+			</throws>
+		</method>
+		<method>
+			<name>checkOutFileEntry</name>
+			<comment><![CDATA[]]></comment>
+			<param>
+				<name>userId</name>
+				<type>long</type>
+				<comment><![CDATA[]]></comment>
+			</param>
+			<param>
+				<name>fileEntryId</name>
+				<type>long</type>
 				<comment><![CDATA[]]></comment>
 			</param>
 			<return>
@@ -71712,28 +71742,6 @@ Due to legacy code, the names of some file entry properties are not intuitive. E
 				<type>com.liferay.portal.kernel.exception.SystemException</type>
 				<comment><![CDATA[]]></comment>
 			</throws>
-		</method>
-		<method>
-			<name>checkOutFileEntry</name>
-			<comment><![CDATA[]]></comment>
-			<param>
-				<name>fileEntryId</name>
-				<type>long</type>
-				<comment><![CDATA[]]></comment>
-			</param>
-			<return>
-				<comment><![CDATA[]]></comment>
-			</return>
-			<throws>
-				<name>PortalException</name>
-				<type>com.liferay.portal.kernel.exception.PortalException</type>
-				<comment><![CDATA[]]></comment>
-			</throws>
-			<throws>
-				<name>SystemException</name>
-				<type>com.liferay.portal.kernel.exception.SystemException</type>
-				<comment><![CDATA[]]></comment>
-			</throws>
 			<deprecated><![CDATA[{@link #checkOutFileEntry(long, ServiceContext)}]]></deprecated>
 		</method>
 		<method>
@@ -71805,6 +71813,33 @@ Due to legacy code, the names of some file entry properties are not intuitive. E
 				<comment><![CDATA[]]></comment>
 			</param>
 			<param>
+				<name>serviceContext</name>
+				<type>com.liferay.portal.service.ServiceContext</type>
+				<comment><![CDATA[]]></comment>
+			</param>
+			<return>
+				<comment><![CDATA[]]></comment>
+			</return>
+			<throws>
+				<name>PortalException</name>
+				<type>com.liferay.portal.kernel.exception.PortalException</type>
+				<comment><![CDATA[]]></comment>
+			</throws>
+			<throws>
+				<name>SystemException</name>
+				<type>com.liferay.portal.kernel.exception.SystemException</type>
+				<comment><![CDATA[]]></comment>
+			</throws>
+		</method>
+		<method>
+			<name>checkOutFileEntry</name>
+			<comment><![CDATA[]]></comment>
+			<param>
+				<name>fileEntryId</name>
+				<type>long</type>
+				<comment><![CDATA[]]></comment>
+			</param>
+			<param>
 				<name>owner</name>
 				<type>java.lang.String</type>
 				<comment><![CDATA[]]></comment>
@@ -71812,11 +71847,6 @@ Due to legacy code, the names of some file entry properties are not intuitive. E
 			<param>
 				<name>expirationTime</name>
 				<type>long</type>
-				<comment><![CDATA[]]></comment>
-			</param>
-			<param>
-				<name>serviceContext</name>
-				<type>com.liferay.portal.service.ServiceContext</type>
 				<comment><![CDATA[]]></comment>
 			</param>
 			<return>

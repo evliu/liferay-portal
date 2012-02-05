@@ -281,7 +281,7 @@ public class InvokerPortletImpl implements InvokerPortlet {
 			boolean strutsBridgePortlet)
 		throws PortletException {
 
- 		// From prepare
+		// From prepare
 
 		_portletModel = portletModel;
 		_portlet = portlet;

@@ -65,6 +65,24 @@ import java.rmi.RemoteException;
  */
 public class LayoutSetServiceSoap {
 	/**
+	* @deprecated {@link #updateLayoutSetPrototypeLinkEnabled(long, boolean,
+	boolean, String)}
+	*/
+	public static void updateLayoutSetPrototypeLinkEnabled(long groupId,
+		boolean privateLayout, boolean layoutSetPrototypeLinkEnabled)
+		throws RemoteException {
+		try {
+			LayoutSetServiceUtil.updateLayoutSetPrototypeLinkEnabled(groupId,
+				privateLayout, layoutSetPrototypeLinkEnabled);
+		}
+		catch (Exception e) {
+			_log.error(e, e);
+
+			throw new RemoteException(e.getMessage());
+		}
+	}
+
+	/**
 	* Updates the state of the layout set prototype link.
 	*
 	* <p>

@@ -205,6 +205,15 @@ public class PortalUtil {
 		return getPortal().getAlternateLocales(request);
 	}
 
+	/**
+	 * @deprecated {@link #getAlternateURL(String, ThemeDisplay, Locale)}
+	 */
+	public String getAlternateURL(
+		HttpServletRequest request, String canonicalURL, Locale locale) {
+
+		return getPortal().getAlternateURL(request, canonicalURL, locale);
+	}
+
 	public static String getAlternateURL(
 		String canonicalURL, ThemeDisplay themeDisplay, Locale locale) {
 
@@ -249,6 +258,15 @@ public class PortalUtil {
 		throws PortalException, SystemException {
 
 		return getPortal().getBasicAuthUserId(request, companyId);
+	}
+
+	/**
+	 * @deprecated {@link #getCanonicalURL(String, ThemeDisplay, Layout)}
+	 */
+	public String getCanonicalURL(String completeURL, ThemeDisplay themeDisplay)
+		throws PortalException, SystemException {
+
+		return getPortal().getCanonicalURL(completeURL, themeDisplay);
 	}
 
 	public static String getCanonicalURL(

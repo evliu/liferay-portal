@@ -1155,8 +1155,8 @@ public class Creole10Parser]]></replacevalue>
 			fork="true"
 			newenvironment="true"
 		>
-			<jvmarg value="-Dgit.plugins.dir=L:/projects/github/liferay-plugins" />
-			<jvmarg value="-Dsvn.plugins.dir=L:/projects/liferay.public/plugins/trunk" />
+			<jvmarg value="-Dgit.plugins.dir=L:/projects/github/liferay-plugins-ee-6.1.x" />
+			<jvmarg value="-Dsvn.plugins.dir=L:/projects/liferay.public/plugins/6.1.x" />
 			<jvmarg value="-Dsync.to=svn" />
 		</java>
 	</target>
@@ -1168,8 +1168,8 @@ public class Creole10Parser]]></replacevalue>
 			newenvironment="true"
 			fork="true"
 		>
-			<jvmarg value="-Dgit.plugins.dir=L:/projects/github/liferay-plugins" />
-			<jvmarg value="-Dsvn.plugins.dir=L:/projects/liferay.public/plugins/trunk" />
+			<jvmarg value="-Dgit.plugins.dir=L:/projects/github/liferay-plugins-ee-6.1.x" />
+			<jvmarg value="-Dsvn.plugins.dir=L:/projects/liferay.public/plugins/6.1.x" />
 			<jvmarg value="-Dsync.to=git" />
 		</java>
 	</target>

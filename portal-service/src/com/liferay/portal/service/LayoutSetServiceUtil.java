@@ -39,6 +39,19 @@ public class LayoutSetServiceUtil {
 	 */
 
 	/**
+	* @deprecated {@link #updateLayoutSetPrototypeLinkEnabled(long, boolean,
+	boolean, String)}
+	*/
+	public static void updateLayoutSetPrototypeLinkEnabled(long groupId,
+		boolean privateLayout, boolean layoutSetPrototypeLinkEnabled)
+		throws com.liferay.portal.kernel.exception.PortalException,
+			com.liferay.portal.kernel.exception.SystemException {
+		getService()
+			.updateLayoutSetPrototypeLinkEnabled(groupId, privateLayout,
+			layoutSetPrototypeLinkEnabled);
+	}
+
+	/**
 	* Updates the state of the layout set prototype link.
 	*
 	* <p>

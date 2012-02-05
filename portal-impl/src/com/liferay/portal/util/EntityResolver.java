@@ -154,10 +154,6 @@ public class EntityResolver implements org.xml.sax.EntityResolver {
 		),
 
 		new KeyValuePair(
-			"-//Liferay//DTD Display 6.2.0//EN", "liferay-display_6_2_0.dtd"
-		),
-
-		new KeyValuePair(
 			"-//Liferay//DTD Friendly URL Routes 6.0.0//EN",
 			"liferay-friendly-url-routes_6_0_0.dtd"
 		),
@@ -165,11 +161,6 @@ public class EntityResolver implements org.xml.sax.EntityResolver {
 		new KeyValuePair(
 			"-//Liferay//DTD Friendly URL Routes 6.1.0//EN",
 			"liferay-friendly-url-routes_6_1_0.dtd"
-		),
-
-		new KeyValuePair(
-			"-//Liferay//DTD Friendly URL Routes 6.2.0//EN",
-			"liferay-friendly-url-routes_6_2_0.dtd"
 		),
 
 		new KeyValuePair(
@@ -186,10 +177,6 @@ public class EntityResolver implements org.xml.sax.EntityResolver {
 
 		new KeyValuePair(
 			"-//Liferay//DTD Hook 6.1.0//EN", "liferay-hook_6_1_0.dtd"
-		),
-
-		new KeyValuePair(
-			"-//Liferay//DTD Hook 6.2.0//EN", "liferay-hook_6_2_0.dtd"
 		),
 
 		new KeyValuePair(
@@ -233,11 +220,6 @@ public class EntityResolver implements org.xml.sax.EntityResolver {
 		),
 
 		new KeyValuePair(
-			"-//Liferay//DTD Layout Templates 6.2.0//EN",
-			"liferay-layout-templates_6_2_0.dtd"
-		),
-
-		new KeyValuePair(
 			"-//Liferay//DTD Look and Feel 3.5.0//EN",
 			"liferay-look-and-feel_3_5_0.dtd"
 		),
@@ -278,11 +260,6 @@ public class EntityResolver implements org.xml.sax.EntityResolver {
 		),
 
 		new KeyValuePair(
-			"-//Liferay//DTD Look and Feel 6.2.0//EN",
-			"liferay-look-and-feel_6_2_0.dtd"
-		),
-
-		new KeyValuePair(
 			"-//Liferay//DTD Plugin Package 4.3.0//EN",
 			"liferay-plugin-package_4_3_0.dtd"
 		),
@@ -313,11 +290,6 @@ public class EntityResolver implements org.xml.sax.EntityResolver {
 		),
 
 		new KeyValuePair(
-			"-//Liferay//DTD Plugin Package 6.2.0//EN",
-			"liferay-plugin-package_6_2_0.dtd"
-		),
-
-		new KeyValuePair(
 			"-//Liferay//DTD Plugin Repository 4.3.0//EN",
 			"liferay-plugin-repository_4_3_0.dtd"
 		),
@@ -345,11 +317,6 @@ public class EntityResolver implements org.xml.sax.EntityResolver {
 		new KeyValuePair(
 			"-//Liferay//DTD Plugin Repository 6.1.0//EN",
 			"liferay-plugin-repository_6_1_0.dtd"
-		),
-
-		new KeyValuePair(
-			"-//Liferay//DTD Plugin Repository 6.2.0//EN",
-			"liferay-plugin-repository_6_2_0.dtd"
 		),
 
 		new KeyValuePair(
@@ -428,11 +395,6 @@ public class EntityResolver implements org.xml.sax.EntityResolver {
 		),
 
 		new KeyValuePair(
-			"-//Liferay//DTD Portlet Application 6.2.0//EN",
-			"liferay-portlet-app_6_2_0.dtd"
-		),
-
-		new KeyValuePair(
 			"-//Liferay//DTD Resource Action Mapping 6.0.0//EN",
 			"liferay-resource-action-mapping_6_0_0.dtd"
 		),
@@ -440,11 +402,6 @@ public class EntityResolver implements org.xml.sax.EntityResolver {
 		new KeyValuePair(
 			"-//Liferay//DTD Resource Action Mapping 6.1.0//EN",
 			"liferay-resource-action-mapping_6_1_0.dtd"
-		),
-
-		new KeyValuePair(
-			"-//Liferay//DTD Resource Action Mapping 6.2.0//EN",
-			"liferay-resource-action-mapping_6_2_0.dtd"
 		),
 
 		new KeyValuePair(
@@ -508,16 +465,7 @@ public class EntityResolver implements org.xml.sax.EntityResolver {
 		),
 
 		new KeyValuePair(
-			"-//Liferay//DTD Service Builder 6.2.0//EN",
-			"liferay-service-builder_6_2_0.dtd"
-		),
-
-		new KeyValuePair(
 			"-//Liferay//DTD Social 6.1.0//EN", "liferay-social_6_1_0.dtd"
-		),
-
-		new KeyValuePair(
-			"-//Liferay//DTD Social 6.2.0//EN", "liferay-social_6_2_0.dtd"
 		),
 
 		new KeyValuePair(
@@ -548,11 +496,6 @@ public class EntityResolver implements org.xml.sax.EntityResolver {
 		new KeyValuePair(
 			"-//Liferay//DTD Theme Loader 6.1.0//EN",
 			"liferay-theme-loader_6_1_0.dtd"
-		),
-
-		new KeyValuePair(
-			"-//Liferay//DTD Theme Loader 6.2.0//EN",
-			"liferay-theme-loader_6_2_0.dtd"
 		),
 
 		new KeyValuePair(

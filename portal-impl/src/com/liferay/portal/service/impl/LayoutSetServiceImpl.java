@@ -31,6 +31,19 @@ import java.io.InputStream;
 public class LayoutSetServiceImpl extends LayoutSetServiceBaseImpl {
 
 	/**
+	 * @deprecated {@link #updateLayoutSetPrototypeLinkEnabled(long, boolean,
+	 *             boolean, String)}
+	 */
+	public void updateLayoutSetPrototypeLinkEnabled(
+			long groupId, boolean privateLayout,
+			boolean layoutSetPrototypeLinkEnabled)
+		throws PortalException, SystemException {
+
+		updateLayoutSetPrototypeLinkEnabled(
+			groupId, privateLayout, layoutSetPrototypeLinkEnabled, null);
+	}
+
+	/**
 	 * Updates the state of the layout set prototype link.
 	 *
 	 * <p>

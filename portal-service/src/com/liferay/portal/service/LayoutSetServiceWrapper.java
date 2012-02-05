@@ -30,6 +30,18 @@ public class LayoutSetServiceWrapper implements LayoutSetService,
 	}
 
 	/**
+	* @deprecated {@link #updateLayoutSetPrototypeLinkEnabled(long, boolean,
+	boolean, String)}
+	*/
+	public void updateLayoutSetPrototypeLinkEnabled(long groupId,
+		boolean privateLayout, boolean layoutSetPrototypeLinkEnabled)
+		throws com.liferay.portal.kernel.exception.PortalException,
+			com.liferay.portal.kernel.exception.SystemException {
+		_layoutSetService.updateLayoutSetPrototypeLinkEnabled(groupId,
+			privateLayout, layoutSetPrototypeLinkEnabled);
+	}
+
+	/**
 	* Updates the state of the layout set prototype link.
 	*
 	* <p>

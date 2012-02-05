@@ -54,6 +54,41 @@ import com.liferay.portal.service.LayoutSetServiceUtil;
 public class LayoutSetServiceHttp {
 	public static void updateLayoutSetPrototypeLinkEnabled(
 		HttpPrincipal httpPrincipal, long groupId, boolean privateLayout,
+		boolean layoutSetPrototypeLinkEnabled)
+		throws com.liferay.portal.kernel.exception.PortalException,
+			com.liferay.portal.kernel.exception.SystemException {
+		try {
+			MethodKey methodKey = new MethodKey(LayoutSetServiceUtil.class.getName(),
+					"updateLayoutSetPrototypeLinkEnabled",
+					_updateLayoutSetPrototypeLinkEnabledParameterTypes0);
+
+			MethodHandler methodHandler = new MethodHandler(methodKey, groupId,
+					privateLayout, layoutSetPrototypeLinkEnabled);
+
+			try {
+				TunnelUtil.invoke(httpPrincipal, methodHandler);
+			}
+			catch (Exception e) {
+				if (e instanceof com.liferay.portal.kernel.exception.PortalException) {
+					throw (com.liferay.portal.kernel.exception.PortalException)e;
+				}
+
+				if (e instanceof com.liferay.portal.kernel.exception.SystemException) {
+					throw (com.liferay.portal.kernel.exception.SystemException)e;
+				}
+
+				throw new com.liferay.portal.kernel.exception.SystemException(e);
+			}
+		}
+		catch (com.liferay.portal.kernel.exception.SystemException se) {
+			_log.error(se, se);
+
+			throw se;
+		}
+	}
+
+	public static void updateLayoutSetPrototypeLinkEnabled(
+		HttpPrincipal httpPrincipal, long groupId, boolean privateLayout,
 		boolean layoutSetPrototypeLinkEnabled,
 		java.lang.String layoutSetPrototypeUuid)
 		throws com.liferay.portal.kernel.exception.PortalException,
@@ -61,7 +96,7 @@ public class LayoutSetServiceHttp {
 		try {
 			MethodKey methodKey = new MethodKey(LayoutSetServiceUtil.class.getName(),
 					"updateLayoutSetPrototypeLinkEnabled",
-					_updateLayoutSetPrototypeLinkEnabledParameterTypes0);
+					_updateLayoutSetPrototypeLinkEnabledParameterTypes1);
 
 			MethodHandler methodHandler = new MethodHandler(methodKey, groupId,
 					privateLayout, layoutSetPrototypeLinkEnabled,
@@ -95,7 +130,7 @@ public class LayoutSetServiceHttp {
 			com.liferay.portal.kernel.exception.SystemException {
 		try {
 			MethodKey methodKey = new MethodKey(LayoutSetServiceUtil.class.getName(),
-					"updateLogo", _updateLogoParameterTypes1);
+					"updateLogo", _updateLogoParameterTypes2);
 
 			MethodHandler methodHandler = new MethodHandler(methodKey, groupId,
 					privateLayout, logo, inputStream);
@@ -129,7 +164,7 @@ public class LayoutSetServiceHttp {
 			com.liferay.portal.kernel.exception.SystemException {
 		try {
 			MethodKey methodKey = new MethodKey(LayoutSetServiceUtil.class.getName(),
-					"updateLogo", _updateLogoParameterTypes2);
+					"updateLogo", _updateLogoParameterTypes3);
 
 			MethodHandler methodHandler = new MethodHandler(methodKey, groupId,
 					privateLayout, logo, inputStream, cleanUpStream);
@@ -164,7 +199,7 @@ public class LayoutSetServiceHttp {
 			com.liferay.portal.kernel.exception.SystemException {
 		try {
 			MethodKey methodKey = new MethodKey(LayoutSetServiceUtil.class.getName(),
-					"updateLookAndFeel", _updateLookAndFeelParameterTypes3);
+					"updateLookAndFeel", _updateLookAndFeelParameterTypes4);
 
 			MethodHandler methodHandler = new MethodHandler(methodKey, groupId,
 					privateLayout, themeId, colorSchemeId, css, wapTheme);
@@ -202,7 +237,7 @@ public class LayoutSetServiceHttp {
 			com.liferay.portal.kernel.exception.SystemException {
 		try {
 			MethodKey methodKey = new MethodKey(LayoutSetServiceUtil.class.getName(),
-					"updateSettings", _updateSettingsParameterTypes4);
+					"updateSettings", _updateSettingsParameterTypes5);
 
 			MethodHandler methodHandler = new MethodHandler(methodKey, groupId,
 					privateLayout, settings);
@@ -240,7 +275,7 @@ public class LayoutSetServiceHttp {
 			com.liferay.portal.kernel.exception.SystemException {
 		try {
 			MethodKey methodKey = new MethodKey(LayoutSetServiceUtil.class.getName(),
-					"updateVirtualHost", _updateVirtualHostParameterTypes5);
+					"updateVirtualHost", _updateVirtualHostParameterTypes6);
 
 			MethodHandler methodHandler = new MethodHandler(methodKey, groupId,
 					privateLayout, virtualHost);
@@ -273,24 +308,26 @@ public class LayoutSetServiceHttp {
 
 	private static Log _log = LogFactoryUtil.getLog(LayoutSetServiceHttp.class);
 	private static final Class<?>[] _updateLayoutSetPrototypeLinkEnabledParameterTypes0 =
+		new Class[] { long.class, boolean.class, boolean.class };
+	private static final Class<?>[] _updateLayoutSetPrototypeLinkEnabledParameterTypes1 =
 		new Class[] {
 			long.class, boolean.class, boolean.class, java.lang.String.class
 		};
-	private static final Class<?>[] _updateLogoParameterTypes1 = new Class[] {
+	private static final Class<?>[] _updateLogoParameterTypes2 = new Class[] {
 			long.class, boolean.class, boolean.class, java.io.InputStream.class
 		};
-	private static final Class<?>[] _updateLogoParameterTypes2 = new Class[] {
+	private static final Class<?>[] _updateLogoParameterTypes3 = new Class[] {
 			long.class, boolean.class, boolean.class, java.io.InputStream.class,
 			boolean.class
 		};
-	private static final Class<?>[] _updateLookAndFeelParameterTypes3 = new Class[] {
+	private static final Class<?>[] _updateLookAndFeelParameterTypes4 = new Class[] {
 			long.class, boolean.class, java.lang.String.class,
 			java.lang.String.class, java.lang.String.class, boolean.class
 		};
-	private static final Class<?>[] _updateSettingsParameterTypes4 = new Class[] {
+	private static final Class<?>[] _updateSettingsParameterTypes5 = new Class[] {
 			long.class, boolean.class, java.lang.String.class
 		};
-	private static final Class<?>[] _updateVirtualHostParameterTypes5 = new Class[] {
+	private static final Class<?>[] _updateVirtualHostParameterTypes6 = new Class[] {
 			long.class, boolean.class, java.lang.String.class
 		};
 }
