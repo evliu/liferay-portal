@@ -926,6 +926,19 @@ public class SitesUtil {
 		if (mergeFailCount >
 			PropsValues.LAYOUT_SET_PROTOTYPE_MERGE_FAIL_THRESHOLD) {
 
+			if (_log.isWarnEnabled()) {
+				StringBundler sb = new StringBundler();
+
+				sb.append("Merge not performed because the fail threshold was");
+				sb.append("reached for layoutSetPrototypeId=");
+				sb.append(layoutSetPrototype.getLayoutSetPrototypeId());
+				sb.append(" and layoutId = ");
+				sb.append(layoutSetPrototypeLayoutSet.getLayoutSetId());
+				sb.append(". Update the count in the database to try again.");
+
+				_log.warn(sb.toString());
+			}
+
 			return;
 		}
 
@@ -1123,7 +1136,7 @@ public class SitesUtil {
 
 		File file = null;
 
-		StringBundler sb = new StringBundler(importData ? 4 : 3);
+		StringBundler sb = new StringBundler(importData ? 4 : 4);
 		
 		sb.append(_TEMP_DIR);
 		sb.append(layoutSetPrototype.getUuid());
