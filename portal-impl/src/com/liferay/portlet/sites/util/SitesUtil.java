@@ -927,12 +927,12 @@ public class SitesUtil {
 			PropsValues.LAYOUT_SET_PROTOTYPE_MERGE_FAIL_THRESHOLD) {
 
 			if (_log.isWarnEnabled()) {
-				StringBundler sb = new StringBundler();
+				StringBundler sb = new StringBundler(6);
 
 				sb.append("Merge not performed because the fail threshold was");
-				sb.append("reached for layoutSetPrototypeId=");
+				sb.append("reached for layoutSetPrototypeId ");
 				sb.append(layoutSetPrototype.getLayoutSetPrototypeId());
-				sb.append(" and layoutId = ");
+				sb.append(" and layoutId ");
 				sb.append(layoutSetPrototypeLayoutSet.getLayoutSetId());
 				sb.append(". Update the count in the database to try again.");
 
