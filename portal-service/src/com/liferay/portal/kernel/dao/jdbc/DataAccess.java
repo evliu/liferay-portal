@@ -25,6 +25,7 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+
 import java.util.Properties;
 
 import javax.naming.Context;
@@ -99,14 +100,12 @@ public class DataAccess {
 	public static Connection getConnection(String location)
 		throws NamingException, SQLException {
 
-		Properties jndiEnvironmentProperties = PropsUtil.getProperties(
+		Properties properties = PropsUtil.getProperties(
 			PropsKeys.JNDI_ENVIRONMENT, true);
 
-		Context initialContext = new InitialContext(
-			jndiEnvironmentProperties);
+		Context context = new InitialContext(properties);
 
-		DataSource dataSource = (DataSource)JNDIUtil.lookup(
-			initialContext, location);
+		DataSource dataSource = (DataSource)JNDIUtil.lookup(context, location);
 
 		return dataSource.getConnection();
 	}

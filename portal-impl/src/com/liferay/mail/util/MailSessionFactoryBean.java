@@ -56,10 +56,9 @@ public class MailSessionFactoryBean extends AbstractFactoryBean<Session> {
 				Properties jndiEnvironmentProperties = PropsUtil.getProperties(
 					PropsKeys.JNDI_ENVIRONMENT, true);
 
-				Context initialContext = new InitialContext(
-					jndiEnvironmentProperties);
+				Context context = new InitialContext(jndiEnvironmentProperties);
 
-				return (Session)JNDIUtil.lookup(initialContext, jndiName);
+				return (Session)JNDIUtil.lookup(context, jndiName);
 			}
 			catch (Exception e) {
 				_log.error("Unable to lookup " + jndiName, e);
