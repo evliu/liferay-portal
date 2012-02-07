@@ -49,7 +49,7 @@ public class DefaultScreenNameGenerator implements ScreenNameGenerator {
 				if ((!_USERS_SCREEN_NAME_ALLOW_NUMERIC &&
 					 Validator.isDigit(c)) ||
 					(!Validator.isChar(c) && (c != CharPool.DASH) &&
-					 (c != CharPool.PERIOD)) {
+					 (c != CharPool.PERIOD))) {
 
 					screenName = StringUtil.replace(
 						screenName, c, CharPool.PERIOD);
