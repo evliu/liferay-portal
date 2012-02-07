@@ -1137,10 +1137,10 @@ public class SitesUtil {
 		File file = null;
 
 		StringBundler sb = new StringBundler(importData ? 4 : 4);
-		
+
 		sb.append(_TEMP_DIR);
 		sb.append(layoutSetPrototype.getUuid());
-		
+
 		if (importData) {
 			sb.append("-data");
 		}
