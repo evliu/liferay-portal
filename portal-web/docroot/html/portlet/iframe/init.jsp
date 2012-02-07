@@ -35,8 +35,10 @@ String authType = preferences.getValue("authType", StringPool.BLANK);
 String formMethod = preferences.getValue("formMethod", StringPool.BLANK);
 String userNameField = preferences.getValue("userNameField", StringPool.BLANK);
 String passwordField = preferences.getValue("passwordField", StringPool.BLANK);
-String password = null;
+
 String userName = null;
+String password = null;
+
 if (authType.equals("basic")) {
 	userName = preferences.getValue("basicUserName", StringPool.BLANK);
 	password = preferences.getValue("basicPassword", StringPool.BLANK);
@@ -45,6 +47,7 @@ else {
 	userName = preferences.getValue("formUserName", StringPool.BLANK);
 	password = preferences.getValue("formPassword", StringPool.BLANK);
 }
+
 String hiddenVariables = preferences.getValue("hiddenVariables", StringPool.BLANK);
 boolean resizeAutomatically = GetterUtil.getBoolean(preferences.getValue("resizeAutomatically", StringPool.TRUE));
 String heightMaximized = GetterUtil.getString(preferences.getValue("heightMaximized", "600"));
