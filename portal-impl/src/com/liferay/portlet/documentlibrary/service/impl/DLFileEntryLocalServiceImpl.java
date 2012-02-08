@@ -1454,7 +1454,7 @@ public class DLFileEntryLocalServiceImpl
 
 		validateFile(
 			dlFileEntry.getGroupId(), newFolderId, dlFileEntry.getFileEntryId(),
-			dlFileEntry.getExtension(), dlFileEntry.getTitle());
+			dlFileEntry.getTitle(), dlFileEntry.getExtension());
 
 		if (DLStoreUtil.hasFile(
 				user.getCompanyId(),
@@ -1573,7 +1573,7 @@ public class DLFileEntryLocalServiceImpl
 
 			validateFile(
 				dlFileEntry.getGroupId(), dlFileEntry.getFolderId(),
-				dlFileEntry.getFileEntryId(), extension, title, sourceFileName,
+				dlFileEntry.getFileEntryId(), title, extension, sourceFileName,
 				file, is);
 
 			// File version
@@ -1707,8 +1707,8 @@ public class DLFileEntryLocalServiceImpl
 	}
 
 	protected void validateFile(
-			long groupId, long folderId, long fileEntryId, String extension,
-			String title)
+			long groupId, long folderId, long fileEntryId, String title,
+			String extension)
 		throws PortalException, SystemException {
 
 		DLFolder dlFolder = dlFolderPersistence.fetchByG_P_N(
@@ -1727,10 +1727,10 @@ public class DLFileEntryLocalServiceImpl
 			throw new DuplicateFileException(title);
 		}
 
-		String appendExtension = StringPool.PERIOD + extension;
+		String periodAndExtension = StringPool.PERIOD + extension;
 
-		if (!title.endsWith(appendExtension)) {
-			title += appendExtension;
+		if (!title.endsWith(periodAndExtension)) {
+			title += periodAndExtension;
 
 			dlFileEntry = dlFileEntryPersistence.fetchByG_F_T(
 				groupId, folderId, title);
@@ -1744,8 +1744,8 @@ public class DLFileEntryLocalServiceImpl
 	}
 
 	protected void validateFile(
-			long groupId, long folderId, long fileEntryId, String extension,
-			String title, String sourceFileName, File file, InputStream is)
+			long groupId, long folderId, long fileEntryId, String title,
+			String extension, String sourceFileName, File file, InputStream is)
 		throws PortalException, SystemException {
 
 		if (Validator.isNotNull(sourceFileName)) {
@@ -1763,7 +1763,7 @@ public class DLFileEntryLocalServiceImpl
 
 		DLStoreUtil.validate(title, false);
 
-		validateFile(groupId, folderId, fileEntryId, extension, title);
+		validateFile(groupId, folderId, fileEntryId, title, extension);
 	}
 
 	protected void validateFile(
@@ -1782,7 +1782,7 @@ public class DLFileEntryLocalServiceImpl
 			DLStoreUtil.validate(fileName, true, is);
 		}
 
-		validateFile(groupId, folderId, 0, extension, title);
+		validateFile(groupId, folderId, 0, title, extension);
 	}
 
 	protected void validateFileName(String fileName) throws PortalException {

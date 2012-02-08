@@ -33,7 +33,7 @@ public class UpgradeDocumentLibrary extends UpgradeProcess {
 		updateFileEntries();
 	}
 
-	protected boolean hasFile(long groupId, long folderId, String title)
+	protected boolean hasFileEntry(long groupId, long folderId, String title)
 		throws Exception {
 
 		Connection con = null;
@@ -44,9 +44,12 @@ public class UpgradeDocumentLibrary extends UpgradeProcess {
 			con = DataAccess.getConnection();
 
 			ps = con.prepareStatement(
-				"select count(*) from DLFileEntry where groupId = " + groupId +
-					" and folderId = " + folderId + " and title = '" + title +
-						"'");
+				"select count(*) from DLFileEntry where groupId = ? and " +
+					"folderId = ? and title = ?");
+
+			ps.setLong(1, groupId);
+			ps.setLong(2, folderId);
+			ps.setString(3, title);
 
 			rs = ps.executeQuery();
 
@@ -55,9 +58,6 @@ public class UpgradeDocumentLibrary extends UpgradeProcess {
 
 				if (count > 0) {
 					return true;
-				}
-				else {
-					return false;
 				}
 			}
 
@@ -90,36 +90,42 @@ public class UpgradeDocumentLibrary extends UpgradeProcess {
 				String extension = rs.getString("extension");
 				String version = rs.getString("version");
 
-				String appendExtension = StringPool.PERIOD + extension;
+				String periodAndExtension = StringPool.PERIOD + extension;
 
-				if (title.endsWith(appendExtension)) {
-					title = FileUtil.stripExtension(title);
-
-					String uniqueTitle = title;
-					int counter = 0;
-
-					while (hasFile(groupId, folderId, uniqueTitle) ||
-						((counter != 0) && hasFile(
-							groupId, folderId, uniqueTitle + appendExtension)))
-					{
-						counter++;
-
-						uniqueTitle = title + String.valueOf(counter);
-					}
-
-					if (counter > 0) {
-						uniqueTitle += appendExtension;
-
-						runSQL(
-							"update DLFileEntry set title = '" + uniqueTitle +
-								"' where fileEntryId = " + fileEntryId);
-						runSQL(
-							"update DLFileVersion set title = '" + uniqueTitle +
-								"' where fileEntryId = " + fileEntryId +
-									" and DLFileVersion.version = '" + version +
-										"'");
-					}
+				if (!title.endsWith(periodAndExtension)) {
+					continue;
 				}
+
+				title = FileUtil.stripExtension(title);
+
+				String uniqueTitle = title;
+
+				int count = 0;
+
+				while (hasFileEntry(groupId, folderId, uniqueTitle) ||
+					   ((count != 0) &&
+						hasFileEntry(
+							groupId, folderId,
+							uniqueTitle + periodAndExtension))) {
+
+					count++;
+
+					uniqueTitle = title + String.valueOf(count);
+				}
+
+				if (count <= 0) {
+					continue;
+				}
+
+				uniqueTitle += periodAndExtension;
+
+				runSQL(
+					"update DLFileEntry set title = '" + uniqueTitle +
+						"' where fileEntryId = " + fileEntryId);
+				runSQL(
+					"update DLFileVersion set title = '" + uniqueTitle +
+						"' where fileEntryId = " + fileEntryId +
+							" and DLFileVersion.version = '" + version + "'");
 			}
 		}
 		finally {

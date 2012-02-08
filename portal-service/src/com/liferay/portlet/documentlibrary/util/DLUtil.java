@@ -566,10 +566,10 @@ public class DLUtil {
 		String extension = fileEntry.getExtension();
 
 		if (Validator.isNotNull(extension)) {
-			String appendExtension = StringPool.PERIOD + extension;
+			String periodAndExtension = StringPool.PERIOD + extension;
 
-			if (!title.endsWith(appendExtension)) {
-				title += appendExtension;
+			if (!title.endsWith(periodAndExtension)) {
+				title += periodAndExtension;
 			}
 		}
 
