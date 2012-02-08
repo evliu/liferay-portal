@@ -595,8 +595,10 @@ if (Validator.isNotNull(content)) {
 	Liferay.provide(
 		window,
 		'<portlet:namespace />postProcessTranslation',
-		function(cmd, newVersion, newLanguageId, newLanguage, newFormDate) {
+		function(formDate, cmd, newVersion, newLanguageId, newLanguage) {
 			var A = AUI();
+
+			document.<portlet:namespace />fm1.<portlet:namespace />formDate.value = formDate;
 
 			var availableTranslationContainer = A.one('#<portlet:namespace />availableTranslationContainer');
 			var availableTranslationsLinks = A.one('#<portlet:namespace />availableTranslationsLinks');
@@ -611,8 +613,6 @@ if (Validator.isNotNull(content)) {
 			document.<portlet:namespace />fm1.<portlet:namespace />version.value = newVersion;
 
 			versionNode.html(newVersion);
-
-			document.<portlet:namespace />fm1.<portlet:namespace />formDate.value = newFormDate;
 
 			var translationLink = availableTranslationContainer.one('.journal-article-translation-' + newLanguageId);
 
