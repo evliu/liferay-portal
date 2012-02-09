@@ -317,28 +317,30 @@ public class ImageToolImpl implements ImageTool {
 			RenderedImage renderedImage, String contentType, OutputStream os)
 		throws IOException {
 
-		if (contentType.indexOf(TYPE_BMP) != -1) {
-			ImageEncoder encoder = ImageCodec.createImageEncoder(
+		if (contentType.contains(TYPE_BMP)) {
+			ImageEncoder imageEncoder = ImageCodec.createImageEncoder(
 				TYPE_BMP, os, null);
 
-			encoder.encode(renderedImage);
+			imageEncoder.encode(renderedImage);
 		}
-		else if (contentType.indexOf(TYPE_GIF) != -1) {
+		else if (contentType.contains(TYPE_GIF)) {
 			encodeGIF(renderedImage, os);
 		}
-		else if ((contentType.indexOf(TYPE_JPEG) != -1) ||
-				 (contentType.indexOf("jpeg") != -1)) {
+		else if ((contentType.contains(TYPE_JPEG)) ||
+				 (contentType.contains("jpeg"))) {
 
 			ImageIO.write(renderedImage, "jpeg", os);
 		}
-		else if (contentType.indexOf(TYPE_PNG) != -1) {
+		else if (contentType.contains(TYPE_PNG)) {
 			ImageIO.write(renderedImage, TYPE_PNG, os);
 		}
-		else if (contentType.indexOf("tif") != -1) {
-			ImageEncoder encoder = ImageCodec.createImageEncoder(
+		else if (contentType.contains(TYPE_TIFF) ||
+				 contentType.contains("tif")) {
+
+			ImageEncoder imageEncoder = ImageCodec.createImageEncoder(
 				TYPE_TIFF, os, null);
 
-			encoder.encode(renderedImage);
+			imageEncoder.encode(renderedImage);
 		}
 	}
 

@@ -630,7 +630,7 @@ public abstract class DLPreviewableProcessor implements DLProcessor {
 	}
 
 	protected String[] getPreviewTypes() {
-		return new String[] { getPreviewType() };
+		return new String[] {getPreviewType()};
 	}
 
 	protected String getThumbnailFilePath(FileVersion fileVersion, int index) {

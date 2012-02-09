@@ -843,7 +843,7 @@ public class WebServerServlet extends HttpServlet {
 		if ((imageThumbnail > 0) && (imageThumbnail <= 3)) {
 			fileName = FileUtil.stripExtension(fileName).concat(
 				StringPool.PERIOD).concat(
-				ImageProcessorUtil.getThumbnailType(fileVersion));
+					ImageProcessorUtil.getThumbnailType(fileVersion));
 
 			int thumbnailIndex = imageThumbnail - 1;
 
@@ -888,8 +888,7 @@ public class WebServerServlet extends HttpServlet {
 		else if (imagePreview) {
 			fileName = FileUtil.stripExtension(fileName).concat(
 				StringPool.PERIOD).concat(
-				ImageProcessorUtil.getPreviewType(fileVersion));
-
+					ImageProcessorUtil.getPreviewType(fileVersion));
 			inputStream = ImageProcessorUtil.getPreviewAsStream(fileVersion);
 			contentLength = ImageProcessorUtil.getPreviewFileSize(fileVersion);
 

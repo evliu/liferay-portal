@@ -298,9 +298,9 @@ public abstract class LiferayConverter {
 
 				thumbnailFile.createNewFile();
 
-				ImageTool imageToolImpl = ImageToolImpl.getInstance();
+				ImageTool imageTool = ImageToolImpl.getInstance();
 
-				RenderedImage renderedImage = imageToolImpl.scale(
+				RenderedImage renderedImage = imageTool.scale(
 					bufferedImage, thumbnailHeight, thumbnailWidth);
 
 				ImageIO.write(

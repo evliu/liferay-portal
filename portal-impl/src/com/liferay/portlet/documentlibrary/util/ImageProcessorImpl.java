@@ -58,10 +58,12 @@ public class ImageProcessorImpl
 		return _instance;
 	}
 
+	@Override
 	public void cleanUp(FileEntry fileEntry) {
 		deleteFiles(fileEntry, null);
 	}
 
+	@Override
 	public void cleanUp(FileVersion fileVersion) {
 		String type = _instance.getThumbnailType(fileVersion);
 
@@ -134,8 +136,8 @@ public class ImageProcessorImpl
 	}
 
 	public boolean hasImages(FileVersion fileVersion) {
-		if (!PropsValues.DL_FILE_ENTRY_THUMBNAIL_ENABLED &&
-			!PropsValues.DL_FILE_ENTRY_PREVIEW_ENABLED) {
+		if (!PropsValues.DL_FILE_ENTRY_PREVIEW_ENABLED &&
+			!PropsValues.DL_FILE_ENTRY_THUMBNAIL_ENABLED) {
 
 			return false;
 		}
