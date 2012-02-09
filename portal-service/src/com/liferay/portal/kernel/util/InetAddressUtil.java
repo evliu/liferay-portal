@@ -29,13 +29,7 @@ import java.util.Enumeration;
 public class InetAddressUtil {
 
 	public static String getLocalHostName() throws Exception {
-		if (_localHostName == null) {
-			InetAddress inetAddress = getLocalInetAddress();
-
-			_localHostName = inetAddress.getHostName();
-		}
-
-		return _localHostName;
+		return LocalHostNameHolder._localHostName;
 	}
 
 	public static InetAddress getLocalInetAddress() throws Exception {
@@ -61,6 +55,21 @@ public class InetAddressUtil {
 		throw new SystemException("No local internet address");
 	}
 
-	private static String _localHostName;
+	private static class LocalHostNameHolder {
+
+		private static final String _localHostName;
+
+		static {
+			try {
+				InetAddress inetAddress = getLocalInetAddress();
+
+				_localHostName = inetAddress.getHostName();
+			}
+			catch (Exception e) {
+				throw new ExceptionInInitializerError(e);
+			}
+		}
+
+	}
 
 }
