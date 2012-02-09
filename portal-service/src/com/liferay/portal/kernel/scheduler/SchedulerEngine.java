@@ -32,7 +32,7 @@ import java.util.List;
  */
 public interface SchedulerEngine {
 
-	public static final String AUDIT_ACTION = "SCHEDULER_AUDIT";
+	public static final String AUDIT_ACTION = "AUDIT_ACTION";
 
 	public static final String CONTEXT_PATH = "CONTEXT_PATH";
 

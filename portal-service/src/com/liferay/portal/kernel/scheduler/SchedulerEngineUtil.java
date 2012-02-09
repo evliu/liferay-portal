@@ -14,7 +14,6 @@
 
 package com.liferay.portal.kernel.scheduler;
 
-import com.liferay.portal.kernel.audit.AuditException;
 import com.liferay.portal.kernel.audit.AuditMessage;
 import com.liferay.portal.kernel.audit.AuditRouterUtil;
 import com.liferay.portal.kernel.bean.ClassLoaderBeanHandler;
@@ -22,7 +21,6 @@ import com.liferay.portal.kernel.cal.DayAndPosition;
 import com.liferay.portal.kernel.cal.Duration;
 import com.liferay.portal.kernel.cal.Recurrence;
 import com.liferay.portal.kernel.cal.RecurrenceSerializer;
-import com.liferay.portal.kernel.json.JSONException;
 import com.liferay.portal.kernel.json.JSONFactoryUtil;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
@@ -72,19 +70,9 @@ public class SchedulerEngineUtil {
 
 	public static void auditSchedulerJobs(
 			Message message, TriggerState triggerState)
-		throws AuditException, JSONException {
+		throws SchedulerException {
 
-		AuditMessage auditMessage = new AuditMessage(
-			SchedulerEngine.AUDIT_ACTION, CompanyConstants.SYSTEM, 0,
-			StringPool.BLANK, SchedulerEngine.class.getName(), "0",
-			triggerState.toString(), new Date(),
-			JSONFactoryUtil.createJSONObject(
-				JSONFactoryUtil.serialize(message)));
-
-		auditMessage.setServerName(InetAddressUtil.getLocalHostName());
-		auditMessage.setServerPort(PortalUtil.getPortalPort(false));
-
-		AuditRouterUtil.route(auditMessage);
+		_instance._auditSchedulerJobs(message, triggerState);
 	}
 
 	public static void delete(
@@ -387,6 +375,27 @@ public class SchedulerEngineUtil {
 
 		if (ParamUtil.getBoolean(portletRequest, "weeklyDayPos" + day)) {
 			list.add(new DayAndPosition(day, 0));
+		}
+	}
+
+	private void _auditSchedulerJobs(Message message, TriggerState triggerState)
+		throws SchedulerException {
+
+		try {
+			AuditMessage auditMessage = new AuditMessage(
+				SchedulerEngine.AUDIT_ACTION, CompanyConstants.SYSTEM, 0,
+				StringPool.BLANK, SchedulerEngine.class.getName(), "0",
+				triggerState.toString(), new Date(),
+				JSONFactoryUtil.createJSONObject(
+					JSONFactoryUtil.serialize(message)));
+
+			auditMessage.setServerName(InetAddressUtil.getLocalHostName());
+			auditMessage.setServerPort(PortalUtil.getPortalPort(false));
+
+			AuditRouterUtil.route(auditMessage);
+		}
+		catch (Exception e) {
+			throw new SchedulerException(e);
 		}
 	}
 

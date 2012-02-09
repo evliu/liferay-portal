@@ -40,6 +40,7 @@ import org.quartz.JobDataMap;
 import org.quartz.JobDetail;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobKey;
+import org.quartz.Scheduler;
 
 /**
  * @author Michael C. Han
@@ -118,12 +119,14 @@ public class MessageSenderJob implements Job {
 				}
 
 				if (storageType.equals(StorageType.PERSISTED)) {
-					jobExecutionContext.getScheduler().deleteJob(jobKey);
+					Scheduler scheduler = jobExecutionContext.getScheduler();
+
+					scheduler.deleteJob(jobKey);
 				}
 			}
 
-			message.put(SchedulerEngine.JOB_STATE, jobState);
 			message.put(SchedulerEngine.JOB_NAME, jobKey.getName());
+			message.put(SchedulerEngine.JOB_STATE, jobState);
 			message.put(SchedulerEngine.GROUP_NAME, jobKey.getGroup());
 
 			MessageBusUtil.sendMessage(destinationName, message);

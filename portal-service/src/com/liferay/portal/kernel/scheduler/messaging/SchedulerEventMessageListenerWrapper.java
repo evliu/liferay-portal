@@ -93,7 +93,7 @@ public class SchedulerEventMessageListenerWrapper implements MessageListener {
 				triggerState = TriggerState.COMPLETE;
 
 				if (destinationName.equals(
-					DestinationNames.SCHEDULER_DISPATCH)) {
+						DestinationNames.SCHEDULER_DISPATCH)) {
 
 					MessageBusUtil.unregisterMessageListener(
 						destinationName, this);
@@ -106,7 +106,7 @@ public class SchedulerEventMessageListenerWrapper implements MessageListener {
 			try {
 				SchedulerEngineUtil.auditSchedulerJobs(message, triggerState);
 			}
-			catch(Exception e) {
+			catch (Exception e) {
 				throw new MessageListenerException(e);
 			}
 		}
