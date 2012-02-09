@@ -719,21 +719,10 @@ public class PortalRequestProcessor extends TilesRequestProcessor {
 			return _PATH_PORTAL_ERROR;
 		}
 
-		// Impersonated user does not need to accept terms etc.
-
-		User realUser = themeDisplay.getRealUser();
-		String doAsUserId = themeDisplay.getDoAsUserId();
-		boolean impersonating = false;
-
-		if (Validator.isNotNull(doAsUserId) && (user != null) &&
-			(user.getUserId() != realUser.getUserId())) {
-
-			impersonating = true;
-		}
-
 		if (!path.equals(_PATH_PORTAL_JSON_SERVICE) &&
 			!path.equals(_PATH_PORTAL_RENDER_PORTLET) &&
-			!ParamUtil.getBoolean(request, "wsrp") && !impersonating) {
+			!ParamUtil.getBoolean(request, "wsrp") &&
+			!themeDisplay.isImpersonated()) {
 
 			// Authenticated users should agree to Terms of Use
 
