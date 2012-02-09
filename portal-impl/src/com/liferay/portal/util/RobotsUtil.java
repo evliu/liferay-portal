@@ -50,7 +50,7 @@ public class RobotsUtil {
 	}
 
 	public static String getRobots(LayoutSet layoutSet)
-		throws SystemException, PortalException {
+		throws PortalException, SystemException {
 
 		if (layoutSet == null) {
 			return getDefaultRobots(null);
@@ -63,15 +63,15 @@ public class RobotsUtil {
 		}
 		catch (Exception e) {
 		}
-		
-		if (Validator.isNull(virtualHostname) && Validator.isNotNull(
-			PropsValues.VIRTUAL_HOSTS_DEFAULT_SITE_NAME) ) {
-			
-			Group defaultGroup = GroupLocalServiceUtil.getGroup(
-				layoutSet.getCompanyId(), 
+
+		if (Validator.isNull(virtualHostname) &&
+			Validator.isNotNull(PropsValues.VIRTUAL_HOSTS_DEFAULT_SITE_NAME) ) {
+
+			Group group = GroupLocalServiceUtil.getGroup(
+				layoutSet.getCompanyId(),
 				PropsValues.VIRTUAL_HOSTS_DEFAULT_SITE_NAME);
-		
-			if (layoutSet.getGroupId() == defaultGroup.getGroupId()) {
+
+			if (layoutSet.getGroupId() == group.getGroupId()) {
 				Company company = CompanyLocalServiceUtil.getCompany(
 					layoutSet.getCompanyId());
 

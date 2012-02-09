@@ -20,6 +20,7 @@ import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.servlet.ServletResponseUtil;
 import com.liferay.portal.kernel.util.ContentTypes;
+import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.StringPool;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.model.Company;
@@ -51,18 +52,17 @@ public class RobotsAction extends Action {
 		throws Exception {
 
 		try {
-			String virtualHostname = PortalUtil.getHost(request);
+			String host = GetterUtil.getString(PortalUtil.getHost(request));
 
 			LayoutSet layoutSet = null;
 
 			try {
-				layoutSet = LayoutSetLocalServiceUtil.getLayoutSet(
-					virtualHostname);
+				layoutSet = LayoutSetLocalServiceUtil.getLayoutSet(host);
 			}
 			catch (LayoutSetVirtualHostException lsvhe) {
 				Company company = PortalUtil.getCompany(request);
 
-				if (company.getVirtualHostname().equals(virtualHostname) &&
+				if (host.equals(company.getVirtualHostname()) &&
 					Validator.isNotNull(
 						PropsValues.VIRTUAL_HOSTS_DEFAULT_SITE_NAME)) {
 
