@@ -2232,9 +2232,6 @@ public class JournalArticleLocalServiceImpl
 			String[] assetTagNames, long[] assetLinkEntryIds)
 		throws PortalException, SystemException {
 
-		// Get the earliest display date and latest expiration date among
-		// all article versions
-
 		boolean visible = article.isApproved();
 
 		if (article.getClassNameId() > 0) {
@@ -2269,6 +2266,10 @@ public class JournalArticleLocalServiceImpl
 				null, false);
 		}
 		else {
+
+			// Get the earliest display date and latest expiration date among
+			// all article versions
+
 			Date[] dateInterval = getDateInterval(
 				article.getGroupId(), article.getArticleId(),
 				article.getDisplayDate(), article.getExpirationDate());
