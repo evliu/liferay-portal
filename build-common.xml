@@ -320,29 +320,7 @@ Please set the environment variable ANT_OPTS to the recommended value of
 		</java>
 	</target>
 
-	<target name="generate-cobertura-report">
-		<if>
-			<equals arg1="${junit.code.coverage}" arg2="true" />
-			<then>
-				<cobertura-report format="${junit.cobertura.report.format}" datafile="test-coverage/cobertura.ser" destdir="test-coverage" >
-					<fileset dir="${project.dir}/portal-impl/src">
-						<include name="**/*.java" />
-					</fileset>
-					<fileset dir="${project.dir}/portal-service/src">
-						<include name="**/*.java" />
-					</fileset>
-					<fileset dir="${project.dir}/util-java/src">
-						<include name="**/*.java" />
-					</fileset>
-					<fileset dir="${project.dir}/util-taglib/src">
-						<include name="**/*.java" />
-					</fileset>
-				</cobertura-report>
-			</then>
-		</if>
-	</target>
-
-	<target name="instrument">
+	<target name="instrument-test-coverage">
 		<delete dir="test-coverage" />
 
 		<if>
@@ -374,6 +352,32 @@ Please set the environment variable ANT_OPTS to the recommended value of
 		<echo message="${current.time}" />
 	</target>
 
+	<target name="report-test-coverage">
+		<if>
+			<equals arg1="${junit.code.coverage}" arg2="true" />
+			<then>
+				<cobertura-report
+					datafile="test-coverage/cobertura.ser"
+					destdir="test-coverage"
+					format="${junit.cobertura.report.format}" 
+				>
+					<fileset dir="${project.dir}/portal-impl/src">
+						<include name="**/*.java" />
+					</fileset>
+					<fileset dir="${project.dir}/portal-service/src">
+						<include name="**/*.java" />
+					</fileset>
+					<fileset dir="${project.dir}/util-java/src">
+						<include name="**/*.java" />
+					</fileset>
+					<fileset dir="${project.dir}/util-taglib/src">
+						<include name="**/*.java" />
+					</fileset>
+				</cobertura-report>
+			</then>
+		</if>
+	</target>
+
 	<target name="setproxy" if="setproxy.proxy.host">
 		<setproxy proxyhost="${setproxy.proxy.host}" proxyport="${setproxy.proxy.port}" />
 	</target>
@@ -383,7 +387,7 @@ Please set the environment variable ANT_OPTS to the recommended value of
 		<delete dir="test-results" />
 
 		<antcall target="compile" />
-		<antcall target="instrument" />
+		<antcall target="instrument-test-coverage" />
 		<antcall target="compile-test" />
 
 		<fileset dir="test-classes" id="test.suite.classes">
@@ -436,7 +440,7 @@ Please set the environment variable ANT_OPTS to the recommended value of
 			</else>
 		</if>
 
-		<antcall target="generate-cobertura-report" />
+		<antcall target="report-test-coverage" />
 	</target>
 
 	<target name="test-class" depends="compile,instrument,compile-test" if="class">
@@ -456,6 +460,6 @@ Please set the environment variable ANT_OPTS to the recommended value of
 			</batchtest>
 		</junit>
 
-		<antcall target="generate-cobertura-report" />
+		<antcall target="report-test-coverage" />
 	</target>
 </project>
