@@ -99,11 +99,10 @@ public class UpgradeMessageBoards extends UpgradeProcess {
 
 			StringBundler sb = new StringBundler(4);
 
-			sb.append("select messageFlag.messageId as messageId ");
-			sb.append("from MBMessageFlag messageFlag ");
-			sb.append("inner join MBMessage message on ");
-			sb.append("messageFlag.messageId = message.messageId where ");
-			sb.append("message.parentMessageId != 0 and flag = 3");
+			sb.append("select messageFlag.messageId as messageId from ");
+			sb.append("MBMessageFlag messageFlag inner join MBMessage ");
+			sb.append("message on messageFlag.messageId = message.messageId ");
+			sb.append("where message.parentMessageId != 0 and flag = 3");
 
 			String sql = sb.toString();
 
@@ -218,11 +217,10 @@ public class UpgradeMessageBoards extends UpgradeProcess {
 
 			StringBundler sb = new StringBundler(4);
 
-			sb.append("select messageFlag.threadId as threadId ");
-			sb.append("from MBMessageFlag messageFlag ");
-			sb.append("inner join MBMessage message on ");
-			sb.append("messageFlag.messageId = message.messageId where ");
-			sb.append("message.parentMessageId = 0 and flag = 3");
+			sb.append("select messageFlag.threadId as threadId from ");
+			sb.append("MBMessageFlag messageFlag inner join MBMessage ");
+			sb.append("message on messageFlag.messageId = message.messageId ");
+			sb.append("where message.parentMessageId = 0 and flag = 3");
 
 			ps = con.prepareStatement(sb.toString());
 
