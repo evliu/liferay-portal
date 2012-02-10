@@ -1742,7 +1742,7 @@ public class BaseDeployer implements Deployer {
 		int x = webXmlContent.indexOf("<filter>");
 		int y = webXmlContent.lastIndexOf("</filter-mapping>");
 
-		String webXmlFilterContent = StringPool.BLANK;
+		String webXmlFiltersContent = StringPool.BLANK;
 
 		if ((x == -1) || (y == -1)) {
 			x = webXmlContent.lastIndexOf("</display-name>") + 15;
@@ -1750,7 +1750,8 @@ public class BaseDeployer implements Deployer {
 		}
 		else {
 			if (liferayWebXmlEnabled && webXmlVersion > 2.3) {
-				webXmlFilterContent = webXmlContent.substring(x, y + 17);
+				webXmlFiltersContent = webXmlContent.substring(x, y + 17);
+
 				y = y + 17;
 			}
 			else {
@@ -1759,22 +1760,17 @@ public class BaseDeployer implements Deployer {
 			}
 		}
 
-//		if (!liferayWebXmlEnabled) {
-//			return webXmlContent;
-//		}
-
-//		String filterContent = webXmlContent.substring(x, y + 17);
-
 		if (webXmlVersion < 2.4) {
-			webXmlContent = webXmlContent.substring(0, x) +
-				getExtraFiltersContent(webXmlVersion, srcFile) +
-					webXmlContent.substring(y);
+			webXmlContent =
+				webXmlContent.substring(0, x) +
+					getExtraFiltersContent(webXmlVersion, srcFile) +
+						webXmlContent.substring(y);
 
 			return webXmlContent;
 		}
 
-		String filterContent = webXmlFilterContent + getExtraFiltersContent(
-			webXmlVersion, srcFile);
+		String filtersContent =
+			webXmlFiltersContent + getExtraFiltersContent(webXmlVersion, srcFile);
 
 		String liferayWebXmlContent = FileUtil.read(
 			DeployUtil.getResourcePath("web.xml"));
@@ -1782,7 +1778,7 @@ public class BaseDeployer implements Deployer {
 		int z = liferayWebXmlContent.indexOf("</web-app>");
 
 		liferayWebXmlContent =
-			liferayWebXmlContent.substring(0, z) + filterContent +
+			liferayWebXmlContent.substring(0, z) + filtersContent +
 				liferayWebXmlContent.substring(z);
 
 		liferayWebXmlContent = WebXMLBuilder.organizeWebXML(
@@ -1792,7 +1788,7 @@ public class BaseDeployer implements Deployer {
 			srcFile + "/WEB-INF/liferay-web.xml", liferayWebXmlContent);
 
 		webXmlContent =
-			webXmlContent.substring(0, x) + getInvokerFilterContent() +
+			webXmlContent.substring(0, x) + getInvokerFiltersContent() +
 				webXmlContent.substring(y);
 
 		return webXmlContent;
