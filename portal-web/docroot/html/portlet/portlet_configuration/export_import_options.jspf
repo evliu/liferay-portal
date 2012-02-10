@@ -95,10 +95,10 @@
 										for (int i = 0; i < metadataControls.length; i++) {
 											PortletDataHandlerBoolean control = (PortletDataHandlerBoolean)metadataControls[i];
 
-											PortletDataHandlerControl[] children = control.getChildren();
+											PortletDataHandlerControl[] childrenControls = control.getChildren();
 
-											if ((children != null) && (children.length > 0)) {
-												request.setAttribute("render_controls.jsp-controls", children);
+											if ((childrenControls != null) && (childrenControls.length > 0)) {
+												request.setAttribute("render_controls.jsp-controls", childrenControls);
 										%>
 
 												<c:choose>

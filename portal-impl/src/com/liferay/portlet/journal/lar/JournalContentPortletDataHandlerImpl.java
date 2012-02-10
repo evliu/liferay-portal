@@ -342,11 +342,11 @@ public class JournalContentPortletDataHandlerImpl
 
 	private static final boolean _PUBLISH_TO_LIVE_BY_DEFAULT = true;
 
-	private static PortletDataHandlerBoolean _embeddedAssets =
-		new PortletDataHandlerBoolean(_NAMESPACE, "embedded-assets");
-
 	private static Log _log = LogFactoryUtil.getLog(
 		JournalContentPortletDataHandlerImpl.class);
+
+	private static PortletDataHandlerBoolean _embeddedAssets =
+		new PortletDataHandlerBoolean(_NAMESPACE, "embedded-assets");
 
 	private static PortletDataHandlerBoolean _selectedArticles =
 		new PortletDataHandlerBoolean(

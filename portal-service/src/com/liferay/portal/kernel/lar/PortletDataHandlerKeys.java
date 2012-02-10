@@ -74,6 +74,8 @@ public class PortletDataHandlerKeys {
 	public static final String PORTLET_DATA_CONTROL_DEFAULT =
 		"PORTLET_DATA_CONTROL_DEFAULT";
 
+	public static final String PORTLET_METADATA_ALL = "PORTLET_METADATA_ALL";
+
 	public static final String PORTLET_SETUP = "PORTLET_SETUP";
 
 	public static final String PORTLET_SETUP_ALL = "PORTLET_SETUP_ALL";
@@ -89,8 +91,6 @@ public class PortletDataHandlerKeys {
 	public static final String PORTLETS_MERGE_MODE_ADD_TO_TOP = "ADD_TO_TOP";
 
 	public static final String PORTLETS_MERGE_MODE_REPLACE = "REPLACE";
-
-	public static final String PORTLET_METADATA_ALL = "PORTLET_METADATA_ALL";
 
 	public static final String PUBLIC_LAYOUT_PERMISSIONS =
 		"PUBLIC_LAYOUT_PERMISSIONS";
