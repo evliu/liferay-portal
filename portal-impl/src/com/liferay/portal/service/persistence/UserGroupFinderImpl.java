@@ -69,6 +69,39 @@ public class UserGroupFinderImpl
 	public static final String JOIN_BY_USER_GROUPS_USERS =
 		UserGroupFinder.class.getName() + ".joinByUserGroupsUsers";
 
+	public int countByKeywords(
+			long companyId, String keywords,
+			LinkedHashMap<String, Object> params)
+		throws SystemException {
+
+		String[] names = null;
+		String[] descriptions = null;
+		boolean andOperator = false;
+
+		if (Validator.isNotNull(keywords)) {
+			names = CustomSQLUtil.keywords(keywords);
+			descriptions = CustomSQLUtil.keywords(keywords);
+		}
+		else {
+			andOperator = true;
+		}
+
+		return countByC_N_D(
+			companyId, names, descriptions, params, andOperator);
+	}
+
+	public int countByC_N_D(
+			long companyId, String name, String description,
+			LinkedHashMap<String, Object> params, boolean andOperator)
+		throws SystemException {
+
+		String[] names = CustomSQLUtil.keywords(name);
+		String[] descriptions = CustomSQLUtil.keywords(description);
+
+		return countByC_N_D(
+			companyId, names, descriptions, params, andOperator);
+	}
+
 	public int countByC_N_D(
 			long companyId, String[] names, String[] descriptions,
 			LinkedHashMap<String, Object> params, boolean andOperator)
@@ -124,9 +157,10 @@ public class UserGroupFinderImpl
 		}
 	}
 
-	public int countByKeywords(
+	public List<UserGroup> findByKeywords(
 			long companyId, String keywords,
-			LinkedHashMap<String, Object> params)
+			LinkedHashMap<String, Object> params, int start, int end,
+			OrderByComparator obc)
 		throws SystemException {
 
 		String[] names = null;
@@ -141,8 +175,9 @@ public class UserGroupFinderImpl
 			andOperator = true;
 		}
 
-		return countByC_N_D(
-			companyId, names, descriptions, params, andOperator);
+		return findByC_N_D(
+			companyId, names, descriptions, params, andOperator, start, end,
+			obc);
 	}
 
 	public UserGroup findByC_N(long companyId, String name)
@@ -188,6 +223,20 @@ public class UserGroupFinderImpl
 		sb.append("}");
 
 		throw new NoSuchUserGroupException(sb.toString());
+	}
+
+	public List<UserGroup> findByC_N_D(
+			long companyId, String name, String description,
+			LinkedHashMap<String, Object> params, boolean andOperator,
+			int start, int end, OrderByComparator obc)
+		throws SystemException {
+
+		String[] names = CustomSQLUtil.keywords(name);
+		String[] descriptions = CustomSQLUtil.keywords(description);
+
+		return findByC_N_D(
+			companyId, names, descriptions, params, andOperator, start, end,
+			obc);
 	}
 
 	public List<UserGroup> findByC_N_D(
@@ -237,29 +286,6 @@ public class UserGroupFinderImpl
 		finally {
 			closeSession(session);
 		}
-	}
-
-	public List<UserGroup> findByKeywords(
-			long companyId, String keywords,
-			LinkedHashMap<String, Object> params, int start, int end,
-			OrderByComparator obc)
-		throws SystemException {
-
-		String[] names = null;
-		String[] descriptions = null;
-		boolean andOperator = false;
-
-		if (Validator.isNotNull(keywords)) {
-			names = CustomSQLUtil.keywords(keywords);
-			descriptions = CustomSQLUtil.keywords(keywords);
-		}
-		else {
-			andOperator = true;
-		}
-
-		return findByC_N_D(
-			companyId, names, descriptions, params, andOperator, start, end,
-			obc);
 	}
 
 	protected String getJoin(LinkedHashMap<String, Object> params) {

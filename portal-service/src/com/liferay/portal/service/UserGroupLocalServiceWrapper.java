@@ -449,6 +449,15 @@ public class UserGroupLocalServiceWrapper implements UserGroupLocalService,
 		return _userGroupLocalService.hasTeamUserGroup(teamId, userGroupId);
 	}
 
+	public java.util.List<com.liferay.portal.model.UserGroup> search(
+		long companyId, java.lang.String keywords,
+		java.util.LinkedHashMap<java.lang.String, java.lang.Object> params,
+		int start, int end, com.liferay.portal.kernel.util.OrderByComparator obc)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return _userGroupLocalService.search(companyId, keywords, params,
+			start, end, obc);
+	}
+
 	/**
 	* Returns an ordered range of all the user groups that match the name and
 	* description.
@@ -480,12 +489,18 @@ public class UserGroupLocalServiceWrapper implements UserGroupLocalService,
 	* @see com.liferay.portal.service.persistence.UserGroupFinder
 	*/
 	public java.util.List<com.liferay.portal.model.UserGroup> search(
-		long companyId, java.lang.String keywords,
+		long companyId, java.lang.String name, java.lang.String description,
 		java.util.LinkedHashMap<java.lang.String, java.lang.Object> params,
 		int start, int end, com.liferay.portal.kernel.util.OrderByComparator obc)
 		throws com.liferay.portal.kernel.exception.SystemException {
-		return _userGroupLocalService.search(companyId, keywords, params,
-			start, end, obc);
+		return _userGroupLocalService.search(companyId, name, description,
+			params, start, end, obc);
+	}
+
+	public int searchCount(long companyId, java.lang.String keywords,
+		java.util.LinkedHashMap<java.lang.String, java.lang.Object> params)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return _userGroupLocalService.searchCount(companyId, keywords, params);
 	}
 
 	/**
@@ -502,10 +517,12 @@ public class UserGroupLocalServiceWrapper implements UserGroupLocalService,
 	* @throws SystemException if a system exception occurred
 	* @see com.liferay.portal.service.persistence.UserGroupFinder
 	*/
-	public int searchCount(long companyId, java.lang.String keywords,
+	public int searchCount(long companyId, java.lang.String name,
+		java.lang.String description,
 		java.util.LinkedHashMap<java.lang.String, java.lang.Object> params)
 		throws com.liferay.portal.kernel.exception.SystemException {
-		return _userGroupLocalService.searchCount(companyId, keywords, params);
+		return _userGroupLocalService.searchCount(companyId, name, description,
+			params);
 	}
 
 	/**
