@@ -1770,7 +1770,8 @@ public class BaseDeployer implements Deployer {
 		}
 
 		String filtersContent =
-			webXmlFiltersContent + getExtraFiltersContent(webXmlVersion, srcFile);
+			webXmlFiltersContent +
+				getExtraFiltersContent(webXmlVersion, srcFile);
 
 		String liferayWebXmlContent = FileUtil.read(
 			DeployUtil.getResourcePath("web.xml"));
@@ -1788,7 +1789,7 @@ public class BaseDeployer implements Deployer {
 			srcFile + "/WEB-INF/liferay-web.xml", liferayWebXmlContent);
 
 		webXmlContent =
-			webXmlContent.substring(0, x) + getInvokerFiltersContent() +
+			webXmlContent.substring(0, x) + getInvokerFilterContent() +
 				webXmlContent.substring(y);
 
 		return webXmlContent;
