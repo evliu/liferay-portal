@@ -5514,6 +5514,16 @@ public class PortalImpl implements Portal {
 	}
 
 	protected void addDefaultResource(
+			long companyId, Layout layout, Portlet portlet,
+			boolean portletActions)
+		throws PortalException, SystemException {
+
+		long groupId = getScopeGroupId(layout, portlet.getPortletId());
+
+		addDefaultResource(companyId, groupId, layout, portlet, portletActions);
+	}
+
+	protected void addDefaultResource(
 			long companyId, long groupId, Layout layout, Portlet portlet,
 			boolean portletActions)
 		throws PortalException, SystemException {
@@ -5562,16 +5572,6 @@ public class PortalImpl implements Portal {
 				companyId, groupId, 0, name, primaryKey, portletActions, true,
 				true);
 		}
-	}
-
-	protected void addDefaultResource(
-			long companyId, Layout layout, Portlet portlet,
-			boolean portletActions)
-		throws PortalException, SystemException {
-
-		long groupId = getScopeGroupId(layout, portlet.getPortletId());
-
-		addDefaultResource(companyId, groupId, layout, portlet, portletActions);
 	}
 
 	protected String buildI18NPath(Locale locale) {
