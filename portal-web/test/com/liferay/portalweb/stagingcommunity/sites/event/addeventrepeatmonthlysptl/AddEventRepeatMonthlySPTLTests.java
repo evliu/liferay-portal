@@ -15,10 +15,6 @@
 package com.liferay.portalweb.stagingcommunity.sites.event.addeventrepeatmonthlysptl;
 
 import com.liferay.portalweb.portal.BaseTestSuite;
-import com.liferay.portalweb.stagingcommunity.sites.event.addeventrepeatdailysptl.AddEventRepeatDailySPTLTest;
-import com.liferay.portalweb.stagingcommunity.sites.event.addeventrepeatneversptl.AddEventRepeatNeverSPTLTest;
-import com.liferay.portalweb.stagingcommunity.sites.event.addeventrepeatweeklysptl.AddEventRepeatWeeklySPTLTest;
-import com.liferay.portalweb.stagingcommunity.sites.event.addeventrepeatyearlysptl.AddEventRepeatYearlySPTLTest;
 
 import junit.framework.Test;
 import junit.framework.TestSuite;
@@ -34,10 +30,6 @@ public class AddEventRepeatMonthlySPTLTests extends BaseTestSuite {
 		testSuite.addTestSuite(ActivateStagingTest.class);
 		testSuite.addTestSuite(AddEventRepeatMonthlySPTLTest.class);
 		testSuite.addTestSuite(TearDownSiteTest.class);
-		testSuite.addTestSuite(AddEventRepeatDailySPTLTest.class);
-		testSuite.addTestSuite(AddEventRepeatNeverSPTLTest.class);
-		testSuite.addTestSuite(AddEventRepeatWeeklySPTLTest.class);
-		testSuite.addTestSuite(AddEventRepeatYearlySPTLTest.class);
 
 		return testSuite;
 	}
