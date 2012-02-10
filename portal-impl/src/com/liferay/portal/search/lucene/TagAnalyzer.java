@@ -22,16 +22,9 @@ import org.apache.lucene.analysis.TokenStream;
 import org.apache.lucene.analysis.Tokenizer;
 
 /**
- * This class is meant to analyze a tag, that is comma delimited values, and
- * uses a <code>TagTokenizer</code> for tokenizing input.
- *
  * @author Jonathan Potter
  */
 public class TagAnalyzer extends Analyzer {
-
-	public TokenStream tokenStream(String fieldName, Reader reader) {
-		return new TagTokenizer(reader);
-	}
 
 	@Override
 	public TokenStream reusableTokenStream(String fieldName, Reader reader)
@@ -41,6 +34,7 @@ public class TagAnalyzer extends Analyzer {
 
 		if (tokenizer == null) {
 			tokenizer = new TagTokenizer(reader);
+
 			setPreviousTokenStream(tokenizer);
 		}
 		else {
@@ -48,6 +42,11 @@ public class TagAnalyzer extends Analyzer {
 		}
 
 		return tokenizer;
+	}
+
+	@Override
+	public TokenStream tokenStream(String fieldName, Reader reader) {
+		return new TagTokenizer(reader);
 	}
 
 }

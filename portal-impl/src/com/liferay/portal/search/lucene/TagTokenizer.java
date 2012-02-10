@@ -22,31 +22,32 @@ import org.apache.lucene.analysis.CharTokenizer;
 import org.apache.lucene.util.AttributeSource;
 
 /**
- * The purpose of this class is to tokenize tag fields. Tags may contain spaces
- * and are delimited by commas. Therefore <code>TagTokenizer</code> will
- * tokenize only on the comma (',') character.
- *
  * @author Jonathan Potter
  */
 public class TagTokenizer extends CharTokenizer {
 
-	public TagTokenizer(Reader input) {
-		super(input);
+	public TagTokenizer(AttributeSource attributeSource, Reader reader) {
+		super(attributeSource, reader);
 	}
 
-	public TagTokenizer(AttributeSource source, Reader input) {
-		super(source, input);
+	public TagTokenizer(
+		AttributeSource.AttributeFactory attributeFactory, Reader reader) {
+
+		super(attributeFactory, reader);
 	}
 
-	public TagTokenizer(AttributeSource.AttributeFactory factory,
-		Reader input) {
-
-		super(factory, input);
+	public TagTokenizer(Reader reader) {
+		super(reader);
 	}
 
 	@Override
 	protected boolean isTokenChar(char c) {
-		return c != CharPool.COMMA;
+		if (c != CharPool.COMMA) {
+			return true;
+		}
+		else {
+			return false;
+		}
 	}
 
 }
