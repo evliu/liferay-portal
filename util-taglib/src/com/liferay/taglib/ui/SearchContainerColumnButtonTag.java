@@ -41,10 +41,12 @@ public class SearchContainerColumnButtonTag<R>
 				(SearchContainerRowTag<R>)findAncestorWithClass(
 					this, SearchContainerRowTag.class);
 
-			ResultRow row = searchContainerRowTag.getRow();
+			ResultRow resultRow = searchContainerRowTag.getRow();
 
 			if (index <= -1) {
-				index = row.getEntries().size();
+				List<SearchEntry> searchEntries = resultRow.getEntries();
+
+				index = searchEntries.size();
 			}
 
 			ButtonSearchEntry buttonSearchEntry = new ButtonSearchEntry();
@@ -56,7 +58,7 @@ public class SearchContainerColumnButtonTag<R>
 			buttonSearchEntry.setName(getName());
 			buttonSearchEntry.setValign(getValign());
 
-			row.addSearchEntry(index, buttonSearchEntry);
+			resultRow.addSearchEntry(index, buttonSearchEntry);
 
 			return EVAL_PAGE;
 		}
