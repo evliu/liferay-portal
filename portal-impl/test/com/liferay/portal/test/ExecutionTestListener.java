@@ -18,6 +18,7 @@ package com.liferay.portal.test;
  * @author Miguel Pastor
  */
 public interface ExecutionTestListener {
+
 	public void runAfterTest(TestContext testContext);
 
 	public void runBeforeTest(TestContext testContext);

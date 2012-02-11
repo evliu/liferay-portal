@@ -43,27 +43,26 @@ public class LiferayIntegrationJUnitTestRunner
 
 	@Override
 	protected Statement withAfters(
-		FrameworkMethod method, Object testInstance, Statement statement) {
+		FrameworkMethod frameworkMethod, Object instance, Statement statement) {
 
-		Statement junitAfterClasses = super.withAfters(
-			method, testInstance, statement);
+		Statement withAftersStatement = super.withAfters(
+			frameworkMethod, instance, statement);
 
 		return new RunAfterTestMethodCallback(
-			testInstance, method.getMethod(), junitAfterClasses,
-				_testContextHandler);
-
+			instance, frameworkMethod.getMethod(), withAftersStatement,
+			_testContextHandler);
 	}
 
 	@Override
 	protected Statement withBefores(
-			FrameworkMethod method, Object testInstance, Statement statement) {
+		FrameworkMethod frameworkMethod, Object instance, Statement statement) {
 
-		Statement junitBeforeClasses = super.withBefores(
-				method, testInstance, statement);
+		Statement withBeforesStatement = super.withBefores(
+			frameworkMethod, instance, statement);
 
 		return new RunBeforeTestMethodCallback(
-			testInstance, method.getMethod(), junitBeforeClasses,
-				_testContextHandler);
+			instance, frameworkMethod.getMethod(), withBeforesStatement,
+			_testContextHandler);
 	}
 
 	private TestContextHandler _testContextHandler;

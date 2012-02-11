@@ -42,7 +42,6 @@ public class TransactionalExecutionTestListener
 				"transactionAttributeSource");
 	}
 
-	@Override
 	public void runAfterTest(TestContext testContext) {
 		Method testMethod = testContext.getMethod();
 
@@ -56,7 +55,6 @@ public class TransactionalExecutionTestListener
 		}
 	}
 
-	@Override
 	public void runBeforeTest(TestContext testContext) {
 		Method testMethod = testContext.getMethod();
 
@@ -68,7 +66,7 @@ public class TransactionalExecutionTestListener
 
 		TransactionAttribute transactionAttribute =
 			_transactionAttributeSource.getTransactionAttribute(
-				testMethod, testContext.getTestClass());
+				testMethod, testContext.getClazz());
 
 		if (transactionAttribute != null) {
 			TransactionContext transactionContext = new TransactionContext(

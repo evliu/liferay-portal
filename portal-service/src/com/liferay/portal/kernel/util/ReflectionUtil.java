@@ -24,19 +24,19 @@ import java.lang.reflect.Method;
  */
 public class ReflectionUtil {
 
-	public static Class<?> findDeclaringClassAnnotation(
-		Class<? extends Annotation> annotationType, Class<?> clazz) {
+	public static Class<?> getAnnotationDeclaringClass(
+		Class<? extends Annotation> annotationClass, Class<?> clazz) {
 
-		if (clazz == null || clazz.equals(Object.class)) {
+		if ((clazz == null) || clazz.equals(Object.class)) {
 			return null;
 		}
 
-		if (isAnnotationDeclaredInClass(annotationType, clazz)) {
+		if (isAnnotationDeclaredInClass(annotationClass, clazz)) {
 			return clazz;
 		}
 		else {
-			return findDeclaringClassAnnotation(
-				annotationType, clazz.getSuperclass());
+			return getAnnotationDeclaringClass(
+				annotationClass, clazz.getSuperclass());
 		}
 	}
 
@@ -108,26 +108,17 @@ public class ReflectionUtil {
 		return parameterTypes;
 	}
 
-	public static Object instantiateClass(Class<?> clazz) throws Exception {
-		if (clazz.isInterface()) {
-			throw new IllegalArgumentException(
-				clazz + " is an interface. This cannot be instanciated");
-		}
-
-		return clazz.newInstance();
-	}
-
 	public static boolean isAnnotationDeclaredInClass(
-		Class<? extends Annotation> annotationType, Class<?> clazz) {
+		Class<? extends Annotation> annotationClass, Class<?> clazz) {
 
-		if (annotationType == null || clazz == null) {
+		if ((annotationClass == null) || (clazz == null)) {
 			throw new IllegalArgumentException();
 		}
 
 		Annotation[] annotations = clazz.getAnnotations();
 
-		for (Annotation annotation:annotations) {
-			if (annotation.annotationType().equals(annotationType)) {
+		for (Annotation annotation : annotations) {
+			if (annotationClass.equals(annotation.annotationType())) {
 				return true;
 			}
 		}

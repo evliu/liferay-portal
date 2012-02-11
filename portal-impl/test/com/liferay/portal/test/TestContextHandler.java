@@ -16,93 +16,92 @@ package com.liferay.portal.test;
 
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
-import com.liferay.portal.kernel.util.ArrayUtil;
+import com.liferay.portal.kernel.util.ListUtil;
 import com.liferay.portal.kernel.util.ReflectionUtil;
 
 import java.lang.reflect.Method;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 /**
  * @author Miguel Pastor
  */
 public class TestContextHandler {
+
 	public TestContextHandler(Class<?> clazz) {
 		_testContext = new TestContext(clazz);
 
-		registerExecutionListeners(_findExecutionTestListeners(clazz));
+		registerExecutionListeners(getExecutionTestListeners(clazz));
 	}
 
 	public void registerExecutionListeners(
 		ExecutionTestListener ... executionTestListeners) {
 
-		for (ExecutionTestListener execTestListener:executionTestListeners) {
-			_executionTestListeners.add(execTestListener);
+		for (ExecutionTestListener executionTestListener :
+				executionTestListeners) {
+
+			_executionTestListeners.add(executionTestListener);
 		}
 	}
 
-	public void runAfterTestMethod(Object testInstance, Method method) {
-		for (ExecutionTestListener execTestListener:_executionTestListeners) {
-			execTestListener.runAfterTest(_testContext);
+	public void runAfterTestMethod(Object instance, Method method) {
+		for (ExecutionTestListener executionTestListener :
+				_executionTestListeners) {
+
+			executionTestListener.runAfterTest(_testContext);
 		}
 	}
 
-	public void runBeforeTestMethod(Object testInstance, Method method) {
+	public void runBeforeTestMethod(Object instance, Method method) {
+		_testContext.setInstance(instance);
+		_testContext.setMethod(method);
 
-		_testContext.updateState(testInstance, method);
+		for (ExecutionTestListener executionTestListener :
+				_executionTestListeners) {
 
-		for (ExecutionTestListener execTestListener:_executionTestListeners) {
-			execTestListener.runBeforeTest(_testContext);
+			executionTestListener.runBeforeTest(_testContext);
 		}
 	}
 
-	private ExecutionTestListener[] _findExecutionTestListeners(
+	protected ExecutionTestListener[] getExecutionTestListeners(
 		Class<?> clazz) {
 
-		Class<ExecutionTestListeners> annotationType =
-			ExecutionTestListeners.class;
+		Class<?> declaringClass = ReflectionUtil.getAnnotationDeclaringClass(
+			ExecutionTestListeners.class, clazz);
 
-		Class<?> declaringClass =
-			ReflectionUtil.findDeclaringClassAnnotation(annotationType, clazz);
-
-		List<Class<? extends ExecutionTestListener>> allListenerClasses =
-			new ArrayList<Class<? extends ExecutionTestListener>>();
+		List<Class<? extends ExecutionTestListener>>
+			executionTestListenerClasses =
+				new ArrayList<Class<? extends ExecutionTestListener>>();
 
 		while (declaringClass != null) {
-
 			ExecutionTestListeners executionTestListeners =
-				declaringClass.getAnnotation(annotationType);
+				declaringClass.getAnnotation(ExecutionTestListeners.class);
 
-			Class<? extends ExecutionTestListener>[] listenerClasses =
-				executionTestListeners.listeners();
+			executionTestListenerClasses.addAll(
+				ListUtil.toList(executionTestListeners.listeners()));
 
-			if (!ArrayUtil.isEmpty(listenerClasses)) {
-				allListenerClasses.addAll(Arrays.asList(listenerClasses));
-			}
-
-			declaringClass = ReflectionUtil.findDeclaringClassAnnotation(
-				annotationType, declaringClass.getSuperclass());
+			declaringClass = ReflectionUtil.getAnnotationDeclaringClass(
+				ExecutionTestListeners.class, declaringClass.getSuperclass());
 		}
 
 		ExecutionTestListener[] executionTestListeners =
-			new ExecutionTestListener[allListenerClasses.size()];
+			new ExecutionTestListener[executionTestListenerClasses.size()];
 
 		for (int i = 0; i < executionTestListeners.length; i++) {
-			Class<? extends ExecutionTestListener> listenerClass = null;
+			Class<? extends ExecutionTestListener> executionTestListenerClass =
+				null;
 
 			try {
-				listenerClass = allListenerClasses.get(i);
+				executionTestListenerClass = executionTestListenerClasses.get(
+					i);
 
 				executionTestListeners[i] =
-					(ExecutionTestListener) ReflectionUtil.instantiateClass(
-						listenerClass);
-
-			} catch (Exception e) {
+					executionTestListenerClass.newInstance();
+			}
+			catch (Exception e) {
 				_log.error(
-					"Class " + listenerClass +
-						" cannot be instancited. No registered listener");
+					"Unable to instantiate " + executionTestListenerClass, e);
 			}
 		}
 

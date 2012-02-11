@@ -24,31 +24,28 @@ import org.junit.runners.model.Statement;
 public class RunBeforeTestMethodCallback extends Statement {
 
 	public RunBeforeTestMethodCallback(
-		Object testInstance, Method method, Statement next,
+		Object instance, Method method, Statement statement,
 		TestContextHandler testContextHandler) {
 
+		_instance = instance;
 		_method = method;
-		_next = next;
+		_statement = statement;
 		_testContextHandler = testContextHandler;
-		_testInstance = testInstance;
 	}
 
 	@Override
 	public void evaluate() throws Throwable {
-		_testContextHandler.runBeforeTestMethod(_testInstance, _method);
+		_testContextHandler.runBeforeTestMethod(_instance, _method);
 
-		if (_next != null) {
-			_next.evaluate();
+		if (_statement != null) {
+			_statement.evaluate();
 		}
 
 	}
 
+	private Object _instance;
 	private Method _method;
-
-	private Statement _next;
-
+	private Statement _statement;
 	private TestContextHandler _testContextHandler;
-
-	private Object _testInstance;
 
 }

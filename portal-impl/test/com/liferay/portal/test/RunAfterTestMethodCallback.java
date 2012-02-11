@@ -28,45 +28,43 @@ import org.junit.runners.model.Statement;
 public class RunAfterTestMethodCallback extends Statement {
 
 	public RunAfterTestMethodCallback(
-			Object testInstance, Method method, Statement next,
-			TestContextHandler testContextHandler) {
+		Object instance, Method method, Statement statement,
+		TestContextHandler testContextHandler) {
 
+		_instance = instance;
 		_method = method;
-		_next = next;
+		_statement = statement;
 		_testContextHandler = testContextHandler;
-		_testInstance = testInstance;
 	}
 
 	@Override
 	public void evaluate() throws Throwable {
-		List<Throwable> errors = new ArrayList<Throwable>();
+		List<Throwable> throwables = new ArrayList<Throwable>();
 
-		if (_next != null) {
+		if (_statement != null) {
 			try {
-				_next.evaluate();
+				_statement.evaluate();
 			}
 			catch (Throwable t) {
-				errors.add(t);
+				throwables.add(t);
 			}
-
 		}
 
 		try {
-			_testContextHandler.runAfterTestMethod(_testInstance, _method);
+			_testContextHandler.runAfterTestMethod(_instance, _method);
 		}
 		catch (Exception e) {
-			errors.add(e);
+			throwables.add(e);
 		}
 
-		if (!errors.isEmpty()) {
-			throw new MultipleFailureException(errors);
+		if (!throwables.isEmpty()) {
+			throw new MultipleFailureException(throwables);
 		}
-
 	}
 
+	private Object _instance;
 	private Method _method;
-	private Statement _next;
+	private Statement _statement;
 	private TestContextHandler _testContextHandler;
-	private Object _testInstance;
 
 }

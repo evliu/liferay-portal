@@ -20,34 +20,38 @@ import java.lang.reflect.Method;
  * @author Miguel Pastor
  */
 public class TestContext {
-	public TestContext(Class<?> testClass) {
-		_testClass = testClass;
+
+	public TestContext(Class<?> clazz) {
+		_clazz = clazz;
 	}
 
-	public TestContext(Object testInstance, Method  method) {
-		_testInstance = testInstance;
+	public TestContext(Object instance, Method method) {
+		_instance = instance;
 		_method = method;
+	}
+
+	public Class<?> getClazz() {
+		return _clazz;
+	}
+
+	public Object getInstance() {
+		return _instance;
 	}
 
 	public Method getMethod() {
 		return _method;
 	}
 
-	public Class<?> getTestClass() {
-		return _testClass;
+	public void setInstance(Object instance) {
+		_instance = instance;
 	}
 
-	public Object getTestInstance() {
-		return _testInstance;
-	}
-
-	public void updateState(Object testInstance, Method method) {
-		_testInstance = testInstance;
+	public void setMethod(Method method) {
 		_method = method;
 	}
 
+	private Class<?> _clazz;
+	private Object _instance;
 	private Method _method;
-	private Class<?> _testClass;
-	private Object _testInstance;
 
 }
