@@ -53,7 +53,7 @@ public class ImageLocalServiceImpl extends ImageLocalServiceBaseImpl {
 	public void afterPropertiesSet() {
 		super.afterPropertiesSet();
 
-		ClassLoader classLoader = PortalClassLoaderUtil.getClassLoader();
+		ClassLoader classLoader = getClassLoader();
 
 		try {
 			InputStream is = classLoader.getResourceAsStream(
