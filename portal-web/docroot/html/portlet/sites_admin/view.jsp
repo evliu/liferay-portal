@@ -141,9 +141,7 @@ pageContext.setAttribute("portletURL", portletURL);
 
 		StringBundler sb = new StringBundler();
 
-		boolean hasUpdatePermissions = GroupPermissionUtil.contains(permissionChecker, group.getGroupId(), ActionKeys.UPDATE);
-
-		if (hasUpdatePermissions) {
+		if (GroupPermissionUtil.contains(permissionChecker, group, ActionKeys.UPDATE)) {
 			sb.append("<a href=\"");
 			sb.append(rowURL.toString());
 			sb.append("\">");
@@ -237,7 +235,7 @@ pageContext.setAttribute("portletURL", portletURL);
 
 		// Type
 
-		if (hasUpdatePermissions) {
+		if (GroupPermissionUtil.contains(permissionChecker, group, ActionKeys.UPDATE)) {
 			row.addText(LanguageUtil.get(pageContext, group.getTypeLabel()), rowURL);
 		}
 		else {
