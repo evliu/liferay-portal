@@ -80,17 +80,17 @@ public abstract class JSONAction extends Action {
 			return mapping.findForward(ActionConstants.COMMON_REFERER);
 		}
 		else if (Validator.isNotNull(json)) {
-			response.setContentType(ContentTypes.TEXT_JAVASCRIPT);
 			response.setCharacterEncoding(StringPool.UTF8);
+			response.setContentType(ContentTypes.TEXT_JAVASCRIPT);
 			response.setHeader(
 				HttpHeaders.CACHE_CONTROL,
 				HttpHeaders.CACHE_CONTROL_NO_CACHE_VALUE);
 
-			byte[] jsonBytes = json.getBytes(StringPool.UTF8);
-
 			OutputStream outputStream = response.getOutputStream();
 
-			outputStream.write(jsonBytes);
+			byte[] bytes = json.getBytes(StringPool.UTF8);
+
+			outputStream.write(bytes);
 
 			outputStream.close();
 		}
