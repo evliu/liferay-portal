@@ -157,9 +157,9 @@ public class DLFileRankLocalServiceImpl extends DLFileRankLocalServiceBaseImpl {
 			catch (Exception e) {
 				if (_log.isWarnEnabled()) {
 					_log.warn(
-						"Failed to update file rank " +
-						dlFileRank.getFileRankId() +
-						" because another thread already updated it");
+						"Update failed, fetch {companyId=" + companyId +
+							", userId=" + userId + ", fileEntryId=" +
+								fileEntryId + "}");
 				}
 			}
 		}
