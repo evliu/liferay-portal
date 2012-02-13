@@ -183,7 +183,7 @@
 										data.put("url", url);
 									%>
 
-										<aui:option data="<%= data %>" label='<%= "database." + databaseType %>' selected='<%= PropsValues.JDBC_DEFAULT_URL.contains(databaseType) %>' value="<%= databaseType %>" />
+										<aui:option data="<%= data %>" label='<%= "database." + databaseType %>' selected="<%= PropsValues.JDBC_DEFAULT_URL.contains(databaseType) %>" value="<%= databaseType %>" />
 
 									<%
 									}
