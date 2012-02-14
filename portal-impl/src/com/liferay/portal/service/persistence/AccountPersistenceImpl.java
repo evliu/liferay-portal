@@ -252,6 +252,8 @@ public class AccountPersistenceImpl extends BasePersistenceImpl<Account>
 		boolean merge) throws SystemException {
 		account = toUnwrappedModel(account);
 
+		boolean isNew = account.isNew();
+
 		Session session = null;
 
 		try {
@@ -269,6 +271,10 @@ public class AccountPersistenceImpl extends BasePersistenceImpl<Account>
 		}
 
 		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
+
+		if (isNew) {
+			FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
+		}
 
 		EntityCacheUtil.putResult(AccountModelImpl.ENTITY_CACHE_ENABLED,
 			AccountImpl.class, account.getPrimaryKey(), account);

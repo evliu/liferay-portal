@@ -256,6 +256,8 @@ public class CounterPersistenceImpl extends BasePersistenceImpl<Counter>
 		boolean merge) throws SystemException {
 		counter = toUnwrappedModel(counter);
 
+		boolean isNew = counter.isNew();
+
 		Session session = null;
 
 		try {
@@ -273,6 +275,10 @@ public class CounterPersistenceImpl extends BasePersistenceImpl<Counter>
 		}
 
 		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
+
+		if (isNew) {
+			FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
+		}
 
 		EntityCacheUtil.putResult(CounterModelImpl.ENTITY_CACHE_ENABLED,
 			CounterImpl.class, counter.getPrimaryKey(), counter);
