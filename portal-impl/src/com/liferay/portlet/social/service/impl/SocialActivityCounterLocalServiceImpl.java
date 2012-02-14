@@ -14,7 +14,7 @@
 
 package com.liferay.portlet.social.service.impl;
 
-import com.liferay.portal.dao.db.HypersonicDB;
+import com.liferay.portal.kernel.dao.db.DB;
 import com.liferay.portal.kernel.dao.db.DBFactoryUtil;
 import com.liferay.portal.kernel.dao.orm.QueryUtil;
 import com.liferay.portal.kernel.exception.PortalException;
@@ -91,15 +91,17 @@ public class SocialActivityCounterLocalServiceImpl
 
 			if (lock.isNew()) {
 				try {
-					if (DBFactoryUtil.getDB() instanceof HypersonicDB) {
+					DB db = DBFactoryUtil.getDB();
 
-						// See LPS-25408
+					String dbType = db.getType();
 
-						activityCounter =
-							createActivityCounter(
-								groupId, classNameId, classPK, name, ownerType,
-								currentValue, totalValue, startPeriod,
-								endPeriod);
+					if (dbType.equals(DB.TYPE_HYPERSONIC)) {
+
+						// LPS-25408
+
+						activityCounter = createActivityCounter(
+							groupId, classNameId, classPK, name, ownerType,
+							currentValue, totalValue, startPeriod, endPeriod);
 					}
 					else {
 						activityCounter =
