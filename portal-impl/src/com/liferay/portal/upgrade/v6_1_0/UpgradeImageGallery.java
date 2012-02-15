@@ -398,8 +398,7 @@ public class UpgradeImageGallery extends UpgradeProcess {
 				}
 				catch (Exception e) {
 					if (_log.isWarnEnabled()) {
-						_log.warn(
-							"Ignoring exception for image " + imageId, e);
+						_log.warn("Ignoring exception for image " + imageId, e);
 					}
 
 					return;
