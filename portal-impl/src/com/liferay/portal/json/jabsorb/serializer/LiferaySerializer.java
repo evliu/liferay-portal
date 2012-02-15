@@ -34,6 +34,7 @@ import org.jabsorb.serializer.MarshallException;
 import org.jabsorb.serializer.ObjectMatch;
 import org.jabsorb.serializer.SerializerState;
 import org.jabsorb.serializer.UnmarshallException;
+
 import org.json.JSONObject;
 
 /**
@@ -340,40 +341,8 @@ public class LiferaySerializer extends AbstractSerializer {
 					}
 
 					if (value != null) {
-						Class<?> type = field.getType();
-
 						try {
-							if (type.isArray() &&
-								type.getComponentType().isPrimitive()) {
-
-								if (type.isAssignableFrom(boolean[].class)) {
-									value = ArrayUtil.toArray((Boolean[])value);
-								}
-								else if (type.isAssignableFrom(byte[].class)) {
-									value = ArrayUtil.toArray((Byte[])value);
-								}
-								else if (type.isAssignableFrom(char[].class)) {
-									value = ArrayUtil.toArray(
-										(Character[])value);
-								}
-								else if (type.isAssignableFrom(short[].class)) {
-									value = ArrayUtil.toArray((Short[])value);
-								}
-								else if (type.isAssignableFrom(int[].class)) {
-									value = ArrayUtil.toArray((Integer[])value);
-								}
-								else if (type.isAssignableFrom(long[].class)) {
-									value = ArrayUtil.toArray((Long[])value);
-								}
-								else if (type.isAssignableFrom(float[].class)) {
-									value = ArrayUtil.toArray((Float[])value);
-								}
-								else if (type.isAssignableFrom(
-											double[].class)) {
-
-									value = ArrayUtil.toArray((Double[])value);
-								}
-							}
+							value = getValue(field, value);
 
 							field.set(javaClassInstance, value);
 						}
@@ -394,12 +363,52 @@ public class LiferaySerializer extends AbstractSerializer {
 		return javaClassInstance;
 	}
 
-	private static final Log _log = LogFactoryUtil.getLog(
-		LiferaySerializer.class);
+	protected Object getValue(Field field, Object value) {
+		Class<?> type = field.getType();
+
+		if (!type.isArray()) {
+			return value;
+		}
+
+		Class<?> componentType = type.getComponentType();
+
+		if (!componentType.isPrimitive()) {
+			return value;
+		}
+
+		if (type.isAssignableFrom(boolean[].class)) {
+			value = ArrayUtil.toArray((Boolean[])value);
+		}
+		else if (type.isAssignableFrom(byte[].class)) {
+			value = ArrayUtil.toArray((Byte[])value);
+		}
+		else if (type.isAssignableFrom(char[].class)) {
+			value = ArrayUtil.toArray((Character[])value);
+		}
+		else if (type.isAssignableFrom(double[].class)) {
+			value = ArrayUtil.toArray((Double[])value);
+		}
+		else if (type.isAssignableFrom(float[].class)) {
+			value = ArrayUtil.toArray((Float[])value);
+		}
+		else if (type.isAssignableFrom(int[].class)) {
+			value = ArrayUtil.toArray((Integer[])value);
+		}
+		else if (type.isAssignableFrom(long[].class)) {
+			value = ArrayUtil.toArray((Long[])value);
+		}
+		else if (type.isAssignableFrom(short[].class)) {
+			value = ArrayUtil.toArray((Short[])value);
+		}
+
+		return value;
+	}
 
 	private static final Class<?>[] _JSON_CLASSES = {JSONObject.class};
 
 	private static final Class<?>[] _SERIALIZABLE_CLASSES =
 		{Serializable.class};
+
+	private static Log _log = LogFactoryUtil.getLog(LiferaySerializer.class);
 
 }
