@@ -103,7 +103,6 @@ public class PortletColumnLogic extends RuntimeLogic {
 		}
 
 		if (layoutTypePortlet.isColumnCustomizable(columnId)) {
-
 			columnCssClass += " customizable";
 		}
 

@@ -79,8 +79,8 @@ public class LayoutLocalServiceVirtualLayoutsAdvice
 
 			Layout layout = (Layout)methodInvocation.proceed();
 
-			if (Validator.isNull(layout.getSourcePrototypeLayoutUuid()) &&
-				Validator.isNull(layout.getLayoutPrototypeUuid())) {
+			if (Validator.isNull(layout.getLayoutPrototypeUuid()) &&
+				Validator.isNull(layout.getSourcePrototypeLayoutUuid())) {
 
 				return layout;
 			}

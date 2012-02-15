@@ -292,8 +292,8 @@ public class LayoutPermissionImpl implements LayoutPermission {
 	}
 
 	public boolean containsWithoutViewableGroup(
-		PermissionChecker permissionChecker, Layout layout,
-		String controlPanelCategory, String actionId)
+			PermissionChecker permissionChecker, Layout layout,
+			String controlPanelCategory, String actionId)
 		throws PortalException, SystemException {
 
 		return containsWithoutViewableGroup(

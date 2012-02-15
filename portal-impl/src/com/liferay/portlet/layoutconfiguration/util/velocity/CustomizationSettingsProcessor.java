@@ -55,7 +55,7 @@ public class CustomizationSettingsProcessor implements ColumnProcessor {
 		}
 
 		if (Validator.isNotNull(selLayout.getLayoutPrototypeUuid()) &&
-			selLayout.getLayoutPrototypeLinkEnabled()) {
+			selLayout.isLayoutPrototypeLinkEnabled()) {
 
 			_customizationEnabled = false;
 		}

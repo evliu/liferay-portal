@@ -114,9 +114,9 @@ public class LayoutPermissionUtil {
 	}
 
 	public static boolean containsWithoutViewableGroup(
-		PermissionChecker permissionChecker, Layout layout,
-		String controlPanelCategory, boolean checkLayoutUpdateable,
-		String actionId)
+			PermissionChecker permissionChecker, Layout layout,
+			String controlPanelCategory, boolean checkLayoutUpdateable,
+			String actionId)
 		throws PortalException, SystemException {
 
 		return getLayoutPermission().containsWithoutViewableGroup(
@@ -125,8 +125,8 @@ public class LayoutPermissionUtil {
 	}
 
 	public static boolean containsWithoutViewableGroup(
-		PermissionChecker permissionChecker, Layout layout,
-		String controlPanelCategory, String actionId)
+			PermissionChecker permissionChecker, Layout layout,
+			String controlPanelCategory, String actionId)
 		throws PortalException, SystemException {
 
 		return getLayoutPermission().containsWithoutViewableGroup(

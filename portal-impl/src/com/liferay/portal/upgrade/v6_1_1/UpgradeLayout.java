@@ -16,6 +16,7 @@ package com.liferay.portal.upgrade.v6_1_1;
 
 import com.liferay.portal.kernel.dao.jdbc.DataAccess;
 import com.liferay.portal.kernel.upgrade.UpgradeProcess;
+import com.liferay.portal.kernel.util.StringBundler;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -74,12 +75,12 @@ public class UpgradeLayout extends UpgradeProcess {
 			con = DataAccess.getConnection();
 
 			ps = con.prepareStatement(
-				"select count(*) from Layout where groupId = ? and " +
-					"privateLayout = ? and uuid_ = ?");
+				"select count(*) from Layout where uuid_ = ? and groupId = ? " +
+					"and privateLayout = ?");
 
-			ps.setLong(1, groupId);
-			ps.setBoolean(2, true);
-			ps.setString(3, sourcePrototypeLayoutUuid);
+			ps.setString(1, sourcePrototypeLayoutUuid);
+			ps.setLong(2, groupId);
+			ps.setBoolean(3, true);
 
 			rs = ps.executeQuery();
 
@@ -109,16 +110,20 @@ public class UpgradeLayout extends UpgradeProcess {
 		try {
 			con = DataAccess.getConnection();
 
-			// Get pages with a sourcePrototypeLayoutUuid which have a page
-			// template. If the layoutUuid points to the page template, remove
+			// Get pages with a sourcePrototypeLayoutUuid that have a page
+			// template. If the layoutUuid points to a page template, remove
 			// it. Otherwise, it points to a site template page, so leave it.
 
-			ps = con.prepareStatement(
-				"select plid, layoutPrototypeUuid, sourcePrototypeLayoutUuid " +
-					"from Layout where layoutPrototypeUuid is not null and" +
-						" layoutPrototypeUuid != '' and " +
-							"sourcePrototypeLayoutUuid is not null and" +
-								" sourcePrototypeLayoutUuid != ''");
+			StringBundler sb = new StringBundler(6);
+
+			sb.append("select plid, layoutPrototypeUuid, ");
+			sb.append("sourcePrototypeLayoutUuid from Layout where ");
+			sb.append("layoutPrototypeUuid is not null and ");
+			sb.append("layoutPrototypeUuid != '' and ");
+			sb.append("sourcePrototypeLayoutUuid is not null and ");
+			sb.append("sourcePrototypeLayoutUuid != ''");
+
+			ps = con.prepareStatement(sb.toString());
 
 			rs = ps.executeQuery();
 

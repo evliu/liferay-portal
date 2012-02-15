@@ -490,9 +490,7 @@ public class SitesUtil {
 		}
 		catch (Exception e) {
 			_log.error(
-				"An error occurred while fetching the associated layout in " +
-					"the LayoutSetPrototype",
-				e);
+				"Unable to fetch the the layout set prototype's layout", e);
 		}
 
 		return null;
@@ -675,8 +673,8 @@ public class SitesUtil {
 				return false;
 			}
 
-			if (Validator.isNull(layout.getSourcePrototypeLayoutUuid()) &&
-				Validator.isNull(layout.getLayoutPrototypeUuid())) {
+			if (Validator.isNull(layout.getLayoutPrototypeUuid()) &&
+				Validator.isNull(layout.getSourcePrototypeLayoutUuid())) {
 
 				return true;
 			}
