@@ -18,7 +18,6 @@
 
 <%
 long assetCategoryId = ParamUtil.getLong(request, "categoryId");
-
 String assetTagName = ParamUtil.getString(request, "tag");
 
 PortletURL portletURL = renderResponse.createRenderURL();

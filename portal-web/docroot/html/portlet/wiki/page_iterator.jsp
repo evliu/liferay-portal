@@ -367,7 +367,10 @@ for (int i = 0; i < results.size(); i++) {
 	</aui:button-row>
 </c:if>
 
-<liferay-ui:categorization-filter assetType="pages" portletURL="<%= portletURL %>" />
+<liferay-ui:categorization-filter
+	assetType="pages"
+	portletURL="<%= portletURL %>"
+/>
 
 <liferay-ui:search-iterator searchContainer="<%= searchContainer %>" paginate='<%= type.equals("history") ? false : true %>' />
 
