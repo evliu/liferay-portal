@@ -20,7 +20,6 @@ import com.liferay.portal.kernel.util.MethodHandler;
 import com.liferay.portal.kernel.util.MethodKey;
 import com.liferay.portal.kernel.util.StringPool;
 import com.liferay.portal.kernel.util.UnicodeProperties;
-import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.model.CustomizedPages;
 import com.liferay.portal.model.Layout;
 import com.liferay.portlet.sites.util.SitesUtil;
