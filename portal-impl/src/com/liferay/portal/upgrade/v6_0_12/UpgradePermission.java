@@ -36,7 +36,7 @@ public class UpgradePermission extends UpgradeProcess {
 	protected void doUpgrade() throws Exception {
 
 		// PermissionLocalServiceUtil.setContainerResourcePermissions()
-		// requires an up-to-date Company table
+		// requires an updated Company table
 
 		runSQL("alter table Company add active_ BOOLEAN");
 		runSQL("update Company set active_ = TRUE");
