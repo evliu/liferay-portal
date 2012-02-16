@@ -34,8 +34,6 @@ import javax.servlet.http.HttpServletRequest;
 import jodd.util.KeyValue;
 
 /**
- * <a href="ActionParameters.java.html"><b><i>View Source</i></b></a>
- *
  * @author Igor Spasic
  */
 public class JSONWebServiceActionParameters {
