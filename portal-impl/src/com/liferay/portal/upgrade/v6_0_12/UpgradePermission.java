@@ -35,6 +35,12 @@ public class UpgradePermission extends UpgradeProcess {
 	@Override
 	protected void doUpgrade() throws Exception {
 
+		// PermissionLocalServiceUtil.setContainerResourcePermissions()
+		// requires an up-to-date Company table
+
+		runSQL("alter table Company add active_ BOOLEAN");
+		runSQL("update Company set active_ = TRUE");
+
 		// LPS-14202 and LPS-17841
 
 		RoleLocalServiceUtil.checkSystemRoles();
@@ -64,9 +70,9 @@ public class UpgradePermission extends UpgradeProcess {
 
 		if (community) {
 			PermissionLocalServiceUtil.setContainerResourcePermissions(
-				name, RoleConstants.COMMUNITY_MEMBER, ActionKeys.VIEW);
+				name, _COMMUNITY_MEMBER, ActionKeys.VIEW);
 			PermissionLocalServiceUtil.setContainerResourcePermissions(
-				name, RoleConstants.ORGANIZATION_MEMBER, ActionKeys.VIEW);
+				name, _ORGANIZATION_MEMBER, ActionKeys.VIEW);
 		}
 
 		if (guest) {
@@ -92,9 +98,9 @@ public class UpgradePermission extends UpgradeProcess {
 
 		if (community) {
 			ResourcePermissionLocalServiceUtil.addResourcePermissions(
-				name, RoleConstants.COMMUNITY_MEMBER, scope, actionIdsLong);
+				name, _COMMUNITY_MEMBER, scope, actionIdsLong);
 			ResourcePermissionLocalServiceUtil.addResourcePermissions(
-				name, RoleConstants.ORGANIZATION_MEMBER, scope, actionIdsLong);
+				name, _ORGANIZATION_MEMBER, scope, actionIdsLong);
 		}
 
 		if (guest) {
@@ -105,5 +111,9 @@ public class UpgradePermission extends UpgradeProcess {
 		ResourcePermissionLocalServiceUtil.addResourcePermissions(
 			name, RoleConstants.OWNER, scope, actionIdsLong);
 	}
+
+	private static final String _COMMUNITY_MEMBER = "Community Member";
+
+	private static final String _ORGANIZATION_MEMBER = "Organization Member";
 
 }
