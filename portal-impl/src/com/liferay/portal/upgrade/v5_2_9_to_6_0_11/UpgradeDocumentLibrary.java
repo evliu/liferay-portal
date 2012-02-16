@@ -14,7 +14,6 @@
 
 package com.liferay.portal.upgrade.v5_2_9_to_6_0_11;
 
-import com.liferay.documentlibrary.service.DLLocalServiceUtil;
 import com.liferay.portal.kernel.dao.jdbc.DataAccess;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
@@ -34,6 +33,7 @@ import com.liferay.portal.upgrade.v6_0_0.util.DLFileRankTable;
 import com.liferay.portal.upgrade.v6_0_0.util.DLFileShortcutTable;
 import com.liferay.portal.util.PortletKeys;
 import com.liferay.portlet.documentlibrary.model.DLFolderConstants;
+import com.liferay.portlet.documentlibrary.store.DLStoreUtil;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -129,9 +129,8 @@ public class UpgradeDocumentLibrary extends UpgradeProcess {
 					name);
 
 				if (!newName.equals(name)) {
-					DLLocalServiceUtil.updateFile(
-						companyId, portletId, groupId, repositoryId, name,
-						newName, false);
+					DLStoreUtil.updateFile(
+						companyId, repositoryId, name, newName);
 				}
 			}
 		}
