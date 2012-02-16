@@ -5438,6 +5438,7 @@ public class PortalImpl implements Portal {
 
 			if (pos != -1) {
 				prefix += redirectPath.substring(0, pos);
+
 				String suffix = redirectPath.substring(
 					pos + oldPath.length(), redirectPath.length());
 
@@ -5446,7 +5447,6 @@ public class PortalImpl implements Portal {
 			else {
 				redirect = prefix + redirectPath;
 			}
-
 
 			if (Validator.isNotNull(queryString)) {
 				redirect += StringPool.QUESTION + queryString;
