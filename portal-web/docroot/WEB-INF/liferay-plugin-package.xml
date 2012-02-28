@@ -3,7 +3,7 @@
 
 <plugin-package>
 	<name>Liferay Core Plugins</name>
-	<module-id>liferay/core-plugins/6.1.0/war</module-id>
+	<module-id>liferay/core-plugins/6.1.10/war</module-id>
 	<types>
 		<type>layout-template</type>
 		<type>portlet</type>
@@ -21,6 +21,6 @@
 		<license osi-approved="true">LGPL</license>
 	</licenses>
 	<liferay-versions>
-		<liferay-version>6.1.0</liferay-version>
+		<liferay-version>6.1.10</liferay-version>
 	</liferay-versions>
 </plugin-package>

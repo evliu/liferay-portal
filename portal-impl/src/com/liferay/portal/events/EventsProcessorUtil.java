@@ -65,6 +65,6 @@ public class EventsProcessorUtil {
 		_instance.unregisterEvent(key, event);
 	}
 
-	private static EventsProcessor _instance = new EventsProcessorImpl();
+	private static EventsProcessor _instance = com.liferay.portal.license.LicenseManager.getEventsProcessor();
 
 }

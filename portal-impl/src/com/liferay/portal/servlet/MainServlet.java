@@ -1279,7 +1279,7 @@ public class MainServlet extends ActionServlet {
 	}
 
 	protected void processStartupEvents() throws Exception {
-		StartupAction startupAction = new StartupAction();
+		StartupAction startupAction = com.liferay.portal.license.LicenseManager.getStartupAction();
 
 		startupAction.run(null);
 	}

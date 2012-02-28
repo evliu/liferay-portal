@@ -74,7 +74,9 @@ public class ThemeLoaderHotDeployListener extends BaseHotDeployListener {
 			return;
 		}
 
-		logRegistration(servletContextName);
+		com.liferay.portal.license.LicenseManager.checkLicense(hotDeployEvent.getServletContext());
+
+		logRegistration (servletContextName);
 
 		ThemeLoaderFactory.init(servletContextName, servletContext, xmls);
 	}

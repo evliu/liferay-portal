@@ -512,7 +512,9 @@ public class HookHotDeployListener
 			return;
 		}
 
-		logRegistration(servletContextName);
+		com.liferay.portal.license.LicenseManager.checkLicense(hotDeployEvent.getServletContext());
+
+		logRegistration (servletContextName);
 
 		_servletContextNames.add(servletContextName);
 

@@ -113,7 +113,9 @@ public class ExtHotDeployListener extends BaseHotDeployListener {
 			return;
 		}
 
-		logRegistration(servletContextName);
+		com.liferay.portal.license.LicenseManager.checkLicense(hotDeployEvent.getServletContext());
+
+		logRegistration (servletContextName);
 
 		if (ExtRegistry.isRegistered(servletContextName)) {
 			if (_log.isInfoEnabled()) {

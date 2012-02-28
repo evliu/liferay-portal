@@ -436,7 +436,17 @@ public class LiveUsers {
 
 		Map<String, UserTracker> sessionUsers = _getSessionUsers(companyId);
 
-		UserTracker userTracker = sessionUsers.get(sessionId);
+		UserTracker userTracker  = sessionUsers.get(sessionId);
+
+		Set<String> sessionIds = _userIds.get(userId);
+
+		if (sessionIds == null) {
+			sessionIds = new ConcurrentHashSet<String>();
+
+			_userIds.put(userId, sessionIds);
+		}
+
+		sessionIds.add(sessionId);
 
 		if ((userTracker == null) &&
 			(PropsValues.SESSION_TRACKER_MEMORY_ENABLED)) {
@@ -471,7 +481,21 @@ public class LiveUsers {
 
 		Map<String, UserTracker> sessionUsers = _getSessionUsers(companyId);
 
-		UserTracker userTracker = sessionUsers.remove(sessionId);
+		UserTracker userTracker  = sessionUsers.remove(sessionId);
+
+		Set<String> sessionIds = _userIds.get(userId);
+
+		if (sessionIds == null) {
+			sessionIds = new ConcurrentHashSet<String>();
+
+			_userIds.put(userId, sessionIds);
+		}
+
+		sessionIds.remove(sessionId);
+
+		if (sessionIds.isEmpty()) {
+			_userIds.remove(userId);
+		}
 
 		if (userTracker == null) {
 			return;
@@ -535,7 +559,13 @@ public class LiveUsers {
 
 	private static Log _log = LogFactoryUtil.getLog(LiveUsers.class);
 
-	private static LiveUsers _instance = new LiveUsers();
+	private static LiveUsers _instance =  new LiveUsers();
+
+	private static Map<Long, Set<String>> _userIds = new ConcurrentHashMap<Long, Set<String>>();
+
+	public static long getUserIdsCount() {
+		return _userIds.size();
+	}
 
 	private Map<String, Map<Long, Map<Long, Set<String>>>> _clusterUsers =
 		new ConcurrentHashMap<String, Map<Long, Map<Long, Set<String>>>>();

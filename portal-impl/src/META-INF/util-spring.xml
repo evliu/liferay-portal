@@ -317,7 +317,11 @@
 			<bean class="com.liferay.portal.util.HtmlImpl" />
 		</property>
 	</bean>
-	<bean id="com.liferay.portal.kernel.util.HttpUtil" class="com.liferay.portal.kernel.util.HttpUtil">
+	<bean id="com.liferay.portal.license.util.LicenseManager" class="com.liferay.portal.license.util.LicenseManagerImpl" />
+	<bean id="com.liferay.portal.license.util.LicenseManagerUtil" class="com.liferay.portal.license.util.LicenseManagerUtil">
+		<property name="licenseManager" ref="com.liferay.portal.license.util.LicenseManager" />
+	</bean>
+	<bean id="com.liferay.portal.kernel.util.HttpUtil"  class="com.liferay.portal.kernel.util.HttpUtil">
 		<property name="http">
 			<bean class="com.liferay.portal.util.HttpImpl" />
 		</property>

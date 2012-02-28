@@ -5,7 +5,7 @@
 		<moduleId>
 			<groupId>liferay</groupId>
 			<artifactId>liferay-portal</artifactId>
-			<version>6.1.0</version>
+			<version>6.1.10</version>
 			<type>car</type>
 		</moduleId>
 		<dependencies>

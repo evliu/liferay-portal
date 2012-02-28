@@ -395,7 +395,9 @@ public class ClusterExecutorImpl
 			return;
 		}
 
-		_clusterNodeAddresses.put(clusterNode.getClusterNodeId(), address);
+		_clusterNodeAddresses.put (clusterNode.getClusterNodeId(), address);
+
+		com.liferay.portal.license.LicenseManager.checkClusterLicense();
 
 		ClusterEvent clusterEvent = ClusterEvent.join(clusterNode);
 

@@ -177,7 +177,14 @@ public class AutoLoginFilter extends BasePortalFilter {
 		String remoteUser = request.getRemoteUser();
 		String jUserName = (String)session.getAttribute("j_username");
 
-		if (!PropsValues.AUTH_LOGIN_DISABLED &&
+		java.util.Map<String, String> licenseProperties =
+			com.liferay.portal.license.LicenseManager.getLicenseProperties(
+				com.liferay.portal.license.LicenseManager.PRODUCT_ID_PORTAL);
+
+		int maxConcurrentUsersCount = GetterUtil.getInteger(
+			licenseProperties.get("maxConcurrentUsers"));
+
+		if (!(PropsValues.AUTH_LOGIN_DISABLED || ((maxConcurrentUsersCount > 0) && !com.liferay.portal.util.PropsValues.LIVE_USERS_ENABLED && (com.liferay.portal.liveusers.LiveUsers.getUserIdsCount() >= maxConcurrentUsersCount))) &&
 			(remoteUser == null) && (jUserName == null)) {
 
 			for (AutoLogin autoLogin : _autoLogins) {

@@ -122,7 +122,7 @@ public class ReleaseInfo {
 
 	private static final String _DATE = "February 15, 2012";
 
-	private static final String _NAME = "Liferay Portal Community Edition";
+	private static final String _NAME = "Liferay Portal Enterprise Edition";
 
 	private static final String _RELEASE_INFO_PREFIX = System.getProperty(
 		"liferay.release.info.prefix" , StringPool.BLANK);
@@ -134,7 +134,7 @@ public class ReleaseInfo {
 
 	private static final String _VERSION = "6.1.10";
 
-	private static final String _VERSION_DISPLAY_NAME = "6.1.10 CE";
+	private static final String _VERSION_DISPLAY_NAME = "6.1 EE GA1";
 
 	private static String _releaseInfo;
 	private static String _serverInfo;

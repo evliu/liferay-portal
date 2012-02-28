@@ -264,7 +264,9 @@ public class PortletHotDeployListener extends BaseHotDeployListener {
 			return;
 		}
 
-		logRegistration(servletContextName);
+		com.liferay.portal.license.LicenseManager.checkLicense(hotDeployEvent.getServletContext());
+
+		logRegistration (servletContextName);
 
 		List<Portlet> portlets = PortletLocalServiceUtil.initWAR(
 			servletContextName, servletContext, xmls,

@@ -14,7 +14,51 @@
  */
 --%>
 
-<%@ include file="/html/common/init.jsp" %>
+<%@ include file="/html/common/init.jsp"  %>
+
+<c:if test='<%= permissionChecker.isOmniadmin() %>'>
+
+	<%
+	List<Map<String, String>> licenseProperties = com.liferay.portal.license.LicenseManager.getLicenseProperties();
+
+	if ((licenseProperties != null) && !licenseProperties.isEmpty()) {
+		Map<String, String> portalLicenseProperties = licenseProperties.get(0);
+
+		String productId = GetterUtil.getString(portalLicenseProperties.get("productId"));
+
+		long now = System.currentTimeMillis();
+
+		String accountEntryName = GetterUtil.getString(portalLicenseProperties.get("accountEntryName"));
+		long startDate = GetterUtil.getLong(portalLicenseProperties.get("startDate"));
+		long expirationDate = GetterUtil.getLong(portalLicenseProperties.get("expirationDate"));
+		long lifetimeDays = (expirationDate - startDate) / Time.DAY;
+		long expirationDays = (expirationDate - now) / Time.DAY;
+	%>
+
+		<c:if test='<%= productId.equals("Portal") && (((lifetimeDays == 30) && (expirationDays < 7)) || ((lifetimeDays > 30) && (expirationDays < 30))) %>'>
+			<div class="popup-alert-notice" id="expiration-notice">
+				<c:choose>
+					<c:when test="<%= expirationDays <= 0 %>">
+						<a href="<%= themeDisplay.getPathMain() %>/portal/license">Your license key has expired <%= expirationDays * -1 %> days ago.</a>
+					</c:when>
+					<c:otherwise>
+						<a href="<%= themeDisplay.getPathMain() %>/portal/license">Update your license key because it will expire in <%= expirationDays %> days.</a>
+
+						<c:if test='<%= accountEntryName.equals("Liferay Trial") %>'>
+							Visit <a href="http://www.liferay.com/c/portal/license">your profile page at Liferay.com</a> to upgrade your trial license.
+						</c:if>
+					</c:otherwise>
+				</c:choose>
+
+				<input class="popup-alert-close" type="button" value="Close" onClick="document.getElementById('expiration-notice').style.display = 'none';" />
+			</div>
+		</c:if>
+
+	<%
+	}
+	%>
+
+</c:if>
 
 <%@ page import="com.liferay.taglib.aui.ScriptTag" %>
 

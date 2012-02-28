@@ -83,7 +83,9 @@ public class ThemeHotDeployListener extends BaseHotDeployListener {
 			return;
 		}
 
-		logRegistration(servletContextName);
+		com.liferay.portal.license.LicenseManager.checkLicense(hotDeployEvent.getServletContext());
+
+		logRegistration (servletContextName);
 
 		List<String> themeIds = ThemeLocalServiceUtil.init(
 			servletContextName, servletContext, null, true, xmls,

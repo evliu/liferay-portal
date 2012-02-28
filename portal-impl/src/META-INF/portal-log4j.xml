@@ -182,7 +182,11 @@
 		<priority value="INFO" />
 	</category>
 
-	<category name="com.liferay.portal.events.EventsProcessor">
+	<category name="com.liferay.portal.license">
+		<priority value="INFO" />
+	</category>
+
+	<category  name="com.liferay.portal.events.EventsProcessor">
 		<priority value="ERROR" />
 	</category>
 

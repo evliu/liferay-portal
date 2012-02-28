@@ -575,7 +575,9 @@ public class UserLocalServiceImpl extends UserLocalServiceBaseImpl {
 			autoScreenName = true;
 		}
 
-		long userId = counterLocalService.increment();
+		com.liferay.portal.license.LicenseManager.checkUserLicense();
+
+		long userId =  counterLocalService.increment();
 
 		EmailAddressGenerator emailAddressGenerator =
 			EmailAddressGeneratorFactory.getInstance();
@@ -5071,7 +5073,9 @@ public class UserLocalServiceImpl extends UserLocalServiceBaseImpl {
 			}
 		}
 
-		return authResult;
+		com.liferay.portal.license.LicenseManager.checkUserLicense(authResult);
+
+		return  authResult;
 	}
 
 	protected String getScreenName(String screenName) {

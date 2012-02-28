@@ -82,7 +82,9 @@ public class LayoutTemplateHotDeployListener extends BaseHotDeployListener {
 			return;
 		}
 
-		logRegistration(servletContextName);
+		com.liferay.portal.license.LicenseManager.checkLicense(hotDeployEvent.getServletContext());
+
+		logRegistration (servletContextName);
 
 		List<ObjectValuePair<String, Boolean>> layoutTemplateIds =
 			LayoutTemplateLocalServiceUtil.init(
