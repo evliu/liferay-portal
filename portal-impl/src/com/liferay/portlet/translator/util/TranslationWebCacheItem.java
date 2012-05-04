@@ -14,16 +14,22 @@
 
 package com.liferay.portlet.translator.util;
 
-import com.liferay.portal.kernel.util.CharPool;
+import com.liferay.portal.json.JSONFactoryImpl;
+import com.liferay.portal.kernel.json.JSONArray;
+import com.liferay.portal.kernel.json.JSONFactoryUtil;
+import com.liferay.portal.kernel.util.FileUtil;
 import com.liferay.portal.kernel.util.HttpUtil;
 import com.liferay.portal.kernel.util.StringBundler;
-import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.util.Time;
 import com.liferay.portal.kernel.webcache.WebCacheException;
 import com.liferay.portal.kernel.webcache.WebCacheItem;
+import com.liferay.portal.util.FileImpl;
+import com.liferay.portal.util.HttpImpl;
 import com.liferay.portlet.translator.model.Translation;
 
 import java.net.URL;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * @author Brian Wing Shun Chan
@@ -33,8 +39,21 @@ public class TranslationWebCacheItem implements WebCacheItem {
 	public TranslationWebCacheItem(String translationId, String fromText) {
 		_translationId = translationId;
 		_fromText = fromText;
+		
 	}
 
+	public static void main(String args[]) throws Throwable{
+		new HttpUtil().setHttp(new HttpImpl());
+		new FileUtil().setFile(new FileImpl());
+		new JSONFactoryUtil().setJSONFactory(new JSONFactoryImpl());
+		
+		TranslationWebCacheItem asdf = new TranslationWebCacheItem(
+				"en_zh","This is a test sentence.\n Another update has been administered.\n A third Sentence. This is a new line.");
+		asdf.convert("asdf");
+		
+		System.exit(0);
+	}
+	
 	public Object convert(String key) throws WebCacheException {
 		Translation translation = new Translation(_translationId, _fromText);
 
@@ -55,25 +74,23 @@ public class TranslationWebCacheItem implements WebCacheItem {
 
 			//Sends RequestURL 'sb' and receives a String with the return XHR payload
 			String text = HttpUtil.URLtoString(new URL(sb.toString()));
-
-			System.out.println("translationId: "+ _translationId+"\ntext: " + text);
+			JSONArray textJSON = JSONFactoryUtil.createJSONArray(text);
+			String toText = "";
 			
-			//Parses out form: [[["translatedText","originalText","",""]],[[...
-			int x = text.indexOf("\"");
+			//Step through the JSONArray and pull out the translated component, then append to 'toText'
+			for(int i = 0; i < textJSON.getJSONArray(0).length(); i++){
+				String value = textJSON.getJSONArray(0).getJSONArray(i).getString(0);
 
-			x = text.indexOf("\"", x) + 1;
+				//Google Translate adds extra spaces if there are following sentences
+				//both behind the sentence marker (ie:period, question mark) and after.
+				//this compensates
+				value = value.trim();
+				value = value.replaceFirst("\\s+(\\p{Punct})", "$1") + " ";
+				System.out.println("This is the JSONArray: " + value);
+				toText += value;
+			}
+			System.out.println("\ntoText: "+toText);
 
-			int y = text.indexOf("\",\"", x);
-
-			//Stores translation in return payload 'toText'
-			String toText = text.substring(x, y).trim();
-
-			toText = StringUtil.replace(
-				toText, CharPool.NEW_LINE, CharPool.SPACE);
-
-			System.out.println("toText in TWCI.java: " + toText);
-			
-			//Sets payload property in 'translation' object
 			translation.setToText(toText);
 		}
 		catch (Exception e) {
