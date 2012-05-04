@@ -165,11 +165,13 @@ public class LangBuilder {
 			String content, String languageId, String parentLanguageId)
 		throws IOException {
 
+		//creates new 'language_$$.properties' file
 		File propertiesFile = new File(
 			_langDir + "/" + _langFile + "_" + languageId + ".properties");
 
 		Properties properties = new Properties();
 
+		//checks if 'language_$$.properties' already exists
 		if (propertiesFile.exists()) {
 			properties = PropertiesUtil.load(
 				new FileInputStream(propertiesFile), StringPool.UTF8);
@@ -177,6 +179,7 @@ public class LangBuilder {
 
 		Properties parentProperties = null;
 
+		//checks for parent languages
 		if (parentLanguageId != null) {
 			File parentPropertiesFile = new File(
 				_langDir + "/" + _langFile + "_" + parentLanguageId +
@@ -192,6 +195,7 @@ public class LangBuilder {
 
 		String translationId = "en_" + languageId;
 
+		//shortens languages with parent languages to just the language
 		if (translationId.equals("en_pt_BR")) {
 			translationId = "en_pt";
 		}
@@ -203,6 +207,10 @@ public class LangBuilder {
 		}
 		else if (translationId.equals("en_zh_TW")) {
 			translationId = "en_zt";
+			translationId = "en_zh-TW"; //for Google Translate
+		}
+		else if (translationId.equals("en_sr_RS") || translationId.equals("en_sr_RS_latin")){
+			translationId = "en_sr"; //only one sr in Google Translate, no romanized
 		}
 		else if (translationId.equals("en_hi_IN")) {
 			translationId = "en_hi";
@@ -225,6 +233,7 @@ public class LangBuilder {
 			int pos = line.indexOf("=");
 
 			if (pos != -1) {
+				//set key & value
 				String key = line.substring(0, pos);
 				String value = line.substring(pos + 1);
 
@@ -244,6 +253,9 @@ public class LangBuilder {
 
 				String translatedText = properties.getProperty(key);
 
+				//check if translation already exists
+				
+				//if parent translation already exists and child translation is empty, then set it to that translation
 				if ((translatedText == null) && (parentProperties != null)) {
 					translatedText = parentProperties.getProperty(key);
 				}
@@ -262,7 +274,10 @@ public class LangBuilder {
 					}
 				}
 
+				//if translation exists:
+				
 				if (translatedText != null) {
+					//see if Babel Fish returned junk, clear translatedText
 					if (translatedText.contains("Babel Fish") ||
 						translatedText.contains("Yahoo! - 999")) {
 
@@ -322,20 +337,26 @@ public class LangBuilder {
 
 						translatedText = "";
 					}
+					
+					//ACTUAL CALL TO THE TRANSLATION METHOD
 					else {
 						translatedText = _translate(
 							translationId, key, value, 0);
 
+						System.out.println("translated Text in LangBuilder.java: " + translatedText);
+						
 						if (Validator.isNull(translatedText)) {
 							translatedText = value + AUTOMATIC_COPY;
 						}
 						else if (!key.startsWith("country.")) {
 							translatedText =
 								translatedText + AUTOMATIC_TRANSLATION;
+							System.out.println("key: " + key);
 						}
 					}
 				}
 
+				//NEED GOOGLE'S REPLY VERSION OF THIS
 				if (Validator.isNotNull(translatedText)) {
 					if (translatedText.contains("Babel Fish") ||
 						translatedText.contains("Yahoo! - 999")) {
@@ -558,43 +579,44 @@ public class LangBuilder {
 	private String _translate(
 		String translationId, String key, String fromText, int limit) {
 
-		if (translationId.equals("en_ar") ||
-			translationId.equals("en_eu") ||
-			translationId.equals("en_bg") ||
-			translationId.equals("en_ca") ||
-			translationId.equals("en_hr") ||
-			translationId.equals("en_cs") ||
-			translationId.equals("en_da") ||
-			translationId.equals("en_et") ||
-			translationId.equals("en_fi") ||
-			translationId.equals("en_gl") ||
+		if (//translationId.equals("en_ar") ||
+//			translationId.equals("en_eu") ||
+//			translationId.equals("en_bg") ||
+//			translationId.equals("en_ca") ||
+//			translationId.equals("en_hr") ||
+//			translationId.equals("en_cs") ||
+//			translationId.equals("en_da") ||
+//			translationId.equals("en_et") ||
+//			translationId.equals("en_fi") ||
+//			translationId.equals("en_gl") ||
+//
+//			// LPS-26741
+//
+//			translationId.equals("en_de") ||
+//
+//			translationId.equals("en_iw") ||
+//			translationId.equals("en_hi") ||
+//			translationId.equals("en_hu") ||
+//			translationId.equals("en_in") ||
+			translationId.equals("en_lo")){// ||
+//			translationId.equals("en_nb") ||
+//			translationId.equals("en_fa") ||
+//			translationId.equals("en_pl") ||
+//			translationId.equals("en_ro") ||
+//			translationId.equals("en_ru") ||
+//			translationId.equals("en_sr_RS") ||
+//			translationId.equals("en_sr_RS_latin") ||
+//			translationId.equals("en_sk") ||
+//			translationId.equals("en_sl") ||
+//			translationId.equals("en_sv") ||
+//			translationId.equals("en_tr") ||
+//			translationId.equals("en_uk") ||
+//			translationId.equals("en_vi")) {
 
-			// LPS-26741
-
-			translationId.equals("en_de") ||
-
-			translationId.equals("en_iw") ||
-			translationId.equals("en_hi") ||
-			translationId.equals("en_hu") ||
-			translationId.equals("en_in") ||
-			translationId.equals("en_lo") ||
-			translationId.equals("en_nb") ||
-			translationId.equals("en_fa") ||
-			translationId.equals("en_pl") ||
-			translationId.equals("en_ro") ||
-			translationId.equals("en_ru") ||
-			translationId.equals("en_sr_RS") ||
-			translationId.equals("en_sr_RS_latin") ||
-			translationId.equals("en_sk") ||
-			translationId.equals("en_sl") ||
-			translationId.equals("en_sv") ||
-			translationId.equals("en_tr") ||
-			translationId.equals("en_uk") ||
-			translationId.equals("en_vi")) {
-
+			//		BABEL FISH SUPPORT (Google Translate only does not support Lao)
 			// Automatic translator does not support Arabic, Basque, Bulgarian,
 			// Catalan, Croatian, Czech, Danish, Estonian, Finnish, Galician,
-			// German, Hebrew, Hindi, Hungarian, Indonesian, Lao,
+			// German, Hebrew, Hindi, Hungarian, Indonesian, (Lao),
 			// Norwegian Bokmål, Persian, Polish, Romanian, Russian, Serbian,
 			// Slovak, Slovene, Swedish, Turkish, Ukrainian, or Vietnamese
 
@@ -611,12 +633,16 @@ public class LangBuilder {
 			return null;
 		}
 
+		//Return payload variable
 		String toText = null;
 
+		//Start translation service
 		try {
 			System.out.println(
 				"Translating " + translationId + " " + key + " " + fromText);
 
+			System.out.println("Running wci = TranslationWebCacheItem");
+			
 			WebCacheItem wci = new TranslationWebCacheItem(
 				translationId, fromText);
 
@@ -624,7 +650,9 @@ public class LangBuilder {
 
 			toText = translation.getToText();
 
-			if ((toText != null) && toText.contains("Babel Fish")) {
+			System.out.println("toText: " + toText);
+			
+			if ((toText != null) && toText.contains("Babel Fish") && toText.contains("Google")) {
 				toText = null;
 			}
 		}
@@ -637,7 +665,7 @@ public class LangBuilder {
 		if (toText == null) {
 			return _translate(translationId, key, fromText, ++limit);
 		}
-
+		System.out.println("toText before 'return toText': " + toText);
 		return toText;
 	}
 

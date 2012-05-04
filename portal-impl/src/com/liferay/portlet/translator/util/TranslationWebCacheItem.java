@@ -40,28 +40,40 @@ public class TranslationWebCacheItem implements WebCacheItem {
 
 		try {
 			StringBundler sb = new StringBundler(6);
+			
+			//transition babelfish translationId parameter to Google Translate parameters
+			String _fromId = _translationId.substring(0,_translationId.indexOf("_")).trim();
+			String _toId = _translationId.substring(_translationId.indexOf("_")+1).trim();
 
-			sb.append("http://babelfish.yahoo.com/translate_txt?");
-			sb.append("ei=UTF-8&doit=done&fr=bf-res&intl=1&tt=urltext");
-			sb.append("&trtext=");
+			//Builds Request URL
+			sb.append("http://translate.google.com/translate_a/t?client=t&text=");
 			sb.append(HttpUtil.encodeURL(_fromText));
-			sb.append("&lp=");
-			sb.append(_translationId);
+			sb.append("&hl=");
+			sb.append(_fromId);
+			sb.append("&tl=");
+			sb.append(_toId);
 
+			//Sends RequestURL 'sb' and receives a String with the return XHR payload
 			String text = HttpUtil.URLtoString(new URL(sb.toString()));
 
-			int x = text.indexOf("<div id=\"result\">");
+			System.out.println("translationId: "+ _translationId+"\ntext: " + text);
+			
+			//Parses out form: [[["translatedText","originalText","",""]],[[...
+			int x = text.indexOf("\"");
 
-			x = text.indexOf(">", x) + 1;
-			x = text.indexOf(">", x) + 1;
+			x = text.indexOf("\"", x) + 1;
 
-			int y = text.indexOf("</div>", x);
+			int y = text.indexOf("\",\"", x);
 
+			//Stores translation in return payload 'toText'
 			String toText = text.substring(x, y).trim();
 
 			toText = StringUtil.replace(
 				toText, CharPool.NEW_LINE, CharPool.SPACE);
 
+			System.out.println("toText in TWCI.java: " + toText);
+			
+			//Sets payload property in 'translation' object
 			translation.setToText(toText);
 		}
 		catch (Exception e) {

@@ -36,7 +36,11 @@ public class TranslatorPortlet extends MVCPortlet {
 		throws PortletException {
 
 		try {
-			String translationId = ParamUtil.getString(actionRequest, "id");
+			String fromId = ParamUtil.getString(actionRequest, "fromId");
+			String toId = ParamUtil.getString(actionRequest, "toId");
+			String translationId = "Nothing passed";
+			translationId = fromId + "_" + toId;
+			System.out.println(translationId);
 			String fromText = ParamUtil.getString(actionRequest, "text");
 
 			if (Validator.isNotNull(fromText)) {
