@@ -37,6 +37,8 @@ _sass_cache_*.css
 
 /classes/Test.class
 
+/liferay
+
 /lib/development/ojdbc14.jar
 
 /nbproject/private
@@ -52,6 +54,7 @@ _sass_cache_*.css
 /portal-impl/*.iml
 /portal-impl/*.ipr
 /portal-impl/*.iws
+/portal-impl/bin
 /portal-impl/classes
 /portal-impl/portal-impl*.asc
 /portal-impl/portal-impl*.jar
