@@ -37,18 +37,17 @@ public class TranslatorPortlet extends MVCPortlet {
 
 		try {
 			String fromId = ParamUtil.getString(actionRequest, "fromId");
-			String toId = ParamUtil.getString(actionRequest, "toId");
-			String translationId = "Nothing passed";
-			translationId = fromId + "_" + toId;
-			System.out.println(translationId);
-			String fromText = ParamUtil.getString(actionRequest, "text");
-
-			if (Validator.isNotNull(fromText)) {
-				Translation translation = TranslatorUtil.getTranslation(
-					translationId, fromText);
-
-				actionRequest.setAttribute(
-					WebKeys.TRANSLATOR_TRANSLATION, translation);
+			for(int i=1; i<=5; i++){
+				String toId = ParamUtil.getString(actionRequest, "toId"+i);
+				String translationId = fromId + "_" + toId;
+				String fromText = ParamUtil.getString(actionRequest, "text");
+	
+				if (Validator.isNotNull(fromText)) {
+					Translation translation = TranslatorUtil.getTranslation(
+							translationId, fromText);
+					actionRequest.setAttribute(
+						"TRANSLATOR_TRANSLATION"+i, translation);
+				}
 			}
 		}
 		catch (Exception e) {
