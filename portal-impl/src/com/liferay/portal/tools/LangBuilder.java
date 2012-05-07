@@ -206,8 +206,7 @@ public class LangBuilder {
 			translationId = "en_zh";
 		}
 		else if (translationId.equals("en_zh_TW")) {
-			translationId = "en_zt";
-			translationId = "en_zh-TW"; //for Google Translate
+			translationId = "en_zh-TW";
 		}
 		else if (translationId.equals("en_sr_RS") || translationId.equals("en_sr_RS_latin")){
 			translationId = "en_sr"; //only one sr in Google Translate, no romanized
@@ -342,8 +341,6 @@ public class LangBuilder {
 					else {
 						translatedText = _translate(
 							translationId, key, value, 0);
-
-						System.out.println("translated Text in LangBuilder.java: " + translatedText);
 						
 						if (Validator.isNull(translatedText)) {
 							translatedText = value + AUTOMATIC_COPY;
@@ -351,7 +348,6 @@ public class LangBuilder {
 						else if (!key.startsWith("country.")) {
 							translatedText =
 								translatedText + AUTOMATIC_TRANSLATION;
-							System.out.println("key: " + key);
 						}
 					}
 				}
@@ -579,49 +575,8 @@ public class LangBuilder {
 	private String _translate(
 		String translationId, String key, String fromText, int limit) {
 
-		if (//translationId.equals("en_ar") ||
-//			translationId.equals("en_eu") ||
-//			translationId.equals("en_bg") ||
-//			translationId.equals("en_ca") ||
-//			translationId.equals("en_hr") ||
-//			translationId.equals("en_cs") ||
-//			translationId.equals("en_da") ||
-//			translationId.equals("en_et") ||
-//			translationId.equals("en_fi") ||
-//			translationId.equals("en_gl") ||
-//
-//			// LPS-26741
-//
-//			translationId.equals("en_de") ||
-//
-//			translationId.equals("en_iw") ||
-//			translationId.equals("en_hi") ||
-//			translationId.equals("en_hu") ||
-//			translationId.equals("en_in") ||
-			translationId.equals("en_lo")){// ||
-//			translationId.equals("en_nb") ||
-//			translationId.equals("en_fa") ||
-//			translationId.equals("en_pl") ||
-//			translationId.equals("en_ro") ||
-//			translationId.equals("en_ru") ||
-//			translationId.equals("en_sr_RS") ||
-//			translationId.equals("en_sr_RS_latin") ||
-//			translationId.equals("en_sk") ||
-//			translationId.equals("en_sl") ||
-//			translationId.equals("en_sv") ||
-//			translationId.equals("en_tr") ||
-//			translationId.equals("en_uk") ||
-//			translationId.equals("en_vi")) {
-
-			//		BABEL FISH SUPPORT (Google Translate only does not support Lao)
-			// Automatic translator does not support Arabic, Basque, Bulgarian,
-			// Catalan, Croatian, Czech, Danish, Estonian, Finnish, Galician,
-			// German, Hebrew, Hindi, Hungarian, Indonesian, (Lao),
-			// Norwegian Bokmål, Persian, Polish, Romanian, Russian, Serbian,
-			// Slovak, Slovene, Swedish, Turkish, Ukrainian, or Vietnamese
-
-			return null;
-		}
+		if (translationId.equals("en_lo"))return null;
+			//	Google Translate  does not support Lao
 
 		if (!_langTranslate) {
 			return null;
@@ -640,8 +595,6 @@ public class LangBuilder {
 		try {
 			System.out.println(
 				"Translating " + translationId + " " + key + " " + fromText);
-
-			System.out.println("Running wci = TranslationWebCacheItem");
 			
 			WebCacheItem wci = new TranslationWebCacheItem(
 				translationId, fromText);
@@ -649,8 +602,6 @@ public class LangBuilder {
 			Translation translation = (Translation)wci.convert("");
 
 			toText = translation.getToText();
-
-			System.out.println("toText: " + toText);
 			
 			if ((toText != null) && toText.contains("Babel Fish") && toText.contains("Google")) {
 				toText = null;
@@ -665,7 +616,6 @@ public class LangBuilder {
 		if (toText == null) {
 			return _translate(translationId, key, fromText, ++limit);
 		}
-		System.out.println("toText before 'return toText': " + toText);
 		return toText;
 	}
 
