@@ -38,6 +38,7 @@ public class TranslatorPortlet extends MVCPortlet {
 		try {
 			String fromId = ParamUtil.getString(actionRequest, "fromId");
 			for(int i=1; i<=5; i++){
+				if (("toId" + i) == "none") i++;
 				String toId = ParamUtil.getString(actionRequest, "toId"+i);
 				String translationId = fromId + "_" + toId;
 				String fromText = ParamUtil.getString(actionRequest, "text");

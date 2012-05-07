@@ -86,10 +86,8 @@ public class TranslationWebCacheItem implements WebCacheItem {
 				//this compensates
 				value = value.trim();
 				value = value.replaceFirst("\\s+(\\p{Punct})", "$1") + " ";
-				System.out.println("This is the JSONArray: " + value);
 				toText += value;
 			}
-			System.out.println("\ntoText: "+toText);
 
 			translation.setToText(toText);
 		}
