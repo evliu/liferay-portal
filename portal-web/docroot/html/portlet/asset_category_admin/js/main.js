@@ -1153,6 +1153,10 @@ AUI.add(
 								instance._restartSearch = false;
 
 								paginator.setState(result);
+								
+								if (result.total == 0) {
+									instance._selectedVocabularyId = -1;
+								}
 
 								if (callback) {
 									callback.apply(instance, arguments);
