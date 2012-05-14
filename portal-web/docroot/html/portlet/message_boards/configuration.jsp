@@ -104,6 +104,13 @@ else if (tabs2.equals("message-updated-email")) {
 				<aui:input name="preferences--enableRatings--" type="checkbox" value="<%= enableRatings %>" />
 
 				<aui:input name="preferences--threadAsQuestionByDefault--" type="checkbox" value="<%= threadAsQuestionByDefault %>" />
+
+				<aui:select label="show-recent-posts-from-last" name="preferences--recentPostsDateOffset--">
+					<aui:option label='<%= LanguageUtil.format(pageContext, "x-hours", 24) %>' selected='<%= recentPostsDateOffset.equals("1") %>' value="1" />
+					<aui:option label='<%= LanguageUtil.format(pageContext, "x-days", 7) %>' selected='<%= recentPostsDateOffset.equals("7") %>' value="7" />
+					<aui:option label='<%= LanguageUtil.format(pageContext, "x-days", 30) %>' selected='<%= recentPostsDateOffset.equals("30") %>' value="30" />
+					<aui:option label='<%= LanguageUtil.format(pageContext, "x-days", 365) %>' selected='<%= recentPostsDateOffset.equals("365") %>' value="365" />
+				</aui:select>
 			</aui:fieldset>
 		</c:when>
 		<c:when test='<%= tabs2.equals("email-from") %>'>
