@@ -12,7 +12,7 @@
  * details.
  */
 
-package com.liferay.portlet.journal.model;
+package com.liferay.portlet.documentlibrary.model;
 
 import com.liferay.portal.kernel.util.PropsKeys;
 import com.liferay.portal.kernel.util.PropsUtil;
@@ -21,21 +21,19 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
- * @author Juan Fernández
+ * @author Everest Liu
  */
-public class JournalFolderConstants {
+public class DLConstants {
 
-	public static final long DEFAULT_PARENT_FOLDER_ID = 0;
+	public static boolean isValidName(String fileName) {
+		Matcher matcher = DL_FILE_VALID_NAME_REGEXP.matcher(fileName);
 
-	public static boolean isValidName(String name) {
-		Matcher matcher = JOURNAL_FOLDER_VALID_NAME_REGEXP.matcher(name);
-
-		return matcher.matches();
+		return fileName == null || matcher.matches();
 	}
 
-	private static final Pattern JOURNAL_FOLDER_VALID_NAME_REGEXP =
+	private static final Pattern DL_FILE_VALID_NAME_REGEXP =
 		Pattern.compile(
-			PropsUtil.get(PropsKeys.JOURNAL_FOLDER_VALID_NAME_REGEXP),
+			PropsUtil.get(PropsKeys.DL_VALID_NAME_REGEXP),
 			Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
 
 }

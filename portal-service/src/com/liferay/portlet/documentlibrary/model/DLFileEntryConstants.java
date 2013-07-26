@@ -34,5 +34,4 @@ public class DLFileEntryConstants {
 	public static String getClassName() {
 		return DLFileEntry.class.getName();
 	}
-
 }
