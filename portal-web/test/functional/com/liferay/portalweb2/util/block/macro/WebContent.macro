@@ -11,7 +11,8 @@
 
 		<var name="key_webContentTitle" value="${webContentTitle}" />
 
-		<execute action="CPWebcontent#click" locator-key1="TOOLBAR_DESCRIPTIVE_VIEW_BUTTON" />
+		<execute action="CPWebcontent#click" locator-key1="TOOLBAR_DISPLAY_STYLE_BUTTON" />
+		<execute action="CPWebcontent#assertClick" locator-key1="DISPLAY_STYLE_MENULIST_DESCRIPTIVE" value1="Descriptive" />
 		<execute action="CPWebcontent#assertElementPresent" locator-key1="ENTRY_DESCRIPTIVE_THUMBNAIL" />
 		<execute action="CPWebcontent#assertTextEquals" locator-key1="ENTRY_DESCRIPTIVE_TITLE" value1="${webContentTitle}" />
 	</command>
@@ -30,7 +31,8 @@
 
 		<var name="key_webContentTitle" value="${webContentTitle}" />
 
-		<execute action="CPWebcontent#click" locator-key1="TOOLBAR_DESCRIPTIVE_VIEW_BUTTON" />
+		<execute action="CPWebcontent#click" locator-key1="TOOLBAR_DISPLAY_STYLE_BUTTON" />
+		<execute action="CPWebcontent#assertClick" locator-key1="DISPLAY_STYLE_MENULIST_DESCRIPTIVE" value1="Descriptive" />
 		<execute action="CPWebcontent#assertElementPresent" locator-key1="ENTRY_DESCRIPTIVE_THUMBNAIL" />
 		<execute action="CPWebcontent#assertTextEquals" locator-key1="ENTRY_DESCRIPTIVE_TITLE" value1="${webContentTitle}" />
 	</command>
@@ -68,7 +70,15 @@
 		<execute action="PGWebcontentdisplayAddwebcontent#type" locator-key1="CONTENT_FIELD" value1="${webContentContent}" />
 		<execute action="PGWebcontentdisplayAddwebcontent#click" locator-key1="PUBLISH_BUTTON" value1="Publish" />
 
-		<execute action="PGWebcontentdisplay#assertTextEquals" locator-key1="WEB_CONTENT_CONTENT" value1="${webContentContent}" />
+		<if>
+			<equals arg1="${webContentJavascript}" arg2="true" />
+			<then>
+				<execute action="PGWebcontentdisplay#assertTextEquals" locator1="//div[@class='journal-content-article']//span[contains(@class,'portlet-title-text')]" value1="${embeddedPortletTitle}" />
+			</then>
+			<else>
+				<execute action="PGWebcontentdisplay#assertTextEquals" locator-key1="WEB_CONTENT_CONTENT" value1="${webContentContent}" />
+			</else>
+		</if>
 	</command>
 
 	<command name="addPGViaPanel">
@@ -111,7 +121,8 @@
 
 		<var name="key_webContentTitle" value="${webContentTitle}" />
 
-		<execute action="CPWebcontent#click" locator-key1="TOOLBAR_DESCRIPTIVE_VIEW_BUTTON" />
+		<execute action="CPWebcontent#click" locator-key1="TOOLBAR_DISPLAY_STYLE_BUTTON" />
+		<execute action="CPWebcontent#assertClick" locator-key1="DISPLAY_STYLE_MENULIST_DESCRIPTIVE" value1="Descriptive" />
 		<execute action="CPWebcontent#assertElementPresent" locator-key1="ENTRY_DESCRIPTIVE_THUMBNAIL" />
 		<execute action="CPWebcontent#assertTextEquals" locator-key1="ENTRY_DESCRIPTIVE_TITLE" value1="${webContentTitle}" />
 		<execute action="CPWebcontent#assertTextEquals" locator-key1="ENTRY_DESCRIPTIVE_WORKFLOW_STATUS" value1="Pending" />
@@ -160,7 +171,8 @@
 	<command name="editCP">
 		<var name='key_webContentTitle' value="${webContentTitle}" />
 
-		<execute action="CPWebcontent#click" locator-key1="TOOLBAR_DESCRIPTIVE_VIEW_BUTTON" />
+		<execute action="CPWebcontent#click" locator-key1="TOOLBAR_DISPLAY_STYLE_BUTTON" />
+		<execute action="CPWebcontent#assertClick" locator-key1="DISPLAY_STYLE_MENULIST_DESCRIPTIVE" value1="Descriptive" />
 		<execute action="CPWebcontent#assertTextEquals" locator-key1="ENTRY_DESCRIPTIVE_TITLE" value1="${webContentTitle}" />
 		<execute action="CPWebcontent#click" locator-key1="ENTRY_DESCRIPTIVE_MENULIST_ARROW" />
 		<execute action="CPWebcontent#assertClick" locator-key1="ENTRY_MENULIST_EDIT" value1="Edit" />
@@ -173,7 +185,8 @@
 
 		<var name="key_webContentTitle" value="${webContentTitleEdit}" />
 
-		<execute action="CPWebcontent#click" locator-key1="TOOLBAR_DESCRIPTIVE_VIEW_BUTTON" />
+		<execute action="CPWebcontent#click" locator-key1="TOOLBAR_DISPLAY_STYLE_BUTTON" />
+		<execute action="CPWebcontent#assertClick" locator-key1="DISPLAY_STYLE_MENULIST_DESCRIPTIVE" value1="Descriptive" />
 		<execute action="CPWebcontent#assertElementPresent" locator-key1="ENTRY_DESCRIPTIVE_THUMBNAIL" />
 		<execute action="CPWebcontent#assertTextEquals" locator-key1="ENTRY_DESCRIPTIVE_TITLE" value1="${webContentTitleEdit}" />
 	</command>
@@ -185,13 +198,22 @@
 		<execute action="PGWebcontentdisplayEditwebcontent#type" locator-key1="CONTENT_FIELD" value1="${webContentContentEdit}" />
 		<execute action="PGWebcontentdisplayEditwebcontent#click" locator-key1="PUBLISH_BUTTON" value1="Publish" />
 
-		<execute action="PGWebcontentdisplay#assertTextEquals" locator-key1="WEB_CONTENT_CONTENT" value1="${webContentContentEdit}" />
+		<if>
+			<equals arg1="${webContentJavascript}" arg2="true" />
+			<then>
+				<execute action="PGWebcontentdisplay#assertTextEquals" locator1="//div[@class='journal-content-article']//span[contains(@class,'portlet-title-text')]" value1="${embeddedPortletTitle}" />
+			</then>
+			<else>
+				<execute action="PGWebcontentdisplay#assertTextEquals" locator-key1="WEB_CONTENT_CONTENT" value1="${webContentContentEdit}" />
+			</else>
+		</if>
 	</command>
 
 	<command name="moveToRecycleBinCP">
 		<var name='key_webContentTitle' value="${webContentTitle}" />
 
-		<execute action="CPWebcontent#click" locator-key1="TOOLBAR_DESCRIPTIVE_VIEW_BUTTON" />
+		<execute action="CPWebcontent#click" locator-key1="TOOLBAR_DISPLAY_STYLE_BUTTON" />
+		<execute action="CPWebcontent#assertClick" locator-key1="DISPLAY_STYLE_MENULIST_DESCRIPTIVE" value1="Descriptive" />
 		<execute action="CPWebcontent#assertTextEquals" locator-key1="ENTRY_DESCRIPTIVE_TITLE" value1="${webContentTitle}" />
 		<execute action="CPWebcontent#click" locator-key1="ENTRY_DESCRIPTIVE_MENULIST_ARROW" />
 		<execute action="CPWebcontent#assertClick" locator-key1="ENTRY_MENULIST_MOVE_TO_THE_RECYCLE_BIN" value1="Move to the Recycle Bin" />
@@ -201,7 +223,8 @@
 	<command name="previewCPwithStructureTemplateXSL">
 		<var name='key_webContentTitle' value="${webContentTitle}" />
 
-		<execute action="CPWebcontent#click" locator-key1="TOOLBAR_DESCRIPTIVE_VIEW_BUTTON" />
+		<execute action="CPWebcontent#click" locator-key1="TOOLBAR_DISPLAY_STYLE_BUTTON" />
+		<execute action="CPWebcontent#assertClick" locator-key1="DISPLAY_STYLE_MENULIST_DESCRIPTIVE" value1="Descriptive" />
 		<execute action="CPWebcontent#assertElementPresent" locator-key1="ENTRY_DESCRIPTIVE_THUMBNAIL" />
 		<execute action="CPWebcontent#assertClick" locator-key1="ENTRY_DESCRIPTIVE_TITLE" value1="${webContentTitle}" />
 
@@ -213,12 +236,40 @@
 		<execute action="CPWebcontentPreview#assertTextEquals" locator-key1="BODY_FIELD" value1="Text: ${webContentText}" />
 	</command>
 
+	<command name="searchPGViaWCS">
+		<var name='key_webContentSearchResultsName' value="${webContentSearchResultsName}" />
+
+		<execute action="PGWebcontentsearch#type" locator-key1="SEARCH_FIELD" value1="${webContentSearchTerm}" />
+		<execute action="PGWebcontentsearch#click" locator-key1="SEARCH_ICON" />
+
+		<execute action="PGWebcontentsearchResults#assertTextEquals" locator-key1="RESULTS_TABLE_NAME" value1="${webContentSearchResultsName}" />
+		<execute action="PGWebcontentsearchResults#assertTextEquals" locator-key1="RESULTS_TABLE_CONTENT" value1="${webContentSearchResultsContent}" />
+	</command>
+
+	<command name="searchNoPGViaWCS">
+		<var name='key_webContentSearchResultsName' value="${webContentSearchResultsName}" />
+
+		<execute action="PGWebcontentsearch#type" locator-key1="SEARCH_FIELD" value1="${webContentSearchTerm}" />
+		<execute action="PGWebcontentsearch#click" locator-key1="SEARCH_ICON" />
+
+		<execute action="PGWebcontentsearchResults#assertElementNotPresent" locator-key1="RESULTS_TABLE_NAME" />
+		<execute action="PGWebcontentsearchResults#assertElementNotPresent" locator-key1="RESULTS_TABLE_CONTENT" />
+
+		<if>
+			<equals arg1="${webContentSearchNoResults}" arg2="true" />
+			<then>
+				<execute action="PGWebcontentsearchResults#assertTextEquals" locator-key1="INFO_MESSAGE" value1="No pages were found that matched the keywords: ${webContentSearchTerm}." />
+			</then>
+		</if>
+	</command>
+
 	<command name="tearDownCP">
 		<execute macro="Page#gotoContentCP">
 			<var name="portletName" value="Web Content" />
 		</execute>
 
-		<execute action="CPWebcontent#click" locator-key1="TOOLBAR_DESCRIPTIVE_VIEW_BUTTON" />
+		<execute action="CPWebcontent#click" locator-key1="TOOLBAR_DISPLAY_STYLE_BUTTON" />
+		<execute action="CPWebcontent#assertClick" locator-key1="DISPLAY_STYLE_MENULIST_DESCRIPTIVE" value1="Descriptive" />
 
 		<while>
 			<condition action="CPWebcontent#isElementPresent" locator-key1="ENTRY_DESCRIPTIVE_THUMBNAIL_GENERIC" />
@@ -240,7 +291,8 @@
 	<command name="viewCP">
 		<var name='key_webContentTitle' value="${webContentTitle}" />
 
-		<execute action="CPWebcontent#click" locator-key1="TOOLBAR_DESCRIPTIVE_VIEW_BUTTON" />
+		<execute action="CPWebcontent#click" locator-key1="TOOLBAR_DISPLAY_STYLE_BUTTON" />
+		<execute action="CPWebcontent#assertClick" locator-key1="DISPLAY_STYLE_MENULIST_DESCRIPTIVE" value1="Descriptive" />
 		<execute action="CPWebcontent#assertElementPresent" locator-key1="ENTRY_DESCRIPTIVE_THUMBNAIL" />
 		<execute action="CPWebcontent#assertClick" locator-key1="ENTRY_DESCRIPTIVE_TITLE" value1="${webContentTitle}" />
 
@@ -254,7 +306,8 @@
 	<command name="viewCPDraft">
 		<var name='key_webContentTitle' value="${webContentTitle}" />
 
-		<execute action="CPWebcontent#click" locator-key1="TOOLBAR_DESCRIPTIVE_VIEW_BUTTON" />
+		<execute action="CPWebcontent#click" locator-key1="TOOLBAR_DISPLAY_STYLE_BUTTON" />
+		<execute action="CPWebcontent#assertClick" locator-key1="DISPLAY_STYLE_MENULIST_DESCRIPTIVE" value1="Descriptive" />
 		<execute action="CPWebcontent#assertElementPresent" locator-key1="ENTRY_DESCRIPTIVE_THUMBNAIL" />
 		<execute action="CPWebcontent#assertClick" locator-key1="ENTRY_DESCRIPTIVE_TITLE" value1="${webContentTitle}" />
 
@@ -269,7 +322,8 @@
 	<command name="viewCPStatus">
 		<var name="key_webContentTitle" value="${webContentTitle}" />
 
-		<execute action="CPWebcontent#click" locator-key1="TOOLBAR_DESCRIPTIVE_VIEW_BUTTON" />
+		<execute action="CPWebcontent#click" locator-key1="TOOLBAR_DISPLAY_STYLE_BUTTON" />
+		<execute action="CPWebcontent#assertClick" locator-key1="DISPLAY_STYLE_MENULIST_DESCRIPTIVE" value1="Descriptive" />
 		<execute action="CPWebcontent#assertElementPresent" locator-key1="ENTRY_DESCRIPTIVE_THUMBNAIL" />
 		<execute action="CPWebcontent#assertTextEquals" locator-key1="ENTRY_DESCRIPTIVE_WORKFLOW_STATUS" value1="${webContentStatus}" />
 		<execute action="CPWebcontent#assertClick" locator-key1="ENTRY_DESCRIPTIVE_TITLE" value1="${webContentTitle}" />
@@ -284,7 +338,8 @@
 	<command name="viewDefaultCP">
 		<var name='key_webContentTitle' value="${webContentTitle}" />
 
-		<execute action="CPWebcontent#click" locator-key1="TOOLBAR_DESCRIPTIVE_VIEW_BUTTON" />
+		<execute action="CPWebcontent#click" locator-key1="TOOLBAR_DISPLAY_STYLE_BUTTON" />
+		<execute action="CPWebcontent#assertClick" locator-key1="DISPLAY_STYLE_MENULIST_DESCRIPTIVE" value1="Descriptive" />
 		<execute action="CPWebcontent#assertTextEquals" locator-key1="INFO_MESSAGE" value1="No web content was found" />
 		<execute action="CPWebcontent#assertElementNotPresent" locator-key1="ENTRY_DESCRIPTIVE_THUMBNAIL" />
 		<execute action="CPWebcontent#assertElementNotPresent" locator-key1="ENTRY_DESCRIPTIVE_TITLE" />
@@ -323,7 +378,8 @@
 	<command name="viewWithWorkflowCP">
 		<var name='key_webContentTitle' value="${webContentTitle}" />
 
-		<execute action="CPWebcontent#click" locator-key1="TOOLBAR_DESCRIPTIVE_VIEW_BUTTON" />
+		<execute action="CPWebcontent#click" locator-key1="TOOLBAR_DISPLAY_STYLE_BUTTON" />
+		<execute action="CPWebcontent#assertClick" locator-key1="DISPLAY_STYLE_MENULIST_DESCRIPTIVE" value1="Descriptive" />
 		<execute action="CPWebcontent#assertElementPresent" locator-key1="ENTRY_DESCRIPTIVE_THUMBNAIL" />
 		<execute action="CPWebcontent#assertTextEquals" locator-key1="ENTRY_DESCRIPTIVE_WORKFLOW_STATUS" value1="Pending" />
 		<execute action="CPWebcontent#assertClick" locator-key1="ENTRY_DESCRIPTIVE_TITLE" value1="${webContentTitle}" />

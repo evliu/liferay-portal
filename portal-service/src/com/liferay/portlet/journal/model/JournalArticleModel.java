@@ -829,6 +829,14 @@ public interface JournalArticleModel extends AttachedModel,
 	public TrashEntry getTrashEntry() throws PortalException, SystemException;
 
 	/**
+	 * Returns the class primary key of the trash entry for this journal article.
+	 *
+	 * @return the class primary key of the trash entry for this journal article
+	 */
+	@Override
+	public long getTrashEntryClassPK();
+
+	/**
 	 * Returns the trash handler for this journal article.
 	 *
 	 * @return the trash handler for this journal article

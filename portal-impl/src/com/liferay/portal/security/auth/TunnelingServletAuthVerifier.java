@@ -16,11 +16,13 @@ package com.liferay.portal.security.auth;
 
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
+import com.liferay.portal.kernel.language.LanguageUtil;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.util.Base64;
 import com.liferay.portal.kernel.util.CharPool;
 import com.liferay.portal.kernel.util.GetterUtil;
+import com.liferay.portal.kernel.util.LocaleUtil;
 import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.model.Company;
 import com.liferay.portal.model.User;
@@ -30,12 +32,14 @@ import com.liferay.portal.util.PortalUtil;
 import com.liferay.util.Encryptor;
 import com.liferay.util.EncryptorException;
 
-import java.security.InvalidKeyException;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
 
 import java.util.Properties;
 import java.util.StringTokenizer;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 /**
  * @author Zsolt Berentey
@@ -54,12 +58,40 @@ public class TunnelingServletAuthVerifier implements AuthVerifier {
 
 		AuthVerifierResult authVerifierResult = new AuthVerifierResult();
 
-		String[] credentials = verify(accessControlContext.getRequest());
+		try {
+			String[] credentials = verify(accessControlContext.getRequest());
 
-		if (credentials != null) {
-			authVerifierResult.setPassword(credentials[1]);
-			authVerifierResult.setState(AuthVerifierResult.State.SUCCESS);
-			authVerifierResult.setUserId(Long.valueOf(credentials[0]));
+			if (credentials != null) {
+				authVerifierResult.setPassword(credentials[1]);
+				authVerifierResult.setState(AuthVerifierResult.State.SUCCESS);
+				authVerifierResult.setUserId(Long.valueOf(credentials[0]));
+			}
+		}
+		catch (AuthException ae) {
+			if (_log.isDebugEnabled()) {
+				_log.debug(ae.getMessage());
+			}
+
+			HttpServletResponse response = accessControlContext.getResponse();
+
+			try {
+				ObjectOutputStream objectOutputStream = new ObjectOutputStream(
+					response.getOutputStream());
+
+				objectOutputStream.writeObject(ae);
+
+				objectOutputStream.flush();
+
+				objectOutputStream.close();
+
+				authVerifierResult.setState(
+					AuthVerifierResult.State.INVALID_CREDENTIALS);
+			}
+			catch (IOException ioe) {
+				_log.error(ioe, ioe);
+
+				throw ae;
+			}
 		}
 
 		return authVerifierResult;
@@ -116,15 +148,31 @@ public class TunnelingServletAuthVerifier implements AuthVerifier {
 				TunnelUtil.getSharedSecretKey(), login);
 		}
 		catch (EncryptorException ee) {
-			throw new AuthException("Unable to decrypt login.", ee);
+			AuthException authException = new RemoteAuthException(
+				LanguageUtil.get(LocaleUtil.US, "unable-to-decrypt-login"), ee);
+
+			authException.setType(AuthException.INTERNAL_SERVER_ERROR);
+
+			throw authException;
 		}
-		catch (InvalidKeyException ike) {
-			throw new AuthException(ike);
+		catch (AuthException ae) {
+			AuthException authException = new RemoteAuthException(
+				ae.getMessage());
+
+			authException.setType(ae.getType());
+
+			throw authException;
 		}
 
 		if (!password.equals(expectedPassword)) {
-			throw new AuthException(
-				"Tunneling servlet shared secrets do not match");
+			AuthException authException = new RemoteAuthException(
+				LanguageUtil.get(
+					LocaleUtil.US,
+					"the-tunneling-servlet-shared-secrets-do-not-match"));
+
+			authException.setType(RemoteAuthException.WRONG_SHARED_SECRET);
+
+			throw authException;
 		}
 
 		User user = null;
@@ -156,7 +204,12 @@ public class TunnelingServletAuthVerifier implements AuthVerifier {
 		}
 
 		if (user == null) {
-			throw new AuthException();
+			AuthException authException = new RemoteAuthException(
+				LanguageUtil.get(LocaleUtil.ENGLISH, "internal-server-error"));
+
+			authException.setType(AuthException.INTERNAL_SERVER_ERROR);
+
+			throw authException;
 		}
 
 		String[] credentials = new String[2];

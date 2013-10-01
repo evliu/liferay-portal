@@ -56,7 +56,7 @@ if (endDateTime > 0) {
 	endDate = new Date(endDateTime);
 }
 
-String treeId = "layoutsExportTree";
+String treeId = "layoutsExportTree" + liveGroupId + privateLayout;
 
 long[] selectedLayoutIds = GetterUtil.getLongValues(StringUtil.split(SessionTreeJSClicks.getOpenNodes(request, treeId + "SelectedNode"), ','));
 
@@ -208,7 +208,7 @@ portletURL.setParameter("rootNodeName", rootNodeName);
 																<liferay-util:include page="/html/portlet/layouts_admin/render_controls.jsp" />
 															</ul>
 														</aui:fieldset>
-													 </div>
+													</div>
 
 													<ul class="hide" id="<portlet:namespace />showChangeConfiguration_<%= portlet.getRootPortletId() %>">
 														<li>

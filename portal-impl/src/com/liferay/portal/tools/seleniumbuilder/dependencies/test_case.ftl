@@ -44,13 +44,20 @@ public class ${seleniumBuilderContext.getTestCaseSimpleClassName(testCaseName)} 
 
 	@Override
 	public void setUp() throws Exception {
-		selenium = SeleniumUtil.getSelenium();
+		try {
+			selenium = SeleniumUtil.getSelenium();
 
-		if (Validator.isNull(selenium.getPrimaryTestSuiteName())) {
-			selenium.setPrimaryTestSuiteName("${seleniumBuilderContext.getTestCaseClassName(testCaseName)}");
+			if (Validator.isNull(selenium.getPrimaryTestSuiteName())) {
+				selenium.setPrimaryTestSuiteName("${seleniumBuilderContext.getTestCaseClassName(testCaseName)}");
+			}
+
+			selenium.startLogger();
 		}
+		catch (Exception e) {
+			killBrowser();
 
-		selenium.startLogger();
+			throw e;
+		}
 	}
 
 	<#assign commandElements = rootElement.elements("command")>
@@ -139,29 +146,31 @@ public class ${seleniumBuilderContext.getTestCaseSimpleClassName(testCaseName)} 
 				testSkipped = true;
 			}
 			finally {
-				<#if rootElement.element("tear-down")??>
-					commandScopeVariables = new HashMap<String, String>();
+				if (!TestPropsValues.TEST_SKIP_TEAR_DOWN) {
+					<#if rootElement.element("tear-down")??>
+						commandScopeVariables = new HashMap<String, String>();
 
-					commandScopeVariables.putAll(definitionScopeVariables);
+						commandScopeVariables.putAll(definitionScopeVariables);
 
-					<#assign tearDownElement = rootElement.element("tear-down")>
+						<#assign tearDownElement = rootElement.element("tear-down")>
 
-					selenium.sendLogger("${testCaseName?uncap_first}TestCase${commandName}", "start");
+						selenium.sendLogger("${testCaseName?uncap_first}TestCase${commandName}", "start");
 
-					selenium.sendLogger("${testCaseName?uncap_first}TestCase${commandName}", "pending");
+						selenium.sendLogger("${testCaseName?uncap_first}TestCase${commandName}", "pending");
 
-					<#assign lineNumber = tearDownElement.attributeValue("line-number")>
+						<#assign lineNumber = tearDownElement.attributeValue("line-number")>
 
-					selenium.sendLogger("${testCaseName?uncap_first}TestCase${lineNumber}", "pending");
+						selenium.sendLogger("${testCaseName?uncap_first}TestCase${lineNumber}", "pending");
 
-					<#assign blockElement = tearDownElement>
+						<#assign blockElement = tearDownElement>
 
-					<#include "test_case_block_element.ftl">
+						<#include "test_case_block_element.ftl">
 
-					<#assign lineNumber = tearDownElement.attributeValue("line-number")>
+						<#assign lineNumber = tearDownElement.attributeValue("line-number")>
 
-					selenium.sendLogger("${testCaseName?uncap_first}TestCase${lineNumber}", "pass");
-				</#if>
+						selenium.sendLogger("${testCaseName?uncap_first}TestCase${lineNumber}", "pass");
+					</#if>
+				}
 
 				if (testSkipped) {
 					selenium.sendLogger("${testCaseName?uncap_first}TestCase${commandName}", "skip");

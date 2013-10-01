@@ -152,6 +152,13 @@
 		<ant dir="osgi/bootstrap" target="deploy" inheritAll="false" />
 	</target>
 
+	<target name="compile-test">
+		<ant dir="portal-impl" target="compile-test" inheritAll="false" />
+		<ant dir="portal-service" target="compile-test" inheritAll="false" />
+		<ant dir="portal-web" target="compile-test" inheritAll="false" />
+		<ant dir="util-java" target="compile-test" inheritAll="false" />
+	</target>
+
 	<target name="deploy">
 		<if>
 			<or>
@@ -783,15 +790,7 @@ print AdminControl.invoke(appManager, 'startApplication', 'liferay-portal')
 			<arg line="rev-parse HEAD" />
 		</exec>
 
-		<if>
-			<isset property="env.JENKINS_HOME" />
-			<then>
-				<echo file="${env.JENKINS_HOME}/userContent/git-commit-portal">${git.commit.portal.rev.parse}</echo>
-			</then>
-			<else>
-				<echo file="git-commit-portal">${git.commit.portal.rev.parse}</echo>
-			</else>
-		</if>
+		<echo file="git-commit-portal">${git.commit.portal.rev.parse}</echo>
 
 		<var name="git.commit.portal.rev.parse" unset="true" />
 	</target>

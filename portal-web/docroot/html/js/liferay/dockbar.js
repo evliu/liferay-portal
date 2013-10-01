@@ -54,6 +54,8 @@ AUI.add(
 					);
 
 					BODY.addClass('dockbar-ready');
+
+					Liferay.on(['noticeHide', 'noticeShow'], instance._toggleControlsOffset, instance);
 				}
 			},
 
@@ -149,6 +151,28 @@ AUI.add(
 				instance._addContentNode.focusManager.refresh();
 			},
 
+			_toggleControlsOffset: function(event) {
+				if (!event.useAnimation) {
+					var instance = this;
+
+					var force = false;
+
+					if (event.type === 'noticeShow') {
+						force = true;
+					}
+
+					var namespace = instance._namespace;
+
+					var navAccountControls = A.one('#' + namespace + 'navAccountControls');
+
+					navAccountControls.toggleClass('nav-account-controls-notice', force);
+
+					var navAddControls = A.one('#' + namespace + 'navAddControls');
+
+					navAddControls.toggleClass('nav-add-controls-notice', force);
+				}
+			},
+
 			_togglePanel: function(panelId) {
 				var instance = this;
 
@@ -176,14 +200,24 @@ AUI.add(
 
 					BODY.toggleClass(panel.css);
 
+					var panelDisplayEvent = 'dockbarHidePanel';
+					var panelVisible = false;
+
 					if (panelNode && BODY.hasClass(panel.css)) {
 						panel.showFn(panelId);
 
-						panelNode.show();
+						panelDisplayEvent = 'dockbarShowPanel';
+						panelVisible = true;
 					}
-					else {
-						panelNode.hide();
-					}
+
+					Liferay.fire(
+						panelDisplayEvent,
+						{
+							id: panelId
+						}
+					);
+
+					panelNode.toggle(panelVisible);
 				}
 			}
 		};

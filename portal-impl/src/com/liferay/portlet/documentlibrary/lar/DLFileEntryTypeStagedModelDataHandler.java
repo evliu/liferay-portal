@@ -87,8 +87,7 @@ public class DLFileEntryTypeStagedModelDataHandler
 
 		portletDataContext.addClassedModel(
 			fileEntryTypeElement,
-			ExportImportPathUtil.getModelPath(fileEntryType), fileEntryType,
-			DLPortletDataHandler.NAMESPACE);
+			ExportImportPathUtil.getModelPath(fileEntryType), fileEntryType);
 	}
 
 	@Override
@@ -152,7 +151,7 @@ public class DLFileEntryTypeStagedModelDataHandler
 		}
 
 		ServiceContext serviceContext = portletDataContext.createServiceContext(
-			fileEntryType, DLPortletDataHandler.NAMESPACE);
+			fileEntryType);
 
 		DLFileEntryType importedDLFileEntryType = null;
 
@@ -180,6 +179,10 @@ public class DLFileEntryTypeStagedModelDataHandler
 					fileEntryType.getNameMap(),
 					fileEntryType.getDescriptionMap(), ddmStructureIdsArray,
 					serviceContext);
+
+				importedDLFileEntryType =
+					DLFileEntryTypeLocalServiceUtil.fetchDLFileEntryType(
+						existingDLFileEntryType.getFileEntryTypeId());
 			}
 		}
 		else {
@@ -193,8 +196,7 @@ public class DLFileEntryTypeStagedModelDataHandler
 		}
 
 		portletDataContext.importClassedModel(
-			fileEntryType, importedDLFileEntryType,
-			DLPortletDataHandler.NAMESPACE);
+			fileEntryType, importedDLFileEntryType);
 
 		String importedDLFileEntryDDMStructureKey = DLUtil.getDDMStructureKey(
 			importedDLFileEntryType);

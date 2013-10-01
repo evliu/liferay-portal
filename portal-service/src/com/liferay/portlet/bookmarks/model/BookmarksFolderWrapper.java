@@ -595,6 +595,16 @@ public class BookmarksFolderWrapper implements BookmarksFolder,
 	}
 
 	/**
+	* Returns the class primary key of the trash entry for this bookmarks folder.
+	*
+	* @return the class primary key of the trash entry for this bookmarks folder
+	*/
+	@Override
+	public long getTrashEntryClassPK() {
+		return _bookmarksFolder.getTrashEntryClassPK();
+	}
+
+	/**
 	* Returns the trash handler for this bookmarks folder.
 	*
 	* @return the trash handler for this bookmarks folder
@@ -726,7 +736,7 @@ public class BookmarksFolderWrapper implements BookmarksFolder,
 	/**
 	* Sets the container model ID of this bookmarks folder.
 	*
-	* @param container model ID of this bookmarks folder
+	* @param containerModelId the container model ID of this bookmarks folder
 	*/
 	@Override
 	public void setContainerModelId(long containerModelId) {
@@ -756,7 +766,7 @@ public class BookmarksFolderWrapper implements BookmarksFolder,
 	/**
 	* Sets the parent container model ID of this bookmarks folder.
 	*
-	* @param parent container model ID of this bookmarks folder
+	* @param parentContainerModelId the parent container model ID of this bookmarks folder
 	*/
 	@Override
 	public void setParentContainerModelId(long parentContainerModelId) {
@@ -894,11 +904,6 @@ public class BookmarksFolderWrapper implements BookmarksFolder,
 		throws com.liferay.portal.kernel.exception.PortalException,
 			com.liferay.portal.kernel.exception.SystemException {
 		return _bookmarksFolder.getParentFolder();
-	}
-
-	@Override
-	public com.liferay.portlet.bookmarks.model.BookmarksFolder getTrashContainer() {
-		return _bookmarksFolder.getTrashContainer();
 	}
 
 	@Override

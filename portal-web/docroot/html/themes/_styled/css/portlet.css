@@ -20,6 +20,7 @@ body.portlet {
 		right: 3px;
 		text-align: right;
 		top: 3px;
+		z-index: 300;
 
 		a {
 			color: inherit;
@@ -259,10 +260,10 @@ body.portlet {
 	&:hover {
 		.lfr-icon-actions {
 			@extend %portlet-action-bar-hover;
-		}
 
-		.taglib-text {
-			@extend %portlet-action-bar-hover-text;
+			.taglib-text {
+				@extend %portlet-action-bar-hover-text;
+			}
 		}
 	}
 
@@ -294,7 +295,7 @@ body.portlet {
 	}
 }
 
-/* ---------- Panel Page ---------- */
+/* ---------- Panel page ---------- */
 
 .lfr-panel-page {
 	width: 100%;
@@ -369,7 +370,7 @@ body.portlet {
 	color: #384F34;
 }
 
-/* ---------- Liferay Messages ---------- */
+/* ---------- Liferay messages ---------- */
 
 .lfr-message {
 	position: relative;
@@ -483,7 +484,7 @@ body.portlet {
 .portlet-icon-label {
 }
 
-/* ---------- Text that appears beside a 'standard' icon (e.g. Ok, or Cancel) ---------- */
+/* ---------- Text that appears beside a 'standard' icon (e.g. Ok, or cancel) ---------- */
 
 .portlet-dlg-icon-label {
 }
@@ -740,5 +741,13 @@ body.portlet {
 
 	.breadcrumbs {
 		zoom: 1;
+	}
+}
+
+.ie8 {
+	.dockbar, .lfr-icon-action, .logo {
+		img {
+			max-width: none;
+		}
 	}
 }

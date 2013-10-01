@@ -539,6 +539,14 @@ public interface DLFileEntryModel extends AttachedModel, BaseModel<DLFileEntry>,
 	public TrashEntry getTrashEntry() throws PortalException, SystemException;
 
 	/**
+	 * Returns the class primary key of the trash entry for this document library file entry.
+	 *
+	 * @return the class primary key of the trash entry for this document library file entry
+	 */
+	@Override
+	public long getTrashEntryClassPK();
+
+	/**
 	 * Returns the trash handler for this document library file entry.
 	 *
 	 * @return the trash handler for this document library file entry

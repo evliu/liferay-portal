@@ -153,6 +153,16 @@
 
 	/* ---------- Main ---------- */
 
+	.previous-level {
+		&:focus {
+			color: #0A68CD;
+		}
+
+		&:hover {
+			color: #8CD3FC;
+		}
+	}
+
 	.logo, .logo:hover {
 		color: #333;
 		line-height: 20px;
@@ -182,7 +192,7 @@
 		}
 	}
 
-	/* ---------- Help Icon ---------- */
+	/* ---------- Help icon ---------- */
 
 	.taglib-icon-help {
 		img {
@@ -484,7 +494,7 @@
 		}
 	}
 
-	/* ---------- Hidden Accessible ---------- */
+	/* ---------- Hidden accessible ---------- */
 
 	#banner h2, #banner h3, .site-breadcrumbs h1, #skip-to-content {
 		clip: rect(0 0 0 0);
@@ -584,20 +594,17 @@
 			border-width: 1px;
 
 			.accordion-heading {
+				background: #F2F2F2;
 				overflow: hidden;
+				position: static;
 
-				&.toggler-header-collapsed, &.toggler-header-expanded {
-					background: #F2F2F2;
-					position: static;
+				.accordion-toggle {
+					color: #999;
+					padding-left: 8px;
 
-					.accordion-toggle {
-						color: #999;
-						padding-left: 8px;
-
-						&:after, &:before {
-							float: right;
-							font-size: 22px;
-						}
+					&:after, &:before {
+						float: right;
+						font-size: 22px;
 					}
 				}
 			}
@@ -638,7 +645,7 @@
 		}
 	}
 
-	/* ---------- Side Accordion Navigations ---------- */
+	/* ---------- Side accordion navigations ---------- */
 
 	.add-content-menu, .lfr-edit-layout-panel, .panel-page-menu .portlet-borderless-container {
 		.accordion {
@@ -657,7 +664,6 @@
 						font-size: 16px;
 						font-weight: 300;
 						padding: 0;
-						text-transform: capitalize;
 					}
 				}
 

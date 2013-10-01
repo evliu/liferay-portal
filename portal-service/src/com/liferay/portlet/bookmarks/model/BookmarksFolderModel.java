@@ -378,6 +378,14 @@ public interface BookmarksFolderModel extends BaseModel<BookmarksFolder>,
 	public TrashEntry getTrashEntry() throws PortalException, SystemException;
 
 	/**
+	 * Returns the class primary key of the trash entry for this bookmarks folder.
+	 *
+	 * @return the class primary key of the trash entry for this bookmarks folder
+	 */
+	@Override
+	public long getTrashEntryClassPK();
+
+	/**
 	 * Returns the trash handler for this bookmarks folder.
 	 *
 	 * @return the trash handler for this bookmarks folder
@@ -483,7 +491,7 @@ public interface BookmarksFolderModel extends BaseModel<BookmarksFolder>,
 	/**
 	 * Sets the container model ID of this bookmarks folder.
 	 *
-	 * @param container model ID of this bookmarks folder
+	 * @param containerModelId the container model ID of this bookmarks folder
 	 */
 	@Override
 	public void setContainerModelId(long containerModelId);
@@ -507,7 +515,7 @@ public interface BookmarksFolderModel extends BaseModel<BookmarksFolder>,
 	/**
 	 * Sets the parent container model ID of this bookmarks folder.
 	 *
-	 * @param parent container model ID of this bookmarks folder
+	 * @param parentContainerModelId the parent container model ID of this bookmarks folder
 	 */
 	@Override
 	public void setParentContainerModelId(long parentContainerModelId);

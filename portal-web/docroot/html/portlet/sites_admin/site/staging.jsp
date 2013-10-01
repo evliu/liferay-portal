@@ -62,7 +62,7 @@ if (stagedLocally) {
 				Liferay.Util.openWindow(
 					{
 						id: 'publishProcesses',
-						title: Liferay.Language.get('current-and-previous'),
+						title: Liferay.Language.get('initial-publication'),
 						uri: '<%= HtmlUtil.escapeJS(publishProcessesURL.toString()) %>'
 					}
 				);
@@ -132,52 +132,12 @@ if (stagedLocally) {
 		<div class="<%= showRemoteOptions ? StringPool.BLANK : "hide" %> staging-section" id="<portlet:namespace />remoteStagingOptions">
 			<br />
 
-			<liferay-ui:error exception="<%= RemoteExportException.class %>">
+			<%@ include file="/html/portlet/layouts_admin/error_auth_exception.jspf" %>
 
-				<%
-				RemoteExportException ree = (RemoteExportException)errorException;
-				%>
-
-				<c:if test="<%= ree.getType() == RemoteExportException.BAD_CONNECTION %>">
-					<liferay-ui:message arguments="<%= ree.getURL() %>" key="there-was-a-bad-connection-with-the-remote-server-at-x" />
-				</c:if>
-
-				<c:if test="<%= ree.getType() == RemoteExportException.NO_GROUP %>">
-					<liferay-ui:message arguments="<%= ree.getGroupId() %>" key="no-site-exists-on-the-remote-server-with-site-id-x" />
-				</c:if>
-
-				<c:if test="<%= ree.getType() == RemoteExportException.NO_PERMISSIONS %>">
-					<liferay-ui:message arguments="<%= ree.getGroupId() %>" key="you-do-not-have-permissions-to-edit-the-site-with-id-x-on-the-remote-server" />
-				</c:if>
-
-				<c:if test="<%= Validator.isNotNull(ree.getMessage()) %>">
-					<%= ree.getMessage() %>
-				</c:if>
-			</liferay-ui:error>
+			<%@ include file="/html/portlet/layouts_admin/error_remote_export_exception.jspf" %>
 
 			<aui:fieldset label="remote-live-connection-settings">
-				<liferay-ui:error exception="<%= RemoteOptionsException.class %>">
-
-					<%
-					RemoteOptionsException roe = (RemoteOptionsException)errorException;
-					%>
-
-					<c:if test="<%= roe.getType() == RemoteOptionsException.REMOTE_ADDRESS %>">
-						<liferay-ui:message arguments="<%= roe.getRemoteAddress() %>" key="the-remote-address-x-is-not-valid" />
-					</c:if>
-
-					<c:if test="<%= roe.getType() == RemoteOptionsException.REMOTE_GROUP_ID %>">
-						<liferay-ui:message arguments="<%= roe.getRemoteGroupId() %>" key="the-remote-site-id-x-is-not-valid" />
-					</c:if>
-
-					<c:if test="<%= roe.getType() == RemoteOptionsException.REMOTE_PATH_CONTEXT %>">
-						<liferay-ui:message arguments="<%= roe.getRemotePathContext() %>" key="the-remote-path-context-x-is-not-valid" />
-					</c:if>
-
-					<c:if test="<%= roe.getType() == RemoteOptionsException.REMOTE_PORT %>">
-						<liferay-ui:message arguments="<%= roe.getRemotePort() %>" key="the-remote-port-x-is-not-valid" />
-					</c:if>
-				</liferay-ui:error>
+				<%@ include file="/html/portlet/layouts_admin/error_remote_options_exception.jspf" %>
 
 				<div class="alert alert-info">
 					<liferay-ui:message key="remote-publish-help" />

@@ -68,7 +68,6 @@ import com.liferay.portal.kernel.workflow.WorkflowConstants;
 import com.liferay.portal.kernel.workflow.WorkflowTask;
 import com.liferay.portal.kernel.workflow.WorkflowTaskManagerUtil;
 import com.liferay.portal.kernel.xml.Element;
-import com.liferay.portal.lar.LayoutExporter;
 import com.liferay.portal.lar.backgroundtask.BackgroundTaskContextMapFactory;
 import com.liferay.portal.lar.backgroundtask.LayoutRemoteStagingBackgroundTaskExecutor;
 import com.liferay.portal.lar.backgroundtask.LayoutStagingBackgroundTaskExecutor;
@@ -80,6 +79,7 @@ import com.liferay.portal.model.GroupConstants;
 import com.liferay.portal.model.Layout;
 import com.liferay.portal.model.LayoutBranch;
 import com.liferay.portal.model.LayoutRevision;
+import com.liferay.portal.model.LayoutSet;
 import com.liferay.portal.model.LayoutSetBranch;
 import com.liferay.portal.model.LayoutSetBranchConstants;
 import com.liferay.portal.model.Lock;
@@ -88,6 +88,7 @@ import com.liferay.portal.model.User;
 import com.liferay.portal.model.WorkflowInstanceLink;
 import com.liferay.portal.security.auth.HttpPrincipal;
 import com.liferay.portal.security.auth.PrincipalException;
+import com.liferay.portal.security.auth.RemoteAuthException;
 import com.liferay.portal.security.permission.ActionKeys;
 import com.liferay.portal.security.permission.PermissionChecker;
 import com.liferay.portal.security.permission.PermissionThreadLocal;
@@ -99,6 +100,7 @@ import com.liferay.portal.service.LayoutLocalServiceUtil;
 import com.liferay.portal.service.LayoutRevisionLocalServiceUtil;
 import com.liferay.portal.service.LayoutServiceUtil;
 import com.liferay.portal.service.LayoutSetBranchLocalServiceUtil;
+import com.liferay.portal.service.LayoutSetLocalServiceUtil;
 import com.liferay.portal.service.LockLocalServiceUtil;
 import com.liferay.portal.service.ServiceContext;
 import com.liferay.portal.service.ServiceContextThreadLocal;
@@ -132,6 +134,7 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 
+import javax.portlet.PortletPreferences;
 import javax.portlet.PortletRequest;
 
 import javax.servlet.http.HttpServletRequest;
@@ -299,6 +302,11 @@ public class StagingImpl implements Staging {
 			ree.setGroupId(remoteGroupId);
 
 			throw ree;
+		}
+		catch (RemoteAuthException rae) {
+			rae.setURL(url);
+
+			throw rae;
 		}
 		catch (SystemException se) {
 			RemoteExportException ree = new RemoteExportException(
@@ -1740,6 +1748,50 @@ public class StagingImpl implements Staging {
 	}
 
 	@Override
+	public void updateLastPublishDate(
+			long groupId, boolean privateLayout, Date lastPublishDate)
+		throws Exception {
+
+		LayoutSet layoutSet = LayoutSetLocalServiceUtil.getLayoutSet(
+			groupId, privateLayout);
+
+		UnicodeProperties settingsProperties =
+			layoutSet.getSettingsProperties();
+
+		settingsProperties.setProperty(
+			"last-publish-date", String.valueOf(lastPublishDate.getTime()));
+
+		LayoutSetLocalServiceUtil.updateSettings(
+			layoutSet.getGroupId(), layoutSet.isPrivateLayout(),
+			settingsProperties.toString());
+	}
+
+	@Override
+	public void updateLastPublishDate(
+			String portletId, PortletPreferences portletPreferences,
+			Date lastPublishDate)
+		throws Exception {
+
+		try {
+			portletPreferences.setValue(
+				"last-publish-date", String.valueOf(lastPublishDate.getTime()));
+
+			portletPreferences.store();
+		}
+		catch (UnsupportedOperationException uoe) {
+			if (_log.isDebugEnabled()) {
+				_log.debug(
+					"Not updating the portlet setup for " + portletId +
+						" because no setup was returned for the current " +
+							"page");
+			}
+		}
+		catch (Exception e) {
+			_log.error(e, e);
+		}
+	}
+
+	@Override
 	public void updateStaging(PortletRequest portletRequest, Group liveGroup)
 		throws Exception {
 
@@ -1918,6 +1970,21 @@ public class StagingImpl implements Staging {
 		}
 	}
 
+	protected void clearLastPublishDate(long groupId, boolean privateLayout)
+		throws Exception {
+
+		LayoutSet layoutSet = LayoutSetLocalServiceUtil.getLayoutSet(
+			groupId, privateLayout);
+
+		UnicodeProperties settingsProperties =
+			layoutSet.getSettingsProperties();
+
+		settingsProperties.remove("last-publish-date");
+
+		LayoutSetLocalServiceUtil.updateSettings(
+			groupId, privateLayout, settingsProperties.toString());
+	}
+
 	protected void deleteRecentLayoutRevisionId(
 		PortalPreferences portalPreferences, long layoutSetBranchId,
 		long plid) {
@@ -1957,6 +2024,11 @@ public class StagingImpl implements Staging {
 			ree.setGroupId(remoteGroupId);
 
 			throw ree;
+		}
+		catch (RemoteAuthException rae) {
+			rae.setURL(remoteURL);
+
+			throw rae;
 		}
 		catch (SystemException se) {
 			RemoteExportException ree = new RemoteExportException(
@@ -1998,6 +2070,11 @@ public class StagingImpl implements Staging {
 			ree.setGroupId(remoteGroupId);
 
 			throw ree;
+		}
+		catch (RemoteAuthException rae) {
+			rae.setURL(remoteURL);
+
+			throw rae;
 		}
 		catch (SystemException se) {
 			RemoteExportException ree = new RemoteExportException(
@@ -2416,9 +2493,8 @@ public class StagingImpl implements Staging {
 			ServiceContext serviceContext)
 		throws Exception {
 
-		LayoutExporter.updateLastPublishDate(
-			liveGroup.getPrivateLayoutSet(), 0);
-		LayoutExporter.updateLastPublishDate(liveGroup.getPublicLayoutSet(), 0);
+		clearLastPublishDate(liveGroup.getGroupId(), true);
+		clearLastPublishDate(liveGroup.getGroupId(), false);
 
 		Set<String> parameterNames = serviceContext.getAttributes().keySet();
 
@@ -2537,18 +2613,18 @@ public class StagingImpl implements Staging {
 			remoteURL, user.getScreenName(), user.getPassword(),
 			user.getPasswordEncrypted());
 
-		List<String> stagedPortletIds = new ArrayList<String>();
+		Map<String, String> stagedPortletIds = new HashMap<String, String>();
 
 		for (String key : typeSettingsProperties.keySet()) {
 			if (key.startsWith(StagingConstants.STAGED_PORTLET)) {
-				stagedPortletIds.add(key);
+				stagedPortletIds.put(
+					key, typeSettingsProperties.getProperty(key));
 			}
 		}
 
 		try {
 			GroupServiceHttp.updateStagedPortlets(
-				httpPrincipal, remoteGroupId,
-				StringUtil.merge(stagedPortletIds));
+				httpPrincipal, remoteGroupId, stagedPortletIds);
 		}
 		catch (NoSuchGroupException nsge) {
 			RemoteExportException ree = new RemoteExportException(
@@ -2565,6 +2641,11 @@ public class StagingImpl implements Staging {
 			ree.setGroupId(remoteGroupId);
 
 			throw ree;
+		}
+		catch (RemoteAuthException rae) {
+			rae.setURL(remoteURL);
+
+			throw rae;
 		}
 		catch (SystemException se) {
 			RemoteExportException ree = new RemoteExportException(
@@ -2659,6 +2740,11 @@ public class StagingImpl implements Staging {
 			ree.setGroupId(remoteGroupId);
 
 			throw ree;
+		}
+		catch (RemoteAuthException rae) {
+			rae.setURL(remoteURL);
+
+			throw rae;
 		}
 		catch (SystemException se) {
 			RemoteExportException ree = new RemoteExportException(

@@ -43,12 +43,12 @@ import com.liferay.portal.model.User;
 import com.liferay.portal.model.WorkflowDefinitionLink;
 import com.liferay.portal.repository.liferayrepository.model.LiferayFolder;
 import com.liferay.portal.service.ServiceContext;
-import com.liferay.portlet.asset.util.AssetUtil;
 import com.liferay.portlet.documentlibrary.DuplicateFileException;
 import com.liferay.portlet.documentlibrary.DuplicateFolderNameException;
 import com.liferay.portlet.documentlibrary.FolderNameException;
 import com.liferay.portlet.documentlibrary.NoSuchDirectoryException;
 import com.liferay.portlet.documentlibrary.NoSuchFileEntryException;
+import com.liferay.portlet.documentlibrary.model.DLConstants;
 import com.liferay.portlet.documentlibrary.model.DLFileEntryType;
 import com.liferay.portlet.documentlibrary.model.DLFileEntryTypeConstants;
 import com.liferay.portlet.documentlibrary.model.DLFolder;
@@ -180,6 +180,8 @@ public class DLFolderLocalServiceImpl extends DLFolderLocalServiceBaseImpl {
 
 		dlFileEntryLocalService.deleteFileEntries(
 			groupId, DLFolderConstants.DEFAULT_PARENT_FOLDER_ID);
+
+		dlFileEntryTypeLocalService.deleteFileEntryTypes(groupId);
 
 		dlFileShortcutLocalService.deleteFileShortcuts(
 			groupId, DLFolderConstants.DEFAULT_PARENT_FOLDER_ID);
@@ -871,19 +873,18 @@ public class DLFolderLocalServiceImpl extends DLFolderLocalServiceBaseImpl {
 			}
 
 			for (long fileEntryTypeId : fileEntryTypeIds) {
-				if (overrideFileEntryTypes) {
-					String workflowDefinition = ParamUtil.getString(
-						serviceContext, "workflowDefinition" + fileEntryTypeId);
+				String workflowDefinition = StringPool.BLANK;
 
-					workflowDefinitionOVPs.add(
-						new ObjectValuePair<Long, String>(
-							fileEntryTypeId, workflowDefinition));
+				if (overrideFileEntryTypes ||
+					(folderId == DLFolderConstants.DEFAULT_PARENT_FOLDER_ID)) {
+
+					workflowDefinition = ParamUtil.getString(
+						serviceContext, "workflowDefinition" + fileEntryTypeId);
 				}
-				else {
-					workflowDefinitionOVPs.add(
-						new ObjectValuePair<Long, String>(
-							fileEntryTypeId, StringPool.BLANK));
-				}
+
+				workflowDefinitionOVPs.add(
+					new ObjectValuePair<Long, String>(
+						fileEntryTypeId, workflowDefinition));
 			}
 
 			workflowDefinitionLinkLocalService.updateWorkflowDefinitionLinks(
@@ -1204,7 +1205,7 @@ public class DLFolderLocalServiceImpl extends DLFolderLocalServiceBaseImpl {
 	}
 
 	protected void validateFolderName(String name) throws PortalException {
-		if (!AssetUtil.isValidWord(name)) {
+		if (!DLConstants.isValidName(name)) {
 			throw new FolderNameException();
 		}
 	}

@@ -431,6 +431,8 @@ public interface PropsKeys {
 
 	public static final String CLUSTER_LINK_NODE_BOOTUP_RESPONSE_TIMEOUT = "cluster.link.node.bootup.response.timeout";
 
+	public static final String CLUSTERABLE_ADVICE_CALL_MASTER_TIMEOUT = "clusterable.advice.call.master.timeout";
+
 	public static final String COMBO_ALLOWED_FILE_EXTENSIONS = "combo.allowed.file.extensions";
 
 	public static final String COMBO_CHECK_TIMESTAMP = "combo.check.timestamp";
@@ -776,6 +778,8 @@ public interface PropsKeys {
 	public static final String DL_STORE_S3_TEMP_DIR_CLEAN_UP_EXPUNGE = "dl.store.s3.temp.dir.clean.up.expunge";
 
 	public static final String DL_STORE_S3_TEMP_DIR_CLEAN_UP_FREQUENCY = "dl.store.s3.temp.dir.clean.up.frequency";
+
+	public static final String DL_VALID_NAME_REGEXP = "dl.valid.name.regexp";
 
 	public static final String DOCKBAR_ADD_PORTLETS = "dockbar.add.portlets";
 
@@ -2305,6 +2309,8 @@ public interface PropsKeys {
 
 	public static final String SOCIAL_ACTIVITY_COUNTER_PERIOD_LENGTH = "social.activity.counter.period.length";
 
+	public static final String SOCIAL_ACTIVITY_FILTER_SEARCH_LIMIT = "social.activity.filter.search.limit";
+
 	public static final String SOCIAL_ACTIVITY_LOCK_RETRY_DELAY = "social.activity.lock.retry.delay";
 
 	public static final String SOCIAL_ACTIVITY_LOCK_TIMEOUT = "social.activity.lock.timeout";
@@ -2426,6 +2432,8 @@ public interface PropsKeys {
 	public static final String TRANSACTION_MANAGER_IMPL = "transaction.manager.impl";
 
 	public static final String TRANSACTIONAL_CACHE_ENABLED = "transactional.cache.enable";
+
+	public static final String TRANSACTIONAL_CACHE_NAMES = "transactional.cache.names";
 
 	public static final String TRANSLATIONS_DISABLED = "translations.disabled";
 

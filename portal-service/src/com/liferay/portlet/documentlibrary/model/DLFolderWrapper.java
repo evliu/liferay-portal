@@ -761,6 +761,16 @@ public class DLFolderWrapper implements DLFolder, ModelWrapper<DLFolder> {
 	}
 
 	/**
+	* Returns the class primary key of the trash entry for this document library folder.
+	*
+	* @return the class primary key of the trash entry for this document library folder
+	*/
+	@Override
+	public long getTrashEntryClassPK() {
+		return _dlFolder.getTrashEntryClassPK();
+	}
+
+	/**
 	* Returns the trash handler for this document library folder.
 	*
 	* @return the trash handler for this document library folder
@@ -892,7 +902,7 @@ public class DLFolderWrapper implements DLFolder, ModelWrapper<DLFolder> {
 	/**
 	* Sets the container model ID of this document library folder.
 	*
-	* @param container model ID of this document library folder
+	* @param containerModelId the container model ID of this document library folder
 	*/
 	@Override
 	public void setContainerModelId(long containerModelId) {
@@ -922,7 +932,7 @@ public class DLFolderWrapper implements DLFolder, ModelWrapper<DLFolder> {
 	/**
 	* Sets the parent container model ID of this document library folder.
 	*
-	* @param parent container model ID of this document library folder
+	* @param parentContainerModelId the parent container model ID of this document library folder
 	*/
 	@Override
 	public void setParentContainerModelId(long parentContainerModelId) {

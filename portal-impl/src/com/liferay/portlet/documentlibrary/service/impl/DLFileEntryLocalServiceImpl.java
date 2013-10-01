@@ -40,6 +40,7 @@ import com.liferay.portal.kernel.search.SearchException;
 import com.liferay.portal.kernel.search.Sort;
 import com.liferay.portal.kernel.systemevent.SystemEvent;
 import com.liferay.portal.kernel.util.ArrayUtil;
+import com.liferay.portal.kernel.util.DateRange;
 import com.liferay.portal.kernel.util.DigesterUtil;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.ObjectValuePair;
@@ -946,6 +947,11 @@ public class DLFileEntryLocalServiceImpl
 	}
 
 	@Override
+	public int getExtraSettingsFileEntriesCount() throws SystemException {
+		return dlFileEntryFinder.countByExtraSettings();
+	}
+
+	@Override
 	public File getFile(
 			long userId, long fileEntryId, String version,
 			boolean incrementCounter)
@@ -1057,6 +1063,16 @@ public class DLFileEntryLocalServiceImpl
 	}
 
 	@Override
+	public List<DLFileEntry> getFileEntries(
+			long groupId, long userId, List<Long> folderIds, String[] mimeTypes,
+			QueryDefinition queryDefinition)
+		throws Exception {
+
+		return dlFileEntryFinder.findByG_U_F_M(
+			groupId, userId, folderIds, mimeTypes, queryDefinition);
+	}
+
+	@Override
 	public List<DLFileEntry> getFileEntries(long folderId, String name)
 		throws SystemException {
 
@@ -1066,6 +1082,16 @@ public class DLFileEntryLocalServiceImpl
 	@Override
 	public int getFileEntriesCount() throws SystemException {
 		return dlFileEntryPersistence.countAll();
+	}
+
+	@Override
+	public int getFileEntriesCount(
+			long groupId, DateRange dateRange, long repositoryId,
+			QueryDefinition queryDefinition)
+		throws SystemException {
+
+		return dlFileEntryFinder.countByG_M_R(
+			groupId, dateRange, repositoryId, queryDefinition);
 	}
 
 	@Override
@@ -1085,6 +1111,16 @@ public class DLFileEntryLocalServiceImpl
 
 		return dlFileEntryFinder.countByG_F(
 			groupId, folderIds, new QueryDefinition(status));
+	}
+
+	@Override
+	public int getFileEntriesCount(
+			long groupId, long userId, List<Long> folderIds, String[] mimeTypes,
+			QueryDefinition queryDefinition)
+		throws Exception {
+
+		return dlFileEntryFinder.countByG_U_F_M(
+			groupId, userId, folderIds, mimeTypes, queryDefinition);
 	}
 
 	@Override
@@ -2063,7 +2099,7 @@ public class DLFileEntryLocalServiceImpl
 						ddmStructure.getStructureId(),
 						lastDLFileVersion.getFileVersionId());
 			}
-			catch (NoSuchFileEntryMetadataException nsfem) {
+			catch (NoSuchFileEntryMetadataException nsfeme) {
 				return false;
 			}
 
@@ -2572,7 +2608,6 @@ public class DLFileEntryLocalServiceImpl
 		}
 
 		validateFileExtension(extension);
-		validateFileName(title);
 
 		DLStoreUtil.validate(title, false);
 
@@ -2608,12 +2643,6 @@ public class DLFileEntryLocalServiceImpl
 			if (extension.length() > maxLength) {
 				throw new FileExtensionException();
 			}
-		}
-	}
-
-	protected void validateFileName(String fileName) throws PortalException {
-		if (fileName.contains(StringPool.SLASH)) {
-			throw new FileNameException(fileName);
 		}
 	}
 
